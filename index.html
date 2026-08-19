@@ -732,18 +732,20 @@ footer p{
 
 <section class="domicilio-seccion">
 
- <div style="display:flex; gap:20px; justify-content:center; align-items:center; flex-wrap:wrap; background-image:url('logobate.jpeg'); background-size:300px; background-position:center; background-repeat:no-repeat; padding:20px;">
+<div style="position:relative; display:flex; gap:20px; justify-content:center; align-items:center; flex-wrap:wrap; padding:20px; overflow:hidden;">
 
-    <img
-        src="domicilio.jpeg"
-        alt="Servicio a domicilio Baterías WR"
-        style="width:48%; height:auto;"
-    >
+    <img src="logobate.jpeg"
+         alt="Marca de agua WR"
+        style="position:absolute; width:300px; height:auto; opacity:0.10; z-index:0; pointer-events:none;"
+    <img src="domicilio.jpeg"
+         alt="Servicio a domicilio Baterias WR"
+         style="width:48%; height:auto; position:relative; z-index:1;">
 
-    <img
-        src="sello.jpeg"
-        alt="Sello de garantía Baterías WR"
-        style="width:48%; height:auto;"
+    <img src="sello.jpeg"
+         alt="Sello de garantia Baterias WR"
+         style="width:48%; height:auto; position:relative; z-index:1;">
+
+</div>
     >
 
 </div>
