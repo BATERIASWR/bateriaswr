@@ -8,18 +8,10 @@
 
 <style>
 
-/* =========================
-   CONFIGURACIÓN GENERAL
-========================= */
-
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
-}
-
-html{
-  scroll-behavior:smooth;
 }
 
 body{
@@ -28,39 +20,30 @@ body{
   color:#222;
 }
 
-/* =========================
-   BARRA SUPERIOR
-========================= */
+/* BARRA SUPERIOR */
 
 .topbar{
-  width:100%;
   background:#151b27;
-  color:white;
+  color:#f5b800;
   text-align:center;
-  padding:10px;
+  padding:11px;
   font-size:14px;
   font-weight:bold;
 }
 
-.topbar span{
-  color:#f5b800;
-}
-
-/* =========================
-   MENU
-========================= */
+/* MENU */
 
 nav{
-  width:100%;
-  height:80px;
   background:white;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 5%;
+  padding:6px 30px;
+  min-height:65px;
+  height:65px;
   box-shadow:0 2px 8px rgba(0,0,0,.12);
   position:relative;
-  z-index:10;
+  z-index:5;
 }
 
 .logo{
@@ -70,8 +53,8 @@ nav{
 }
 
 .logo img{
-  width:125px;
-  max-height:70px;
+  width:150px;
+  max-height:58px;
   height:auto;
   object-fit:contain;
   display:block;
@@ -79,89 +62,66 @@ nav{
 
 .menu{
   display:flex;
-  align-items:center;
   gap:28px;
+  align-items:center;
 }
 
 .menu a{
   text-decoration:none;
   color:#333;
   font-weight:bold;
-  font-size:15px;
 }
 
 .menu a:hover{
   color:#d71920;
 }
 
-/* =========================
-   SERVICIO A DOMICILIO
-========================= */
+/* SERVICIO A DOMICILIO */
 
 .servicio-domicilio{
-  width:100%;
   background:#111;
   color:white;
-  min-height:52px;
   padding:10px 20px;
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:25px;
-  font-size:15px;
+  gap:20px;
+  font-size:16px;
   font-weight:bold;
-  text-align:center;
 }
 
 .servicio-domicilio strong{
   color:#f5b800;
+  margin-right:15px;
 }
 
 .servicio-domicilio span{
-  margin:0;
-  color:white;
+  margin-right:15px;
 }
 
 .servicio-domicilio a{
   color:#f5b800;
   text-decoration:none;
   font-weight:bold;
+  font-size:17px;
 }
 
-.servicio-domicilio a:hover{
-  color:white;
-}
-
-/* =========================
-   BANNER
-========================= */
+/* BANNER */
 
 .hero{
   position:relative;
-  width:100%;
-  height:360px;
+  height:320px !important;
   overflow:hidden;
-  background:#151b27;
+  background:transparent;
 }
 
 .hero img{
-  position:absolute;
-  top:0;
-  left:0;
   width:100%;
-  height:100%;
+  height:100% !important;
   object-fit:cover;
-  object-position:center center;
+  object-position:center top;
   display:block;
-  opacity:.72;
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.20);
-  z-index:1;
+  opacity:.65;
 }
 
 .hero-contenido{
@@ -172,51 +132,55 @@ nav{
   width:90%;
   text-align:center;
   color:white;
-  z-index:2;
 }
 
 .hero h1{
-  font-size:48px;
+  font-size:52px;
   margin-bottom:15px;
   text-shadow:2px 2px 8px #000;
 }
 
 .hero p{
-  font-size:21px;
+  font-size:23px;
   text-shadow:2px 2px 6px #000;
 }
 
-/* =========================
-   SECCIÓN BUSCADOR
-========================= */
+/* SECCION DE BATERIAS */
 
 .productos-seccion{
-  width:100%;
   max-width:1200px;
   margin:auto;
-  padding:50px 20px;
+  padding:35px 20px 55px;
+  background:white;
 }
 
-.productos-seccion > h2{
+/* BUSCADOR */
+
+.buscar{
+  width:100%;
+  background:white;
+  color:#222;
+  padding:0 0 40px;
+}
+
+.buscar h2{
   text-align:center;
   font-size:32px;
   margin-bottom:25px;
 }
 
 .formulario{
-  width:100%;
   display:grid;
   grid-template-columns:repeat(4,1fr) auto;
   gap:10px;
   max-width:1150px;
-  margin:0 auto 55px;
+  margin:auto;
 }
 
 .formulario select{
-  width:100%;
-  padding:15px;
+  padding:16px;
   border:1px solid #ddd;
-  border-radius:5px;
+  border-radius:4px;
   font-size:16px;
   background:white;
 }
@@ -225,8 +189,8 @@ nav{
   background:#d71920;
   color:white;
   border:0;
-  padding:15px 25px;
-  border-radius:5px;
+  padding:16px 25px;
+  border-radius:4px;
   font-weight:bold;
   font-size:16px;
   cursor:pointer;
@@ -236,9 +200,7 @@ nav{
   background:#b51218;
 }
 
-/* =========================
-   TITULO PRODUCTOS
-========================= */
+/* TITULO PRODUCTOS */
 
 .titulo{
   text-align:center;
@@ -255,9 +217,7 @@ nav{
   font-size:18px;
 }
 
-/* =========================
-   PRODUCTOS
-========================= */
+/* PRODUCTOS */
 
 .productos{
   display:grid;
@@ -285,7 +245,6 @@ nav{
   height:220px;
   object-fit:contain;
   padding:15px;
-  display:block;
 }
 
 .producto-info{
@@ -324,12 +283,9 @@ nav{
   background:#d71920;
 }
 
-/* =========================
-   MARCAS
-========================= */
+/* MARCAS */
 
 .marcas{
-  width:100%;
   background:white;
   padding:50px 20px;
   text-align:center;
@@ -345,16 +301,11 @@ nav{
   max-width:900px;
   height:auto;
   border-radius:10px;
-  display:block;
-  margin:auto;
 }
 
-/* =========================
-   SERVICIOS
-========================= */
+/* SERVICIOS */
 
 .servicios{
-  width:100%;
   background:#151b27;
   color:white;
   text-align:center;
@@ -382,13 +333,7 @@ nav{
   font-weight:bold;
 }
 
-.boton-whatsapp:hover{
-  background:#1ebe5d;
-}
-
-/* =========================
-   WHATSAPP FLOTANTE
-========================= */
+/* WHATSAPP FLOTANTE */
 
 .whatsapp{
   position:fixed;
@@ -405,12 +350,10 @@ nav{
   font-size:30px;
   text-decoration:none;
   box-shadow:0 4px 12px rgba(0,0,0,.3);
-  z-index:50;
+  z-index:20;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer{
   background:#090b0f;
@@ -423,15 +366,9 @@ footer p{
   margin:6px;
 }
 
-/* =========================
-   TABLET
-========================= */
+/* TABLET */
 
 @media(max-width:900px){
-
-  nav{
-    padding:0 25px;
-  }
 
   .productos{
     grid-template-columns:repeat(2,1fr);
@@ -445,78 +382,55 @@ footer p{
     grid-column:span 2;
   }
 
-  .hero h1{
-    font-size:40px;
-  }
-
 }
 
-/* =========================
-   CELULAR
-========================= */
+/* CELULAR */
 
 @media(max-width:600px){
 
   nav{
-    height:auto;
-    min-height:125px;
-    padding:10px 15px;
     flex-direction:column;
+    height:auto;
+    min-height:auto;
+    padding:10px 20px;
     gap:10px;
   }
 
-  .logo{
-    height:65px;
-  }
-
   .logo img{
-    width:110px;
-    max-height:60px;
+    width:130px;
+    max-height:55px;
   }
 
   .menu{
     gap:15px;
-    flex-wrap:wrap;
-    justify-content:center;
-    padding-bottom:10px;
-  }
-
-  .menu a{
-    font-size:13px;
+    font-size:14px;
   }
 
   .servicio-domicilio{
     flex-direction:column;
-    gap:6px;
-    padding:10px;
-    font-size:13px;
+    gap:5px;
+    text-align:center;
+  }
+
+  .servicio-domicilio strong,
+  .servicio-domicilio span{
+    margin-right:0;
   }
 
   .hero{
-    height:300px;
+    height:300px !important;
   }
 
   .hero h1{
-    font-size:31px;
-    line-height:1.15;
+    font-size:32px;
   }
 
   .hero p{
     font-size:17px;
-    line-height:1.4;
-  }
-
-  .productos-seccion{
-    padding:40px 15px;
-  }
-
-  .productos-seccion > h2{
-    font-size:28px;
   }
 
   .formulario{
     grid-template-columns:1fr;
-    margin-bottom:45px;
   }
 
   .boton-buscar{
@@ -527,47 +441,6 @@ footer p{
     grid-template-columns:1fr;
   }
 
-  .producto img{
-    height:230px;
-  }
-
-  .titulo h2{
-    font-size:30px;
-  }
-
-  .titulo p{
-    font-size:16px;
-  }
-
-  .marcas h2,
-  .servicios h2{
-    font-size:28px;
-  }
-
-}
-
-/* =========================
-   CELULAR MUY PEQUEÑO
-========================= */
-
-@media(max-width:400px){
-
-  .menu{
-    gap:10px;
-  }
-
-  .menu a{
-    font-size:12px;
-  }
-
-  .hero h1{
-    font-size:27px;
-  }
-
-  .hero p{
-    font-size:15px;
-  }
-
 }
 
 </style>
@@ -575,18 +448,13 @@ footer p{
 
 <body>
 
-<!-- =========================
-     BARRA SUPERIOR
-========================= -->
+<!-- BARRA SUPERIOR -->
 
 <div class="topbar">
-  🔋 <span>BATERÍAS WR</span> · Calidad y respaldo para su vehículo
+  🔋 BATERÍAS WR · Calidad y respaldo para su vehículo
 </div>
 
-
-<!-- =========================
-     MENU
-========================= -->
+<!-- MENU -->
 
 <nav>
 
@@ -603,10 +471,7 @@ footer p{
 
 </nav>
 
-
-<!-- =========================
-     SERVICIO A DOMICILIO
-========================= -->
+<!-- SERVICIO A DOMICILIO -->
 
 <div class="servicio-domicilio">
 
@@ -615,16 +480,11 @@ footer p{
     <span>Se la llevamos hasta su casa</span>
   </div>
 
-  <a href="tel:63928294">
-    📞 6392 8294
-  </a>
+  <a href="tel:63928294">📞 6392 8294</a>
 
 </div>
 
-
-<!-- =========================
-     BANNER
-========================= -->
+<!-- BANNER -->
 
 <section class="hero">
 
@@ -642,70 +502,72 @@ footer p{
 
 </section>
 
-
-<!-- =========================
-     BATERÍAS
-========================= -->
+<!-- BATERÍAS -->
 
 <section class="productos-seccion" id="baterias">
 
-  <h2>Encuentra tu batería</h2>
+  <!-- BUSCADOR -->
 
-  <div class="formulario">
+  <section class="buscar">
 
-    <select>
-      <option>Seleccione marca</option>
-      <option>Toyota</option>
-      <option>Hyundai</option>
-      <option>Nissan</option>
-      <option>Kia</option>
-      <option>Honda</option>
-      <option>Suzuki</option>
-      <option>Mitsubishi</option>
-      <option>Ford</option>
-      <option>Chevrolet</option>
-    </select>
+    <h2>Encuentra tu batería</h2>
 
-    <select>
-      <option>Seleccione modelo</option>
-    </select>
+    <div class="formulario">
 
-    <select>
-      <option>Seleccione año</option>
-      <option>2026</option>
-      <option>2025</option>
-      <option>2024</option>
-      <option>2023</option>
-      <option>2022</option>
-      <option>2021</option>
-      <option>2020</option>
-      <option>2019</option>
-      <option>2018</option>
-      <option>2017</option>
-      <option>2016</option>
-      <option>2015</option>
-      <option>2014</option>
-      <option>2013</option>
-      <option>2012</option>
-      <option>2011</option>
-      <option>2010</option>
-    </select>
+      <select>
+        <option>Seleccione marca</option>
+        <option>Toyota</option>
+        <option>Hyundai</option>
+        <option>Nissan</option>
+        <option>Kia</option>
+        <option>Honda</option>
+        <option>Suzuki</option>
+        <option>Mitsubishi</option>
+        <option>Ford</option>
+        <option>Chevrolet</option>
+      </select>
 
-    <select>
-      <option>Combustible</option>
-      <option>Gasolina</option>
-      <option>Diésel</option>
-      <option>Híbrido</option>
-    </select>
+      <select>
+        <option>Seleccione modelo</option>
+      </select>
 
-    <button class="boton-buscar" onclick="consultarBateria()">
-      Buscar 🔍
-    </button>
+      <select>
+        <option>Seleccione año</option>
+        <option>2026</option>
+        <option>2025</option>
+        <option>2024</option>
+        <option>2023</option>
+        <option>2022</option>
+        <option>2021</option>
+        <option>2020</option>
+        <option>2019</option>
+        <option>2018</option>
+        <option>2017</option>
+        <option>2016</option>
+        <option>2015</option>
+        <option>2014</option>
+        <option>2013</option>
+        <option>2012</option>
+        <option>2011</option>
+        <option>2010</option>
+      </select>
 
-  </div>
+      <select>
+        <option>Combustible</option>
+        <option>Gasolina</option>
+        <option>Diésel</option>
+        <option>Híbrido</option>
+      </select>
 
+      <button class="boton-buscar" onclick="consultarBateria()">
+        Buscar 🔍
+      </button>
 
-  <!-- TITULO -->
+    </div>
+
+  </section>
+
+  <!-- NUESTRAS BATERÍAS -->
 
   <div class="titulo">
 
@@ -717,19 +579,13 @@ footer p{
 
   </div>
 
-
-  <!-- PRODUCTOS -->
-
   <div class="productos">
-
 
     <!-- N40 -->
 
-    <div class="producto"
-         onclick="window.location.href='n40.html'">
+    <div class="producto" onclick="window.location.href='n40.html'">
 
-      <img src="record2.jpeg"
-           alt="Batería Record N-40">
+      <img src="record2.jpeg" alt="Batería Record N-40">
 
       <div class="producto-info">
 
@@ -746,23 +602,18 @@ footer p{
         <a href="https://wa.me/50663928294"
            target="_blank"
            onclick="event.stopPropagation()">
-
           Consultar
-
         </a>
 
       </div>
 
     </div>
 
-
     <!-- N50 -->
 
-    <div class="producto"
-         onclick="window.location.href='n50.html'">
+    <div class="producto" onclick="window.location.href='n50.html'">
 
-      <img src="LTH.jpeg"
-           alt="Batería LTH N-50">
+      <img src="LTH.jpeg" alt="Batería LTH N-50">
 
       <div class="producto-info">
 
@@ -779,23 +630,18 @@ footer p{
         <a href="https://wa.me/50663928294"
            target="_blank"
            onclick="event.stopPropagation()">
-
           Consultar
-
         </a>
 
       </div>
 
     </div>
 
-
     <!-- N60 -->
 
-    <div class="producto"
-         onclick="window.location.href='n60.html'">
+    <div class="producto" onclick="window.location.href='n60.html'">
 
-      <img src="autocraft.jpeg"
-           alt="Batería AutoCraft N-60">
+      <img src="autocraft.jpeg" alt="Batería AutoCraft N-60">
 
       <div class="producto-info">
 
@@ -812,23 +658,18 @@ footer p{
         <a href="https://wa.me/50663928294"
            target="_blank"
            onclick="event.stopPropagation()">
-
           Consultar
-
         </a>
 
       </div>
 
     </div>
 
-
     <!-- N70 -->
 
-    <div class="producto"
-         onclick="window.location.href='n70.html'">
+    <div class="producto" onclick="window.location.href='n70.html'">
 
-      <img src="velox.jpeg"
-           alt="Batería Velox N-70">
+      <img src="velox.jpeg" alt="Batería Velox N-70">
 
       <div class="producto-info">
 
@@ -845,9 +686,7 @@ footer p{
         <a href="https://wa.me/50663928294"
            target="_blank"
            onclick="event.stopPropagation()">
-
           Consultar
-
         </a>
 
       </div>
@@ -858,36 +697,27 @@ footer p{
 
 </section>
 
-
-<!-- =========================
-     MARCAS
-========================= -->
+<!-- MARCAS -->
 
 <section class="marcas" id="marcas">
 
   <h2>Marcas disponibles</h2>
 
-  <img src="marcas.jpeg"
-       alt="Marcas de baterías disponibles">
+  <img src="marcas.jpeg" alt="Marcas de baterías disponibles">
 
 </section>
 
-
-<!-- =========================
-     SERVICIOS
-========================= -->
+<!-- SERVICIOS -->
 
 <section class="servicios" id="contacto">
 
   <h2>¿Necesita una batería?</h2>
 
   <p>
-
     ✔️ Diferentes tamaños y capacidades<br>
     ✔️ Baterías para diferentes tipos de vehículos<br>
     ✔️ Atención personalizada por WhatsApp<br>
     ✔️ Consulte disponibilidad y precio
-
   </p>
 
   <a class="boton-whatsapp"
@@ -900,10 +730,7 @@ footer p{
 
 </section>
 
-
-<!-- =========================
-     WHATSAPP FLOTANTE
-========================= -->
+<!-- WHATSAPP FLOTANTE -->
 
 <a class="whatsapp"
    href="https://wa.me/50663928294"
@@ -914,38 +741,24 @@ footer p{
 
 </a>
 
-
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- FOOTER -->
 
 <footer>
 
-  <p>
-    <strong>BATERÍAS WR</strong>
-  </p>
+  <p><strong>BATERÍAS WR</strong></p>
 
-  <p>
-    Calidad y respaldo para su vehículo
-  </p>
+  <p>Calidad y respaldo para su vehículo</p>
 
-  <p>
-    © 2026 Baterías WR
-  </p>
+  <p>© 2026 Baterías WR</p>
 
 </footer>
-
-
-<!-- =========================
-     JAVASCRIPT
-========================= -->
 
 <script>
 
 function consultarBateria(){
 
   window.open(
-    "https://wa.me/50663928294?text=Hola%20Baterías%20WR,%20quiero%20consultar%20qué%20batería%20necesita%20mi%20vehículo.",
+    "https://wa.me/50663928294?text=Hola%20Bater%C3%ADas%20WR,%20quiero%20consultar%20qu%C3%A9%20bater%C3%ADa%20necesita%20mi%20veh%C3%ADculo.",
     "_blank"
   );
 
