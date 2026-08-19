@@ -1,248 +1,682 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Baterías WR | Baterías para su vehículo</title>
+<title>Baterías WR | Baterías para su vehículo</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      color: #222;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    header {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 35px 20px;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f5f5;
+  color:#222;
+}
 
-    header h1 {
-      font-size: 38px;
-      margin-bottom: 10px;
-    }
+/* BARRA SUPERIOR */
 
-    header p {
-      font-size: 18px;
-    }
+.topbar{
+  background:#151b27;
+  color:white;
+  text-align:center;
+  padding:11px;
+  font-size:14px;
+  font-weight:bold;
+}
 
-    .boton {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 25px;
-      background: #25D366;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+/* MENU */
 
-    .contenedor {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px 20px;
-    }
+nav{
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 6%;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  position:relative;
+  z-index:5;
+}
 
-    .titulo {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+.logo{
+  font-size:27px;
+  font-weight:bold;
+  color:#d71920;
+}
 
-    .titulo h2 {
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+.logo span{
+  color:#111;
+}
 
-    .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 20px;
-    }
+.menu{
+  display:flex;
+  gap:28px;
+  align-items:center;
+}
 
-    .producto {
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-    }
+.menu a{
+  text-decoration:none;
+  color:#333;
+  font-weight:bold;
+}
 
-    .producto .icono {
-      font-size: 55px;
-      margin-bottom: 15px;
-    }
+.menu a:hover{
+  color:#d71920;
+}
 
-    .producto h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
+/* BANNER */
 
-    .cca {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+.hero{
+  position:relative;
+  height:430px;
+  overflow:hidden;
+  background:#111;
+}
 
-    .precio {
-      font-size: 25px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
+.hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  opacity:.65;
+}
 
-    .producto a {
-      display: inline-block;
-      background: #111;
-      color: white;
-      padding: 11px 18px;
-      border-radius: 7px;
-      text-decoration: none;
-    }
+.hero-contenido{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90%;
+  text-align:center;
+  color:white;
+}
 
-    .servicios {
-      background: #111;
-      color: white;
-      margin-top: 35px;
-      padding: 35px 20px;
-      text-align: center;
-    }
+.hero h1{
+  font-size:52px;
+  margin-bottom:15px;
+  text-shadow:2px 2px 8px #000;
+}
 
-    .servicios h2 {
-      margin-bottom: 20px;
-    }
+.hero p{
+  font-size:23px;
+  text-shadow:2px 2px 6px #000;
+}
 
-    .servicios p {
-      font-size: 18px;
-      line-height: 1.8;
-    }
+/* BUSCADOR */
 
-    footer {
-      background: #000;
-      color: white;
-      text-align: center;
-      padding: 25px;
-      margin-top: 30px;
-    }
+.buscar{
+  background:#151b27;
+  color:white;
+  padding:45px 6%;
+}
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 30px;
-      }
+.buscar h2{
+  text-align:center;
+  font-size:32px;
+  margin-bottom:30px;
+}
 
-      .titulo h2 {
-        font-size: 25px;
-      }
-    }
-  </style>
+.formulario{
+  display:grid;
+  grid-template-columns:repeat(4,1fr) auto;
+  gap:10px;
+  max-width:1150px;
+  margin:auto;
+}
+
+.formulario select{
+  padding:16px;
+  border:0;
+  border-radius:4px;
+  font-size:16px;
+}
+
+.boton-buscar{
+  background:#d71920;
+  color:white;
+  border:0;
+  padding:16px 25px;
+  border-radius:4px;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.boton-buscar:hover{
+  background:#b51218;
+}
+
+/* PRODUCTOS */
+
+.productos-seccion{
+  max-width:1200px;
+  margin:auto;
+  padding:55px 20px;
+}
+
+.titulo{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.titulo h2{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.titulo p{
+  color:#666;
+  font-size:18px;
+}
+
+.productos{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+
+.producto{
+  background:white;
+  border-radius:10px;
+  overflow:hidden;
+  text-align:center;
+  box-shadow:0 3px 15px rgba(0,0,0,.12);
+  transition:.2s;
+  cursor:pointer;
+}
+
+.producto:hover{
+  transform:translateY(-5px);
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+.producto img{
+  width:100%;
+  height:220px;
+  object-fit:contain;
+  padding:15px;
+}
+
+.producto-info{
+  padding:20px;
+}
+
+.producto h3{
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+.cca{
+  color:#555;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.precio{
+  color:#d71920;
+  font-size:23px;
+  font-weight:bold;
+  margin:12px 0;
+}
+
+.producto a{
+  display:inline-block;
+  background:#151b27;
+  color:white;
+  text-decoration:none;
+  padding:11px 25px;
+  border-radius:5px;
+  margin-bottom:5px;
+}
+
+.producto a:hover{
+  background:#d71920;
+}
+
+/* MARCAS */
+
+.marcas{
+  background:white;
+  padding:50px 20px;
+  text-align:center;
+}
+
+.marcas h2{
+  font-size:32px;
+  margin-bottom:25px;
+}
+
+.marcas img{
+  width:100%;
+  max-width:900px;
+  height:auto;
+  border-radius:10px;
+}
+
+/* SERVICIOS */
+
+.servicios{
+  background:#151b27;
+  color:white;
+  text-align:center;
+  padding:55px 20px;
+}
+
+.servicios h2{
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+.servicios p{
+  line-height:2;
+  font-size:18px;
+}
+
+.boton-whatsapp{
+  display:inline-block;
+  margin-top:25px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  padding:15px 28px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+/* WHATSAPP FLOTANTE */
+
+.whatsapp{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:60px;
+  height:60px;
+  background:#25D366;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  text-decoration:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+  z-index:20;
+}
+
+/* FOOTER */
+
+footer{
+  background:#090b0f;
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+
+footer p{
+  margin:6px;
+}
+
+/* CELULAR */
+
+@media(max-width:900px){
+
+  .productos{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .formulario{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .boton-buscar{
+    grid-column:span 2;
+  }
+
+}
+
+@media(max-width:600px){
+
+  nav{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .menu{
+    gap:15px;
+    font-size:14px;
+  }
+
+  .hero{
+    height:300px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .hero p{
+    font-size:17px;
+  }
+
+  .formulario{
+    grid-template-columns:1fr;
+  }
+
+  .boton-buscar{
+    grid-column:auto;
+  }
+
+  .productos{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🔋 BATERÍAS WR</h1>
-    <div class="banner" style="width:100%; text-align:center;">
-<img src="banner-baterias-wr.png.jpeg" alt="Baterías WR" style="width:100%; height:auto; display:block;">
+<!-- BARRA SUPERIOR -->
+
+<div class="topbar">
+  🔋 BATERÍAS WR · Calidad y respaldo para su vehículo
 </div>
-    <p>Baterías para automóvil, SUV, camioneta y más</p>
 
-    <!-- CAMBIA EL NÚMERO POR TU WHATSAPP -->
-    <a class="boton" href="https://wa.me/50663928294" target="_blank">
-      📲 Consultar por WhatsApp
-    </a>
-  </header>
+<!-- MENU -->
 
-  <main class="contenedor">
+<nav>
 
-    <section>
-      <div class="titulo">
-        <h2>Nuestras baterías</h2>
-        <p>Consulte disponibilidad y precio para su vehículo</p>
-      </div>
-
-      <div class="productos">
-
-       <div class="producto" onclick="window.open('n40.html','_blank')" style="cursor:pointer;">
-         <img src="record2.jpeg" alt="Batería Record N-40" style="width:100%; max-width:300px; height:auto; border-radius:12px;">
-          <h3>N-40</h3>
-          <div class="cca">CCA: Consultar</div>
-          <div class="precio">₡38.500</div>
-          <a href="https://wa.me/506XXXXXXXX" target="_blank">
-            Consultar
-          </a>
-        </div>
-
-      <div class="producto" onclick="window.location.href='n50.html'" style="cursor:pointer;">
-    
-        <img src="LTH.jpeg" alt="Batería LTH N-50" style="width:100%;max-width:300px;height:auto;">
-        <h3>N-50</h3>
-        <div class="cca">CCA: Consultar</div>
-        <div class="precio">Consultar</div>
-        <a href="https://wa.me/506XXXXXXXX" target="_blank">
-            Consultar
-        </a>
-    </div>
-
-
-       <div class="producto" onclick="window.location.href='n60.html'" style="cursor:pointer;">
-          <img src="./autocraft.jpeg" alt="Batería AutoCraft N-60" style="width:100%; max-width:300px; height:auto; border-radius:12px;">
-          <h3>N-60</h3>
-          <div class="cca">CCA: Consultar</div>
-          <div class="precio">Consultar</div>
-          <a href="https://wa.me/506XXXXXXXX" target="_blank">
-            Consultar
-          </a>
-        </div>
-
-       
-     <div class="producto" onclick="window.location.href='n70.html'" style="cursor:pointer;">
-    <img src="velox.jpeg" alt="Batería Velox N-70" style="width:100%; max-width:300px; height:auto; border-radius:12px;">
-          <h3>N-70</h3>
-          <div class="cca">CCA: Consultar</div>
-          <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294" target="_blank">
-            Consultar
-          </a>
-        </div>
-
-     
-    </section>
-
-  </main>
-<section class="marcas">
-  <h2>Marcas disponibles</h2>
-
-  <div class="marcas-grid">
-<img src="marcas.jpeg" alt="Marcas de baterías" style="width:100%; max-width:900px; height:auto; border-radius:12px;">
+  <div class="logo">
+    BATERÍAS <span>WR</span>
   </div>
-</section>
-  <section class="servicios">
-    <h2>¿Necesita una batería?</h2>
+
+  <div class="menu">
+    <a href="#">Inicio</a>
+    <a href="#baterias">Baterías</a>
+    <a href="#marcas">Marcas</a>
+    <a href="#contacto">Contáctanos</a>
+  </div>
+
+</nav>
+
+<!-- BANNER -->
+
+<section class="hero">
+
+  <img src="banner-baterias-wr.png.jpeg" alt="Baterías WR">
+
+  <div class="hero-contenido">
+
+    <h1>¡Tenemos baterías para todo!</h1>
 
     <p>
-      ✔️ Diferentes tamaños y capacidades<br>
-      ✔️ Baterías para diferentes tipos de vehículos<br>
-      ✔️ Atención por WhatsApp<br>
-      ✔️ Consulte disponibilidad
+      Baterías para automóvil, SUV, camioneta y más
     </p>
 
-    <a class="boton" href="https://wa.me/50663928294" target="_blank">
-      Hablar por WhatsApp
-    </a>
-  </section>
+  </div>
 
-  <footer>
-    <p><strong>BATERÍAS WR</strong></p>
-    <p>Calidad y respaldo para su vehículo</p>
-    <p>© 2026 Baterías WR</p>
-  </footer>
+</section>
+
+<!-- BUSCADOR -->
+
+<section class="buscar">
+
+  <h2>Encuentra tu batería</h2>
+
+  <div class="formulario">
+
+    <select>
+      <option>Seleccione marca</option>
+      <option>Toyota</option>
+      <option>Hyundai</option>
+      <option>Nissan</option>
+      <option>Kia</option>
+      <option>Honda</option>
+      <option>Suzuki</option>
+      <option>Mitsubishi</option>
+      <option>Ford</option>
+      <option>Chevrolet</option>
+    </select>
+
+    <select>
+      <option>Seleccione modelo</option>
+    </select>
+
+    <select>
+      <option>Seleccione año</option>
+      <option>2026</option>
+      <option>2025</option>
+      <option>2024</option>
+      <option>2023</option>
+      <option>2022</option>
+      <option>2021</option>
+      <option>2020</option>
+      <option>2019</option>
+      <option>2018</option>
+      <option>2017</option>
+      <option>2016</option>
+      <option>2015</option>
+      <option>2014</option>
+      <option>2013</option>
+      <option>2012</option>
+      <option>2011</option>
+      <option>2010</option>
+    </select>
+
+    <select>
+      <option>Combustible</option>
+      <option>Gasolina</option>
+      <option>Diésel</option>
+      <option>Híbrido</option>
+    </select>
+
+    <button class="boton-buscar" onclick="consultarBateria()">
+      Buscar 🔍
+    </button>
+
+  </div>
+
+</section>
+
+<!-- BATERÍAS -->
+
+<section class="productos-seccion" id="baterias">
+
+  <div class="titulo">
+
+    <h2>Nuestras baterías</h2>
+
+    <p>
+      Seleccione el tamaño de batería que necesita
+    </p>
+
+  </div>
+
+  <div class="productos">
+
+    <!-- N40 -->
+
+    <div class="producto" onclick="window.location.href='n40.html'">
+
+      <img src="record2.jpeg" alt="Batería Record N-40">
+
+      <div class="producto-info">
+
+        <h3>N-40</h3>
+
+        <div class="cca">
+          CCA: Consultar
+        </div>
+
+        <div class="precio">
+          ₡38.500
+        </div>
+
+        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+          Consultar
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- N50 -->
+
+    <div class="producto" onclick="window.location.href='n50.html'">
+
+      <img src="LTH.jpeg" alt="Batería LTH N-50">
+
+      <div class="producto-info">
+
+        <h3>N-50</h3>
+
+        <div class="cca">
+          CCA: Consultar
+        </div>
+
+        <div class="precio">
+          Consultar
+        </div>
+
+        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+          Consultar
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- N60 -->
+
+    <div class="producto" onclick="window.location.href='n60.html'">
+
+      <img src="autocraft.jpeg" alt="Batería AutoCraft N-60">
+
+      <div class="producto-info">
+
+        <h3>N-60</h3>
+
+        <div class="cca">
+          CCA: Consultar
+        </div>
+
+        <div class="precio">
+          Consultar
+        </div>
+
+        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+          Consultar
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- N70 -->
+
+    <div class="producto" onclick="window.location.href='n70.html'">
+
+      <img src="velox.jpeg" alt="Batería Velox N-70">
+
+      <div class="producto-info">
+
+        <h3>N-70</h3>
+
+        <div class="cca">
+          CCA: Consultar
+        </div>
+
+        <div class="precio">
+          Consultar
+        </div>
+
+        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+          Consultar
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- MARCAS -->
+
+<section class="marcas" id="marcas">
+
+  <h2>Marcas disponibles</h2>
+
+  <img src="marcas.jpeg" alt="Marcas de baterías disponibles">
+
+</section>
+
+<!-- SERVICIOS -->
+
+<section class="servicios" id="contacto">
+
+  <h2>¿Necesita una batería?</h2>
+
+  <p>
+    ✔️ Diferentes tamaños y capacidades<br>
+    ✔️ Baterías para diferentes tipos de vehículos<br>
+    ✔️ Atención personalizada por WhatsApp<br>
+    ✔️ Consulte disponibilidad y precio
+  </p>
+
+  <a class="boton-whatsapp"
+     href="https://wa.me/50663928294"
+     target="_blank">
+
+     📲 Hablar por WhatsApp
+
+  </a>
+
+</section>
+
+<!-- WHATSAPP FLOTANTE -->
+
+<a class="whatsapp"
+   href="https://wa.me/50663928294"
+   target="_blank"
+   aria-label="WhatsApp">
+
+   ☎️
+
+</a>
+
+<!-- FOOTER -->
+
+<footer>
+
+  <p><strong>BATERÍAS WR</strong></p>
+
+  <p>Calidad y respaldo para su vehículo</p>
+
+  <p>© 2026 Baterías WR</p>
+
+</footer>
+
+<script>
+
+function consultarBateria(){
+
+  window.open(
+    "https://wa.me/50663928294?text=Hola%20Baterías%20WR,%20quiero%20consultar%20qué%20batería%20necesita%20mi%20vehículo.",
+    "_blank"
+  );
+
+}
+
+</script>
 
 </body>
 </html>
