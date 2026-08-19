@@ -750,7 +750,7 @@ footer p{
 
   <div class="formulario">
 
-    <select id="marca">
+    <select id="marca" onchange="llenarModelos()">
 
       <option value="">
         Seleccione marca
@@ -2195,49 +2195,105 @@ function obtenerCoincidencia(){
 
 function consultarBateria(){
 
-  const marca =
-    marcaSelect.value;
+    const marcaSelect = document.getElementById("marca");
+    const modeloSelect = document.getElementById("modelo");
+    const anioSelect = document.getElementById("anio");
+    const combustibleSelect = document.getElementById("combustible");
+    const resultado = document.getElementById("resultado-busqueda");
 
-  const modelo =
-    modeloSelect.value;
+    const marca = marcaSelect.value;
+    const modelo = modeloSelect.value;
+    const anio = anioSelect.value;
+    const combustible = combustibleSelect.value;
 
-  const anio =
-    anioSelect.value;
+    if (!marca || !modelo) {
+        resultado.innerHTML =
+            "<p>Seleccione primero la marca y el modelo para consultar la batería recomendada.</p>";
 
-  const combustible =
-    combustibleSelect.value;
+        resultado.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
 
+        return;
+    }
 
-  /* -------------------------
-     VALIDAR
-  ------------------------- */
+    const datosMarca = baseDatos[marca];
 
-  if(
-    !marca ||
-    !modelo
-  ){
+    if (!datosMarca || !datosMarca[modelo]) {
+        resultado.innerHTML =
+            "<p>No encontramos información para ese modelo.</p>";
 
-    resultado.className =
-      "resultado-busqueda mostrar";
+        resultado.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
 
-    resultado.innerHTML =
-      "<h3>Seleccione el vehículo</h3>" +
+        return;
+    }
 
-      "<p>" +
-      "Seleccione primero la marca y el modelo " +
-      "para consultar la batería recomendada." +
-      "</p>";
+    const datosModelo = datosMarca[modelo];
 
+    let recomendacion = null;
+
+    if (Array.isArray(datosModelo)) {
+
+        recomendacion = datosModelo.find(function(item) {
+
+            const cumpleAnio =
+                !anio ||
+                (
+                    (!item.desde || Number(anio) >= Number(item.desde)) &&
+                    (!item.hasta || Number(anio) <= Number(item.hasta))
+                );
+
+            const cumpleCombustible =
+                !combustible ||
+                !item.combustibles ||
+                item.combustibles.includes(combustible);
+
+            return cumpleAnio && cumpleCombustible;
+        });
+
+    } else {
+        recomendacion = datosModelo;
+    }
+
+    if (!recomendacion) {
+        resultado.innerHTML =
+            "<p>No encontramos una batería recomendada para los datos seleccionados.</p>";
+
+        resultado.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        return;
+    }
+
+    let bateria = recomendacion.bateria || recomendacion.batería || "";
+    let cca = recomendacion.cca || recomendacion.CCA || "";
+    let garantia = recomendacion.garantia || "";
+    let precio = recomendacion.precio || "";
+
+    resultado.innerHTML = `
+        <div class="resultado-bateria">
+            <h3>Batería recomendada</h3>
+            <p><strong>Marca:</strong> ${marca}</p>
+            <p><strong>Modelo:</strong> ${modelo}</p>
+            ${anio ? <p><strong>Año:</strong> ${anio}</p> : ""}
+            ${bateria ? <p><strong>Batería:</strong> ${bateria}</p> : ""}
+            ${cca ? <p><strong>CCA:</strong> ${cca}</p> : ""}
+            ${garantia ? <p><strong>Garantía:</strong> ${garantia}</p> : ""}
+            ${precio ? <p><strong>Precio:</strong> ${precio}</p> : ""}
+        </div>
+    `;
 
     resultado.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
+        behavior: "smooth",
+        block: "center"
     });
-
-    return;
-
-  }
-
+}
 
   const coincidencia =
     obtenerCoincidencia();
