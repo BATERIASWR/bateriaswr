@@ -8,10 +8,18 @@
 
 <style>
 
+/* =========================
+   CONFIGURACIÓN GENERAL
+========================= */
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
@@ -20,112 +28,140 @@ body{
   color:#222;
 }
 
-/* BARRA SUPERIOR */
+/* =========================
+   BARRA SUPERIOR
+========================= */
 
 .topbar{
+  width:100%;
   background:#151b27;
   color:white;
   text-align:center;
-  padding:11px;
+  padding:10px;
   font-size:14px;
   font-weight:bold;
 }
 
-/* MENU */
+.topbar span{
+  color:#f5b800;
+}
+
+/* =========================
+   MENU
+========================= */
 
 nav{
+  width:100%;
+  height:80px;
   background:white;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:15px 6%;
+  padding:0 5%;
   box-shadow:0 2px 8px rgba(0,0,0,.12);
   position:relative;
-  z-index:5;
+  z-index:10;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  height:100%;
 }
 
 .logo img{
-  width:150px;
+  width:125px;
+  max-height:70px;
   height:auto;
+  object-fit:contain;
   display:block;
-}
-
-.logo span{
-  color:#111;
 }
 
 .menu{
   display:flex;
-  gap:28px;
   align-items:center;
+  gap:28px;
 }
 
 .menu a{
   text-decoration:none;
   color:#333;
   font-weight:bold;
+  font-size:15px;
 }
 
 .menu a:hover{
   color:#d71920;
 }
+
+/* =========================
+   SERVICIO A DOMICILIO
+========================= */
+
 .servicio-domicilio{
-    background:#111;
-    color:white;
-    padding:10px 20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:20px;
-    font-size:16px;
-    font-weight:bold;
+  width:100%;
+  background:#111;
+  color:white;
+  min-height:52px;
+  padding:10px 20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:25px;
+  font-size:15px;
+  font-weight:bold;
+  text-align:center;
 }
 
 .servicio-domicilio strong{
-    color:#f5b800;
+  color:#f5b800;
 }
 
 .servicio-domicilio span{
-    margin-right:10px;
+  margin:0;
+  color:white;
 }
 
 .servicio-domicilio a{
-    color:#f5b800;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:17px;
+  color:#f5b800;
+  text-decoration:none;
+  font-weight:bold;
 }
 
-.servicio-domicilio strong{
-    color:#f5b800;
-    margin-right:15px;
+.servicio-domicilio a:hover{
+  color:white;
 }
 
-.servicio-domicilio span{
-    margin-right:15px;
-}
-
-.servicio-domicilio a{
-    color:#f5b800;
-    text-decoration:none;
-    font-weight:bold;
-}
-/* BANNER */
+/* =========================
+   BANNER
+========================= */
 
 .hero{
   position:relative;
- height:320px !important;;
+  width:100%;
+  height:360px;
   overflow:hidden;
-  background:transparent;
+  background:#151b27;
 }
 
 .hero img{
+  position:absolute;
+  top:0;
+  left:0;
   width:100%;
- height:100% !important;
+  height:100%;
   object-fit:cover;
-  object-position:center top;
+  object-position:center center;
   display:block;
-  opacity:.80;
+  opacity:.72;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.20);
+  z-index:1;
 }
 
 .hero-contenido{
@@ -136,54 +172,61 @@ nav{
   width:90%;
   text-align:center;
   color:white;
+  z-index:2;
 }
 
 .hero h1{
-  font-size:52px;
+  font-size:48px;
   margin-bottom:15px;
   text-shadow:2px 2px 8px #000;
 }
 
 .hero p{
-  font-size:23px;
+  font-size:21px;
   text-shadow:2px 2px 6px #000;
 }
 
-/* BUSCADOR */
+/* =========================
+   SECCIÓN BUSCADOR
+========================= */
 
-.buscar{
-  background:#151b27;
-  color:white;
-  padding:45px 6%;
+.productos-seccion{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:50px 20px;
 }
 
-.buscar h2{
+.productos-seccion > h2{
   text-align:center;
   font-size:32px;
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .formulario{
+  width:100%;
   display:grid;
   grid-template-columns:repeat(4,1fr) auto;
   gap:10px;
   max-width:1150px;
-  margin:auto;
+  margin:0 auto 55px;
 }
 
 .formulario select{
-  padding:16px;
-  border:0;
-  border-radius:4px;
+  width:100%;
+  padding:15px;
+  border:1px solid #ddd;
+  border-radius:5px;
   font-size:16px;
+  background:white;
 }
 
 .boton-buscar{
   background:#d71920;
   color:white;
   border:0;
-  padding:16px 25px;
-  border-radius:4px;
+  padding:15px 25px;
+  border-radius:5px;
   font-weight:bold;
   font-size:16px;
   cursor:pointer;
@@ -193,13 +236,9 @@ nav{
   background:#b51218;
 }
 
-/* PRODUCTOS */
-
-.productos-seccion{
-  max-width:1200px;
-  margin:auto;
-  padding:55px 20px;
-}
+/* =========================
+   TITULO PRODUCTOS
+========================= */
 
 .titulo{
   text-align:center;
@@ -215,6 +254,10 @@ nav{
   color:#666;
   font-size:18px;
 }
+
+/* =========================
+   PRODUCTOS
+========================= */
 
 .productos{
   display:grid;
@@ -242,6 +285,7 @@ nav{
   height:220px;
   object-fit:contain;
   padding:15px;
+  display:block;
 }
 
 .producto-info{
@@ -280,9 +324,12 @@ nav{
   background:#d71920;
 }
 
-/* MARCAS */
+/* =========================
+   MARCAS
+========================= */
 
 .marcas{
+  width:100%;
   background:white;
   padding:50px 20px;
   text-align:center;
@@ -298,11 +345,16 @@ nav{
   max-width:900px;
   height:auto;
   border-radius:10px;
+  display:block;
+  margin:auto;
 }
 
-/* SERVICIOS */
+/* =========================
+   SERVICIOS
+========================= */
 
 .servicios{
+  width:100%;
   background:#151b27;
   color:white;
   text-align:center;
@@ -330,7 +382,13 @@ nav{
   font-weight:bold;
 }
 
-/* WHATSAPP FLOTANTE */
+.boton-whatsapp:hover{
+  background:#1ebe5d;
+}
+
+/* =========================
+   WHATSAPP FLOTANTE
+========================= */
 
 .whatsapp{
   position:fixed;
@@ -347,10 +405,12 @@ nav{
   font-size:30px;
   text-decoration:none;
   box-shadow:0 4px 12px rgba(0,0,0,.3);
-  z-index:20;
+  z-index:50;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer{
   background:#090b0f;
@@ -363,9 +423,15 @@ footer p{
   margin:6px;
 }
 
-/* CELULAR */
+/* =========================
+   TABLET
+========================= */
 
 @media(max-width:900px){
+
+  nav{
+    padding:0 25px;
+  }
 
   .productos{
     grid-template-columns:repeat(2,1fr);
@@ -379,18 +445,51 @@ footer p{
     grid-column:span 2;
   }
 
+  .hero h1{
+    font-size:40px;
+  }
+
 }
+
+/* =========================
+   CELULAR
+========================= */
 
 @media(max-width:600px){
 
   nav{
+    height:auto;
+    min-height:125px;
+    padding:10px 15px;
     flex-direction:column;
-    gap:15px;
+    gap:10px;
+  }
+
+  .logo{
+    height:65px;
+  }
+
+  .logo img{
+    width:110px;
+    max-height:60px;
   }
 
   .menu{
     gap:15px;
-    font-size:14px;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding-bottom:10px;
+  }
+
+  .menu a{
+    font-size:13px;
+  }
+
+  .servicio-domicilio{
+    flex-direction:column;
+    gap:6px;
+    padding:10px;
+    font-size:13px;
   }
 
   .hero{
@@ -398,15 +497,26 @@ footer p{
   }
 
   .hero h1{
-    font-size:32px;
+    font-size:31px;
+    line-height:1.15;
   }
 
   .hero p{
     font-size:17px;
+    line-height:1.4;
+  }
+
+  .productos-seccion{
+    padding:40px 15px;
+  }
+
+  .productos-seccion > h2{
+    font-size:28px;
   }
 
   .formulario{
     grid-template-columns:1fr;
+    margin-bottom:45px;
   }
 
   .boton-buscar{
@@ -417,40 +527,72 @@ footer p{
     grid-template-columns:1fr;
   }
 
-}
-header{
-    padding:6px 30px !important;
-    min-height:65px !important;
-    height:65px !important;
-    display:flex !important;
-    align-items:center !important;
+  .producto img{
+    height:230px;
+  }
+
+  .titulo h2{
+    font-size:30px;
+  }
+
+  .titulo p{
+    font-size:16px;
+  }
+
+  .marcas h2,
+  .servicios h2{
+    font-size:28px;
+  }
+
 }
 
-header img{
-    max-height:58px !important;
+/* =========================
+   CELULAR MUY PEQUEÑO
+========================= */
+
+@media(max-width:400px){
+
+  .menu{
+    gap:10px;
+  }
+
+  .menu a{
+    font-size:12px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
 }
 
-nav{
-    padding:0 !important;
-}
 </style>
 </head>
 
 <body>
 
-<!-- BARRA SUPERIOR -->
+<!-- =========================
+     BARRA SUPERIOR
+========================= -->
 
 <div class="topbar">
-  🔋 BATERÍAS WR · Calidad y respaldo para su vehículo
+  🔋 <span>BATERÍAS WR</span> · Calidad y respaldo para su vehículo
 </div>
 
-<!-- MENU -->
+
+<!-- =========================
+     MENU
+========================= -->
 
 <nav>
 
   <div class="logo">
-  <img src="logobate.jpeg" alt="WR Baterías">
-</div>
+    <img src="logobate.jpeg" alt="WR Baterías">
+  </div>
 
   <div class="menu">
     <a href="#">Inicio</a>
@@ -460,18 +602,33 @@ nav{
   </div>
 
 </nav>
+
+
+<!-- =========================
+     SERVICIO A DOMICILIO
+========================= -->
+
 <div class="servicio-domicilio">
+
   <div>
     <strong>🚚 SERVICIO A DOMICILIO</strong>
     <span>Se la llevamos hasta su casa</span>
   </div>
-  <a href="tel:63928294">📞 6392 8294</a>
+
+  <a href="tel:63928294">
+    📞 6392 8294
+  </a>
+
 </div>
-<!-- BANNER -->
+
+
+<!-- =========================
+     BANNER
+========================= -->
 
 <section class="hero">
 
-  <img src="varias.jpeg" alt="Baterias WR">
+  <img src="varias.jpeg" alt="Baterías WR">
 
   <div class="hero-contenido">
 
@@ -485,17 +642,14 @@ nav{
 
 </section>
 
-<!-- BUSCADOR -->
 
-<section class="buscar">
-
-  
-</section>
-
-<!-- BATERÍAS -->
+<!-- =========================
+     BATERÍAS
+========================= -->
 
 <section class="productos-seccion" id="baterias">
-<h2>Encuentra tu batería</h2>
+
+  <h2>Encuentra tu batería</h2>
 
   <div class="formulario">
 
@@ -550,6 +704,9 @@ nav{
 
   </div>
 
+
+  <!-- TITULO -->
+
   <div class="titulo">
 
     <h2>Nuestras baterías</h2>
@@ -560,13 +717,19 @@ nav{
 
   </div>
 
+
+  <!-- PRODUCTOS -->
+
   <div class="productos">
+
 
     <!-- N40 -->
 
-    <div class="producto" onclick="window.location.href='n40.html'">
+    <div class="producto"
+         onclick="window.location.href='n40.html'">
 
-      <img src="record2.jpeg" alt="Batería Record N-40">
+      <img src="record2.jpeg"
+           alt="Batería Record N-40">
 
       <div class="producto-info">
 
@@ -580,19 +743,26 @@ nav{
           ₡38.500
         </div>
 
-        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+        <a href="https://wa.me/50663928294"
+           target="_blank"
+           onclick="event.stopPropagation()">
+
           Consultar
+
         </a>
 
       </div>
 
     </div>
 
+
     <!-- N50 -->
 
-    <div class="producto" onclick="window.location.href='n50.html'">
+    <div class="producto"
+         onclick="window.location.href='n50.html'">
 
-      <img src="LTH.jpeg" alt="Batería LTH N-50">
+      <img src="LTH.jpeg"
+           alt="Batería LTH N-50">
 
       <div class="producto-info">
 
@@ -606,19 +776,26 @@ nav{
           Consultar
         </div>
 
-        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+        <a href="https://wa.me/50663928294"
+           target="_blank"
+           onclick="event.stopPropagation()">
+
           Consultar
+
         </a>
 
       </div>
 
     </div>
 
+
     <!-- N60 -->
 
-    <div class="producto" onclick="window.location.href='n60.html'">
+    <div class="producto"
+         onclick="window.location.href='n60.html'">
 
-      <img src="autocraft.jpeg" alt="Batería AutoCraft N-60">
+      <img src="autocraft.jpeg"
+           alt="Batería AutoCraft N-60">
 
       <div class="producto-info">
 
@@ -632,19 +809,26 @@ nav{
           Consultar
         </div>
 
-        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+        <a href="https://wa.me/50663928294"
+           target="_blank"
+           onclick="event.stopPropagation()">
+
           Consultar
+
         </a>
 
       </div>
 
     </div>
 
+
     <!-- N70 -->
 
-    <div class="producto" onclick="window.location.href='n70.html'">
+    <div class="producto"
+         onclick="window.location.href='n70.html'">
 
-      <img src="velox.jpeg" alt="Batería Velox N-70">
+      <img src="velox.jpeg"
+           alt="Batería Velox N-70">
 
       <div class="producto-info">
 
@@ -658,8 +842,12 @@ nav{
           Consultar
         </div>
 
-        <a href="https://wa.me/50663928294" target="_blank" onclick="event.stopPropagation()">
+        <a href="https://wa.me/50663928294"
+           target="_blank"
+           onclick="event.stopPropagation()">
+
           Consultar
+
         </a>
 
       </div>
@@ -670,27 +858,36 @@ nav{
 
 </section>
 
-<!-- MARCAS -->
+
+<!-- =========================
+     MARCAS
+========================= -->
 
 <section class="marcas" id="marcas">
 
   <h2>Marcas disponibles</h2>
 
-  <img src="marcas.jpeg" alt="Marcas de baterías disponibles">
+  <img src="marcas.jpeg"
+       alt="Marcas de baterías disponibles">
 
 </section>
 
-<!-- SERVICIOS -->
+
+<!-- =========================
+     SERVICIOS
+========================= -->
 
 <section class="servicios" id="contacto">
 
   <h2>¿Necesita una batería?</h2>
 
   <p>
+
     ✔️ Diferentes tamaños y capacidades<br>
     ✔️ Baterías para diferentes tipos de vehículos<br>
     ✔️ Atención personalizada por WhatsApp<br>
     ✔️ Consulte disponibilidad y precio
+
   </p>
 
   <a class="boton-whatsapp"
@@ -703,7 +900,10 @@ nav{
 
 </section>
 
-<!-- WHATSAPP FLOTANTE -->
+
+<!-- =========================
+     WHATSAPP FLOTANTE
+========================= -->
 
 <a class="whatsapp"
    href="https://wa.me/50663928294"
@@ -714,17 +914,31 @@ nav{
 
 </a>
 
-<!-- FOOTER -->
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-  <p><strong>BATERÍAS WR</strong></p>
+  <p>
+    <strong>BATERÍAS WR</strong>
+  </p>
 
-  <p>Calidad y respaldo para su vehículo</p>
+  <p>
+    Calidad y respaldo para su vehículo
+  </p>
 
-  <p>© 2026 Baterías WR</p>
+  <p>
+    © 2026 Baterías WR
+  </p>
 
 </footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
 <script>
 
