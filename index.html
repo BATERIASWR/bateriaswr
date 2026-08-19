@@ -2193,107 +2193,52 @@ function obtenerCoincidencia(){
    CONSULTAR BATERÍA
 ========================= */
 
+/* =========================
+   CONSULTAR BATERÍA
+========================= */
+
 function consultarBateria(){
 
-    const marcaSelect = document.getElementById("marca");
-    const modeloSelect = document.getElementById("modelo");
-    const anioSelect = document.getElementById("anio");
-    const combustibleSelect = document.getElementById("combustible");
-    const resultado = document.getElementById("resultado-busqueda");
+  const marca = marcaSelect.value;
+  const modelo = modeloSelect.value;
 
-    const marca = marcaSelect.value;
-    const modelo = modeloSelect.value;
-    const anio = anioSelect.value;
-    const combustible = combustibleSelect.value;
+  const anio = anioSelect.value
+    ? Number(anioSelect.value)
+    : null;
 
-    if (!marca || !modelo) {
-        resultado.innerHTML =
-            "<p>Seleccione primero la marca y el modelo para consultar la batería recomendada.</p>";
+  const combustible = combustibleSelect.value;
 
-        resultado.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
 
-        return;
-    }
+  /* -------------------------
+     VALIDAR DATOS
+  ------------------------- */
 
-    const datosMarca = baseDatos[marca];
+  if(!marca || !modelo){
 
-    if (!datosMarca || !datosMarca[modelo]) {
-        resultado.innerHTML =
-            "<p>No encontramos información para ese modelo.</p>";
+    resultado.className =
+      "resultado-busqueda mostrar";
 
-        resultado.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
+    resultado.innerHTML =
 
-        return;
-    }
+      "<h3>Seleccione su vehículo</h3>" +
 
-    const datosModelo = datosMarca[modelo];
-
-    let recomendacion = null;
-
-    if (Array.isArray(datosModelo)) {
-
-        recomendacion = datosModelo.find(function(item) {
-
-            const cumpleAnio =
-                !anio ||
-                (
-                    (!item.desde || Number(anio) >= Number(item.desde)) &&
-                    (!item.hasta || Number(anio) <= Number(item.hasta))
-                );
-
-            const cumpleCombustible =
-                !combustible ||
-                !item.combustibles ||
-                item.combustibles.includes(combustible);
-
-            return cumpleAnio && cumpleCombustible;
-        });
-
-    } else {
-        recomendacion = datosModelo;
-    }
-
-    if (!recomendacion) {
-        resultado.innerHTML =
-            "<p>No encontramos una batería recomendada para los datos seleccionados.</p>";
-
-        resultado.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
-        return;
-    }
-
-    let bateria = recomendacion.bateria || recomendacion.batería || "";
-    let cca = recomendacion.cca || recomendacion.CCA || "";
-    let garantia = recomendacion.garantia || "";
-    let precio = recomendacion.precio || "";
-
-    resultado.innerHTML = `
-        <div class="resultado-bateria">
-            <h3>Batería recomendada</h3>
-            <p><strong>Marca:</strong> ${marca}</p>
-            <p><strong>Modelo:</strong> ${modelo}</p>
-            ${anio ? <p><strong>Año:</strong> ${anio}</p> : ""}
-            ${bateria ? <p><strong>Batería:</strong> ${bateria}</p> : ""}
-            ${cca ? <p><strong>CCA:</strong> ${cca}</p> : ""}
-            ${garantia ? <p><strong>Garantía:</strong> ${garantia}</p> : ""}
-            ${precio ? <p><strong>Precio:</strong> ${precio}</p> : ""}
-        </div>
-    `;
+      "<p>" +
+      "Seleccione primero la marca y el modelo " +
+      "para consultar la batería recomendada." +
+      "</p>";
 
     resultado.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
+      behavior:"smooth",
+      block:"center"
     });
-}
+
+    return;
+  }
+
+
+  /* -------------------------
+     BUSCAR COINCIDENCIA
+  ------------------------- */
 
   const coincidencia =
     obtenerCoincidencia();
@@ -2370,7 +2315,6 @@ function consultarBateria(){
     });
 
     return;
-
   }
 
 
@@ -2468,7 +2412,6 @@ function consultarBateria(){
     "Esta es una recomendación inicial. " +
 
     "Antes de instalar, confirme tamaño, " +
-
     "polaridad, bornes y capacidad de la " +
     "batería instalada." +
 
@@ -2495,10 +2438,6 @@ function consultarBateria(){
   });
 
 }
-
-
-/* =========================
-   EVENTOS
 ========================= */
 
 marcaSelect.addEventListener(
