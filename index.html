@@ -750,7 +750,7 @@ footer p{
 
   <div class="formulario">
 
-    <select id="marca" onchange="llenarModelos()">
+    <select id="marca">
 
       <option value="">
         Seleccione marca
@@ -2193,39 +2193,41 @@ function obtenerCoincidencia(){
    CONSULTAR BATERÍA
 ========================= */
 
-/* =========================
-   CONSULTAR BATERÍA
-========================= */
-
 function consultarBateria(){
 
-  const marca = marcaSelect.value;
-  const modelo = modeloSelect.value;
+  const marca =
+    marcaSelect.value;
 
-  const anio = anioSelect.value
-    ? Number(anioSelect.value)
-    : null;
+  const modelo =
+    modeloSelect.value;
 
-  const combustible = combustibleSelect.value;
+  const anio =
+    anioSelect.value;
+
+  const combustible =
+    combustibleSelect.value;
 
 
   /* -------------------------
-     VALIDAR DATOS
+     VALIDAR
   ------------------------- */
 
-  if(!marca || !modelo){
+  if(
+    !marca ||
+    !modelo
+  ){
 
     resultado.className =
       "resultado-busqueda mostrar";
 
     resultado.innerHTML =
-
-      "<h3>Seleccione su vehículo</h3>" +
+      "<h3>Seleccione el vehículo</h3>" +
 
       "<p>" +
       "Seleccione primero la marca y el modelo " +
       "para consultar la batería recomendada." +
       "</p>";
+
 
     resultado.scrollIntoView({
       behavior:"smooth",
@@ -2233,12 +2235,9 @@ function consultarBateria(){
     });
 
     return;
+
   }
 
-
-  /* -------------------------
-     BUSCAR COINCIDENCIA
-  ------------------------- */
 
   const coincidencia =
     obtenerCoincidencia();
@@ -2315,6 +2314,7 @@ function consultarBateria(){
     });
 
     return;
+
   }
 
 
@@ -2412,6 +2412,7 @@ function consultarBateria(){
     "Esta es una recomendación inicial. " +
 
     "Antes de instalar, confirme tamaño, " +
+
     "polaridad, bornes y capacidad de la " +
     "batería instalada." +
 
@@ -2438,6 +2439,10 @@ function consultarBateria(){
   });
 
 }
+
+
+/* =========================
+   EVENTOS
 ========================= */
 
 marcaSelect.addEventListener(
