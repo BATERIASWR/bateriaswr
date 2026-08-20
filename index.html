@@ -2535,25 +2535,38 @@ function wrSend(){
   let i=document.getElementById("wr-text");
   let m=document.getElementById("wr-msg");
   let t=i.value.trim();
+
   if(!t)return;
+
   m.innerHTML+='<div class="wr-u">'+t+'</div>';
   i.value="";
+
   setTimeout(function(){
-    let q=t.toLowerCase(),r;
-    if(q.includes("n-40")||q.includes("n40"))
+    let q=t.toLowerCase();
+    let r="";
+
+    if(q.includes("n-40")||q.includes("n40")){
       r="🔋 La N-40 aparece actualmente en nuestra página a ₡38.500.";
-    else if(q.includes("n-50")||q.includes("n50"))
+    }
+    else if(q.includes("n-50")||q.includes("n50")){
       r="🔋 Tenemos N-50. Consulte precio y disponibilidad por WhatsApp.";
-    else if(q.includes("n-60")||q.includes("n60"))
+    }
+    else if(q.includes("n-60")||q.includes("n60")){
       r="🔋 Tenemos N-60. Consulte precio y disponibilidad por WhatsApp.";
-    else if(q.includes("n-70")||q.includes("n70"))
+    }
+    else if(q.includes("n-70")||q.includes("n70")){
       r="🔋 Tenemos N-70. Consulte precio y disponibilidad por WhatsApp.";
-    else if(q.includes("domicilio")||q.includes("casa"))
-      r="🚚 Sí, contamos con servicio a domicilio.";
-    else if(q.includes("whatsapp")||q.includes("asesor"))
+    }
+    else if(q.includes("domicilio")||q.includes("casa")){
+      r="🚗 Sí, contamos con servicio a domicilio.";
+    }
+    else if(q.includes("whatsapp")||q.includes("asesor")){
       r='📲 <a href="https://wa.me/50663928294" target="_blank">Hablar por WhatsApp</a>';
-   else
-r="🔎 Estoy buscando la batería correspondiente a su vehículo. Indíqueme marca, modelo, año y combustible.";
+    }
+    else{
+      r="🔎 Estoy buscando la batería correspondiente a su vehículo. Indíqueme marca, modelo, año y combustible.";
+    }
+
     m.innerHTML+='<div class="wr-b">'+r+'</div>';
     m.scrollTop=m.scrollHeight;
   },400);
