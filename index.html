@@ -2532,44 +2532,296 @@ function wrClose(){
   document.getElementById("wr-chat").classList.remove("open");
 }
 function wrSend(){
-  let i=document.getElementById("wr-text");
-  let m=document.getElementById("wr-msg");
-  let t=i.value.trim();
+
+  let i = document.getElementById("wr-text");
+  let m = document.getElementById("wr-msg");
+  let t = i.value.trim();
 
   if(!t)return;
 
-  m.innerHTML+='<div class="wr-u">'+t+'</div>';
-  i.value="";
+  /* Mostrar mensaje del usuario */
+  let mensajeUsuario = document.createElement("div");
+  mensajeUsuario.className = "wr-u";
+  mensajeUsuario.textContent = t;
+  m.appendChild(mensajeUsuario);
+
+  i.value = "";
 
   setTimeout(function(){
-    let q=t.toLowerCase();
-    let r="";
 
-    if(q.includes("n-40")||q.includes("n40")){
-      r="🔋 La N-40 aparece actualmente en nuestra página a ₡38.500.";
+    let q = t.toLowerCase().trim();
+    let r = "";
+
+    /* =========================
+       NORMALIZAR TEXTO
+    ========================= */
+
+    let texto = q
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"");
+
+    /* =========================
+       BUSCAR VEHÍCULO
+    ========================= */
+
+    let marcaEncontrada = null;
+    let modeloEncontrado = null;
+    let registroEncontrado = null;
+
+    Object.keys(baseDatos).forEach(function(marca){
+
+      let marcaTexto = marca
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"");
+
+      if(texto.includes(marcaTexto)){
+
+        marcaEncontrada = marca;
+
+        Object.keys(baseDatos[marca]).forEach(function(modelo){
+
+          let modeloTexto = modelo
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g,"");
+
+          if(texto.includes(modeloTexto)){
+
+            modeloEncontrado = modelo;
+
+            let registros = baseDatos[marca][modelo];
+
+            /* Buscar año */
+            let coincidenciasAnio = texto.match(/\b(20\d{2})\b/);
+
+            let anioConsulta =
+              coincidenciasAnio
+              ? Number(coincidenciasAnio[1])
+              : null;
+
+            /* Buscar combustible */
+            let combustibleConsulta = "";
+
+            if(texto.includes("diesel")){
+              combustibleConsulta = "Diésel";
+            }
+            else if(texto.includes("gasolina")){
+              combustibleConsulta = "Gasolina";
+            }
+            else if(texto.includes("hibrido")){
+              combustibleConsulta = "Híbrido";
+            }
+
+            registroEncontrado = registros.find(function(registro){
+
+              let anioOK =
+                !anioConsulta ||
+                (
+                  anioConsulta >= registro.desde &&
+                  anioConsulta <= registro.hasta
+                );
+
+              let combustibleOK =
+                !combustibleConsulta ||
+                registro.combustibles.includes(
+                  combustibleConsulta
+                );
+
+              return anioOK && combustibleOK;
+
+            });
+
+            /* Si no encuentra por año/combustible,
+               usar el primer registro del modelo */
+            if(!registroEncontrado){
+              registroEncontrado = registros[0];
+            }
+
+          }
+
+        });
+
+      }
+
+    });
+
+
+    /* =========================
+       RESPUESTA VEHÍCULO
+    ========================= */
+
+    if(
+      marcaEncontrada &&
+      modeloEncontrado &&
+      registroEncontrado
+    ){
+
+      let mensajeWhatsApp =
+        "Hola Baterías WR, quiero confirmar la batería para mi vehículo. " +
+        "Marca: " + marcaEncontrada +
+        ". Modelo: " + modeloEncontrado +
+        ". Recomendación: " +
+        registroEncontrado.bateria + ".";
+
+      r =
+        "🔋 <strong>" +
+        marcaEncontrada +
+        " " +
+        modeloEncontrado +
+        "</strong><br><br>" +
+
+        "Batería recomendada: " +
+        "<strong>" +
+        registroEncontrado.bateria +
+        "</strong><br><br>" +
+
+        "ℹ️ " +
+        registroEncontrado.nota +
+
+        "<br><br>" +
+
+        '<a href="https://wa.me/50663928294?text=' +
+        encodeURIComponent(mensajeWhatsApp) +
+        '" target="_blank" rel="noopener">' +
+
+        "📲 Confirmar batería por WhatsApp" +
+
+        "</a>";
+
     }
-    else if(q.includes("n-50")||q.includes("n50")){
-      r="🔋 Tenemos N-50. Consulte precio y disponibilidad por WhatsApp.";
+
+
+    /* =========================
+       BÚSQUEDA POR TAMAÑO
+    ========================= */
+
+    else if(
+      texto.includes("n-40") ||
+      texto.includes("n40")
+    ){
+
+      r =
+        "🔋 La batería <strong>N-40</strong> aparece actualmente " +
+        "en nuestra página a <strong>₡38.500</strong>.";
+
     }
-    else if(q.includes("n-60")||q.includes("n60")){
-      r="🔋 Tenemos N-60. Consulte precio y disponibilidad por WhatsApp.";
+
+    else if(
+      texto.includes("n-50") ||
+      texto.includes("n50")
+    ){
+
+      r =
+        "🔋 Tenemos <strong>N-50</strong>.<br><br>" +
+        "Consulte precio y disponibilidad por WhatsApp.";
+
     }
-    else if(q.includes("n-70")||q.includes("n70")){
-      r="🔋 Tenemos N-70. Consulte precio y disponibilidad por WhatsApp.";
+
+    else if(
+      texto.includes("n-60") ||
+      texto.includes("n60")
+    ){
+
+      r =
+        "🔋 Tenemos <strong>N-60</strong>.<br><br>" +
+        "Consulte precio y disponibilidad por WhatsApp.";
+
     }
-    else if(q.includes("domicilio")||q.includes("casa")){
-      r="🚗 Sí, contamos con servicio a domicilio.";
+
+    else if(
+      texto.includes("n-70") ||
+      texto.includes("n70")
+    ){
+
+      r =
+        "🔋 Tenemos <strong>N-70</strong>.<br><br>" +
+        "Consulte precio y disponibilidad por WhatsApp.";
+
     }
-    else if(q.includes("whatsapp")||q.includes("asesor")){
-      r='📲 <a href="https://wa.me/50663928294" target="_blank">Hablar por WhatsApp</a>';
+
+
+    /* =========================
+       DOMICILIO
+    ========================= */
+
+    else if(
+      texto.includes("domicilio") ||
+      texto.includes("casa") ||
+      texto.includes("llevar")
+    ){
+
+      r =
+        "🚚 Sí, contamos con <strong>servicio a domicilio</strong>." +
+        "<br><br>" +
+        "📞 6392 8294";
+
     }
+
+
+    /* =========================
+       WHATSAPP
+    ========================= */
+
+    else if(
+      texto.includes("whatsapp") ||
+      texto.includes("asesor") ||
+      texto.includes("contactar") ||
+      texto.includes("precio")
+    ){
+
+      r =
+        '📲 <a href="https://wa.me/50663928294" ' +
+        'target="_blank" rel="noopener">' +
+        "Hablar por WhatsApp" +
+        "</a>";
+
+    }
+
+
+    /* =========================
+       RESPUESTA GENERAL
+    ========================= */
+
     else{
-      r="🔎 Estoy buscando la batería correspondiente a su vehículo. Indíqueme marca, modelo, año y combustible.";
+
+      r =
+        "🔎 Puedo buscar la batería de su vehículo." +
+        "<br><br>" +
+
+        "Indíqueme por ejemplo:" +
+        "<br>" +
+
+        "• Toyota Hilux 2020 diésel" +
+        "<br>" +
+
+        "• Hyundai Tucson 2010 diésel" +
+        "<br>" +
+
+        "• Nissan Versa 2015 gasolina" +
+        "<br><br>" +
+
+        "También puede preguntarme por N-40, N-50, N-60 o N-70.";
+
     }
 
-    m.innerHTML+='<div class="wr-b">'+r+'</div>';
-    m.scrollTop=m.scrollHeight;
+
+    /* =========================
+       MOSTRAR RESPUESTA
+    ========================= */
+
+    let respuesta = document.createElement("div");
+
+    respuesta.className = "wr-b";
+
+    respuesta.innerHTML = r;
+
+    m.appendChild(respuesta);
+
+    m.scrollTop = m.scrollHeight;
+
   },400);
+
 }
 document.getElementById("wr-text").addEventListener("keydown",function(e){
   if(e.key==="Enter")wrSend();
