@@ -84,39 +84,39 @@
     </div>
 
     <div class="productos">
-      <article class="producto" data-url="n40.html">
+      <article class="producto">
         <img src="record2.jpeg" alt="Batería N-40">
         <div class="producto-info">
           <h3>N-40</h3>
           <div class="cca">CCA: Consultar</div>
-          <a href="https://wa.me/50663928294" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-40" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
         </div>
       </article>
-      <article class="producto" data-url="n50.html">
+      <article class="producto">
         <img src="LTH.jpeg" alt="Batería N-50">
         <div class="producto-info">
           <h3>N-50</h3>
           <div class="cca">CCA: Consultar</div>
           <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-50" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
         </div>
       </article>
-      <article class="producto" data-url="n60.html">
+      <article class="producto">
         <img src="autocraft.jpeg" alt="Batería N-60">
         <div class="producto-info">
           <h3>N-60</h3>
           <div class="cca">CCA: Consultar</div>
           <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-60" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
         </div>
       </article>
-      <article class="producto" data-url="n70.html">
+      <article class="producto">
         <img src="velox.jpeg" alt="Batería N-70">
         <div class="producto-info">
           <h3>N-70</h3>
           <div class="cca">CCA: Consultar</div>
           <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-70" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
         </div>
       </article>
     </div>
@@ -143,7 +143,6 @@
 
   <a class="whatsapp-btn-float" href="https://wa.me/50663928294" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">☎️</a>
 
-  <!-- CHATBOT -->
   <button id="wr-chat-btn" type="button" aria-label="Abrir asistente de chat">
     <svg class="robot-icon" viewBox="0 0 100 100">
       <rect x="20" y="28" width="60" height="50" rx="15" fill="#f5b800"/>
@@ -172,7 +171,7 @@
     </div>
     <div id="wr-msg"></div>
     <form id="wr-input-form" class="chat-input-container">
-      <input id="wr-text" type="text" placeholder="Ej: Tucson ix35 2010 diesel" autocomplete="off" aria-label="Mensaje">
+      <input id="wr-text" type="text" placeholder="Ej: Tucson 2010 diesel" autocomplete="off" aria-label="Mensaje">
       <button id="wr-send" type="submit" aria-label="Enviar mensaje">➤</button>
     </form>
   </div>
@@ -185,3 +184,771 @@
 
 </body>
 </html>
+styles.css
+CSS
+:root {
+  --primary-dark: #151b27;
+  --accent-gold: #f5b800;
+  --accent-red: #d71920;
+  --accent-red-hover: #b51218;
+  --whatsapp-green: #25D366;
+  --bg-gray: #f4f5f7;
+  --text-dark: #222;
+  --white: #fff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-gray);
+  color: var(--text-dark);
+}
+
+.topbar {
+  background: var(--primary-dark);
+  color: var(--accent-gold);
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+nav {
+  background: var(--white);
+  min-height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 6%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+}
+
+.logo img {
+  width: 150px;
+  max-height: 65px;
+  object-fit: contain;
+  display: block;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.menu a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.menu a:hover {
+  color: var(--accent-red);
+}
+
+.servicio-domicilio {
+  background: #111;
+  color: var(--white);
+  padding: 11px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.servicio-domicilio strong,
+.servicio-domicilio a {
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  background: #111;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-contenido {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+  padding: 20px;
+  background: linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .55));
+}
+
+.hero h1 {
+  font-size: 52px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 22px;
+}
+
+.domicilio-seccion {
+  background: var(--white);
+  padding: 25px 15px;
+}
+
+.domicilio-contenedor {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.domicilio-fondo {
+  position: absolute;
+  inset: 0;
+  background-image: url('logobate.jpeg');
+  background-size: 300px;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: .07;
+}
+
+.domicilio-contenedor img:not(.domicilio-fondo) {
+  width: 48%;
+  max-width: 500px;
+  position: relative;
+  z-index: 2;
+  border-radius: 10px;
+}
+
+.productos-seccion {
+  max-width: 1250px;
+  margin: auto;
+  padding: 55px 20px 70px;
+}
+
+.buscador-box {
+  background: var(--primary-dark);
+  color: var(--white);
+  border-radius: 16px;
+  padding: 35px 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+  margin-bottom: 45px;
+}
+
+.buscador-titulo {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.buscador-titulo h2 {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.buscador-titulo p {
+  color: #ddd;
+  font-size: 17px;
+}
+
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 12px;
+}
+
+.formulario select {
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--white);
+  color: #333;
+  font-size: 15px;
+  outline: none;
+}
+
+.boton-buscar {
+  background: var(--accent-red);
+  color: var(--white);
+  border: 0;
+  padding: 15px 25px;
+  border-radius: 7px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.boton-buscar:hover {
+  background: var(--accent-red-hover);
+}
+
+.resultado-busqueda {
+  display: none;
+  background: var(--white);
+  border-left: 6px solid var(--accent-red);
+  border-radius: 10px;
+  padding: 25px;
+  margin: 0 auto 40px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .12);
+}
+
+.resultado-busqueda.mostrar {
+  display: block;
+}
+
+.resultado-busqueda h3 {
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+
+.resultado-busqueda p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.bateria-recomendada {
+  display: inline-block;
+  background: var(--primary-dark);
+  color: var(--accent-gold);
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 27px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.nota {
+  color: #666;
+  font-size: 13px;
+}
+
+.whatsapp-resultado,
+.boton-whatsapp {
+  display: inline-block;
+  background: var(--whatsapp-green);
+  color: var(--white);
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.whatsapp-resultado {
+  margin-top: 15px;
+}
+
+.boton-whatsapp {
+  margin-top: 25px;
+  padding: 15px 28px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.titulo h2 {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.titulo p {
+  color: #666;
+  font-size: 18px;
+}
+
+.productos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.producto {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
+  transition: .2s;
+}
+
+.producto:hover {
+  transform: translateY(-4px);
+}
+
+.producto img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  padding: 15px;
+  display: block;
+}
+
+.producto-info {
+  padding: 20px;
+}
+
+.producto h3 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.cca {
+  color: #555;
+  font-weight: bold;
+}
+
+.precio {
+  color: var(--accent-red);
+  font-size: 23px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.producto .btn-consultar {
+  display: inline-block;
+  background: var(--primary-dark);
+  color: var(--white);
+  text-decoration: none;
+  padding: 11px 25px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.marcas {
+  background: var(--white);
+  padding: 55px 20px;
+  text-align: center;
+}
+
+.marcas h2 {
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.marcas img {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 12px;
+  display: block;
+  margin: auto;
+}
+
+.servicios {
+  background: var(--primary-dark);
+  color: var(--white);
+  text-align: center;
+  padding: 55px 20px;
+}
+
+.servicios h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.servicios p {
+  line-height: 2;
+  font-size: 18px;
+}
+
+.whatsapp-btn-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 60px;
+  height: 60px;
+  background: var(--whatsapp-green);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
+  z-index: 9000;
+}
+
+#wr-chat-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 95px;
+  width: 62px;
+  height: 62px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  color: var(--accent-gold);
+  z-index: 9999;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.robot-icon {
+  width: 43px;
+  height: 43px;
+}
+
+#wr-chat {
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 165px;
+  width: 370px;
+  max-width: calc(100vw - 40px);
+  height: 520px;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 8px 35px rgba(0, 0, 0, .30);
+  z-index: 9998;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+#wr-chat.open {
+  display: flex;
+}
+
+#wr-head {
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.robot-mini {
+  width: 38px;
+  height: 38px;
+}
+
+#wr-close {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  color: var(--white);
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#wr-msg {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f3f4f6;
+}
+
+.wr-b {
+  background: var(--white);
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  line-height: 1.5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+}
+
+.wr-u {
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 12px;
+  margin: 0 0 10px auto;
+  border-radius: 12px;
+  max-width: 85%;
+  line-height: 1.4;
+}
+
+.chat-input-container {
+  display: flex;
+  padding: 10px;
+  gap: 7px;
+  border-top: 1px solid #ddd;
+  background: var(--white);
+}
+
+#wr-text {
+  flex: 1;
+  padding: 11px;
+  border: 1px solid #ccc;
+  border-radius: 22px;
+  outline: none;
+}
+
+#wr-send {
+  border: 0;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  background: var(--accent-red);
+  color: var(--white);
+  cursor: pointer;
+}
+
+footer {
+  background: #090b0f;
+  color: var(--white);
+  text-align: center;
+  padding: 25px;
+}
+
+footer p {
+  margin: 6px;
+}
+
+@media(max-width:1000px) {
+  .productos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .formulario {
+    grid-template-columns: 1fr 1fr;
+  }
+  .boton-buscar {
+    grid-column: span 2;
+  }
+}
+
+@media(max-width:650px) {
+  nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .menu {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .productos {
+    grid-template-columns: 1fr;
+  }
+  .formulario {
+    grid-template-columns: 1fr;
+  }
+  .boton-buscar {
+    grid-column: auto;
+  }
+}
+app.js
+JavaScript
+document.addEventListener("DOMContentLoaded", () => {
+  const baseDatos = {
+    Toyota: {
+      "Yaris": [1999, 2026, ["Gasolina", "Híbrido"], "N-50", "Puede variar según generación."],
+      "Corolla": [1980, 2026, ["Gasolina", "Híbrido"], "N-50 / 42R", "Puede variar según generación y motor."],
+      "Hilux": [1980, 2026, ["Gasolina", "Diésel"], "N-70", "Confirmar motor y polaridad."]
+    },
+    Hyundai: {
+      "Accent": [1994, 2026, ["Gasolina", "Diésel"], "N-50", "Confirmar generación."],
+      "Tucson": [2004, 2026, ["Gasolina", "Diésel"], "N-70", "Los diésel pueden requerir mayor capacidad."]
+    }
+  };
+
+  const marcaSelect = document.getElementById("marca");
+  const modeloSelect = document.getElementById("modelo");
+  const anioSelect = document.getElementById("anio");
+  const combustibleSelect = document.getElementById("combustible");
+  const resultado = document.getElementById("resultado");
+  const formBuscador = document.getElementById("formBuscador");
+
+  const chat = document.getElementById("wr-chat");
+  const chatBtn = document.getElementById("wr-chat-btn");
+  const chatClose = document.getElementById("wr-close");
+  const chatMsg = document.getElementById("wr-msg");
+  const chatText = document.getElementById("wr-text");
+  const chatInputForm = document.getElementById("wr-input-form");
+
+  const normalizar = (texto) => 
+    String(texto || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "").trim();
+
+  const cargarAnios = () => {
+    const fragment = document.createDocumentFragment();
+    for (let anio = 2026; anio >= 1980; anio--) {
+      const option = document.createElement("option");
+      option.value = anio;
+      option.textContent = anio;
+      fragment.appendChild(option);
+    }
+    anioSelect.appendChild(fragment);
+  };
+
+  const cargarMarcas = () => {
+    const fragment = document.createDocumentFragment();
+    Object.keys(baseDatos).sort().forEach(marca => {
+      const option = document.createElement("option");
+      option.value = marca;
+      option.textContent = marca;
+      fragment.appendChild(option);
+    });
+    marcaSelect.appendChild(fragment);
+  };
+
+  const cargarModelos = () => {
+    const marca = marcaSelect.value;
+    modeloSelect.innerHTML = '<option value="">Seleccione modelo</option>';
+    
+    if (!marca || !baseDatos[marca]) {
+      modeloSelect.disabled = true;
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    Object.keys(baseDatos[marca]).sort().forEach(modelo => {
+      const option = document.createElement("option");
+      option.value = modelo;
+      option.textContent = modelo;
+      fragment.appendChild(option);
+    });
+    
+    modeloSelect.appendChild(fragment);
+    modeloSelect.disabled = false;
+  };
+
+  const obtenerRegistro = (marca, modelo, anio, combustible) => {
+    if (!baseDatos[marca] || !baseDatos[marca][modelo]) return null;
+    const [desde, hasta, combustibles, bateria, nota] = baseDatos[marca][modelo];
+
+    const anioValido = !anio || (anio >= desde && anio <= hasta);
+    const combustibleValido = !combustible || combustibles.includes(combustible);
+
+    if (!anioValido || !combustibleValido) return null;
+
+    return { bateria, nota };
+  };
+
+  const buscarBateria = (e) => {
+    e.preventDefault();
+    const marca = marcaSelect.value;
+    const modelo = modeloSelect.value;
+    const anio = anioSelect.value ? Number(anioSelect.value) : null;
+    const combustible = combustibleSelect.value;
+
+    if (!marca || !modelo) {
+      resultado.className = "resultado-busqueda mostrar";
+      resultado.innerHTML = `<h3>⚠️ Información Incompleta</h3><p>Por favor seleccione al menos Marca y Modelo para realizar la búsqueda.</p>`;
+      return;
+    }
+
+    const registro = obtenerRegistro(marca, modelo, anio, combustible);
+
+    if (!registro) {
+      const mensaje = `Hola WRbateriasCr, necesito consultar disponibilidad para mi vehículo: ${marca} ${modelo} ${anio || ''} ${combustible || ''}`;
+      resultado.className = "resultado-busqueda mostrar";
+      resultado.innerHTML = `
+        <h3>🔎 Consulta de Compatibilidad</h3>
+        <p>No encontramos una coincidencia exacta en nuestro catálogo rápido para esa especificación.</p>
+        <p>Contacte a un asesor para verificar especificaciones completas.</p>
+        <a class="whatsapp-resultado" href="https://wa.me/50663928294?text=${encodeURIComponent(mensaje)}" target="_blank" rel="noopener">📲 Consultar Asesor por WhatsApp</a>
+      `;
+      resultado.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    const mensaje = `Hola WRbateriasCr, deseo consultar por la batería ${registro.bateria} recomendada para mi ${marca} ${modelo} ${anio || ''} ${combustible || ''}`;
+
+    resultado.className = "resultado-busqueda mostrar";
+    resultado.innerHTML = `
+      <h3>🔋 Batería Recomendada</h3>
+      <p><strong>Vehículo:</strong> ${marca} ${modelo} ${anio || ''}</p>
+      <div class="bateria-recomendada">${registro.bateria}</div>
+      <p><strong>Detalle:</strong> ${registro.nota}</p>
+      <p class="nota">Nota: Los tamaños pueden variar según el año de fabricación, motorización o mercado de origen.</p>
+      <a class="whatsapp-resultado" href="https://wa.me/50663928294?text=${encodeURIComponent(mensaje)}" target="_blank" rel="noopener">📲 Confirmar por WhatsApp</a>
+    `;
+
+    resultado.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const procesarTextoChat = (texto) => {
+    const t = normalizar(texto);
+
+    if (t.includes("domicilio") || t.includes("entrega") || t.includes("envio")) {
+      return '🚚 Realizamos <strong>envíos y servicio a domicilio</strong>.<br>📞 <strong>6392 8294</strong>';
+    }
+
+    for (const marca in baseDatos) {
+      for (const modelo in baseDatos[marca]) {
+        if (t.includes(normalizar(modelo))) {
+          const info = baseDatos[marca][modelo];
+          return `🔋 Para <strong>${marca} ${modelo}</strong> la batería sugerida es <strong>${info[3]}</strong>.<br><small>${info[4]}</small>`;
+        }
+      }
+    }
+
+    return '👋 Gracias por comunicarte. ¿Nos indicas la marca y modelo exacto de tu vehículo para asistirte?';
+  };
+
+  const enviarChat = (e) => {
+    e.preventDefault();
+    const texto = chatText.value.trim();
+    if (!texto) return;
+
+    const divU = document.createElement("div");
+    divU.className = "wr-u";
+    divU.textContent = texto;
+    chatMsg.appendChild(divU);
+
+    chatText.value = "";
+    chatMsg.scrollTop = chatMsg.scrollHeight;
+
+    setTimeout(() => {
+      const divB = document.createElement("div");
+      divB.className = "wr-b";
+      divB.innerHTML = procesarTextoChat(texto);
+      chatMsg.appendChild(divB);
+      chatMsg.scrollTop = chatMsg.scrollHeight;
+    }, 300);
+  };
+
+  marcaSelect.addEventListener("change", cargarModelos);
+  formBuscador.addEventListener("submit", buscarBateria);
+  
+  chatBtn.addEventListener("click", () => {
+    chat.classList.add("open");
+    chat.setAttribute("aria-hidden", "false");
+  });
+
+  chatClose.addEventListener("click", () => {
+    chat.classList.remove("open");
+    chat.setAttribute("aria-hidden", "true");
+  });
+
+  chatInputForm.addEventListener("submit", enviarChat);
+
+  cargarAnios();
+  cargarMarcas();
+  
+  const msgInicial = document.createElement("div");
+  msgInicial.className = "wr-b";
+  msgInicial.innerHTML = '👋 ¡Hola! Soy el asistente virtual. Escribe la marca y modelo de tu auto para indicarte la batería correcta.';
+  chatMsg.appendChild(msgInicial);
+});
