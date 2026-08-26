@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WRbateriasCr | Encuentra la batería de tu vehículo</title>
+  <title>WRbateriasCr | Baterías para su vehículo</title>
   <link rel="stylesheet" href="styles.css">
   <script defer src="app.js"></script>
 </head>
@@ -43,7 +43,6 @@
 
   <section class="domicilio-seccion">
     <div class="domicilio-contenedor">
-      <div class="domicilio-fondo"></div>
       <img src="domicilio.jpeg" alt="Servicio a domicilio WRbateriasCr">
       <img src="sello.jpeg" alt="Garantía WRbateriasCr">
     </div>
@@ -57,16 +56,16 @@
       </div>
 
       <form id="formBuscador" class="formulario">
-        <select id="marca" aria-label="Seleccionar marca">
+        <select id="marca">
           <option value="">Seleccione marca</option>
         </select>
-        <select id="modelo" disabled aria-label="Seleccionar modelo">
+        <select id="modelo" disabled>
           <option value="">Seleccione modelo</option>
         </select>
-        <select id="anio" aria-label="Seleccionar año">
+        <select id="anio">
           <option value="">Seleccione año</option>
         </select>
-        <select id="combustible" aria-label="Seleccionar combustible">
+        <select id="combustible">
           <option value="">Combustible</option>
           <option value="Gasolina">Gasolina</option>
           <option value="Diésel">Diésel</option>
@@ -76,7 +75,7 @@
       </form>
     </div>
 
-    <div id="resultado" class="resultado-busqueda" aria-live="polite"></div>
+    <div id="resultado" class="resultado-busqueda"></div>
 
     <div class="titulo">
       <h2>Nuestras baterías</h2>
@@ -89,7 +88,7 @@
         <div class="producto-info">
           <h3>N-40</h3>
           <div class="cca">CCA: Consultar</div>
-          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-40" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-40" target="_blank" class="btn-consultar">Consultar</a>
         </div>
       </article>
       <article class="producto">
@@ -97,8 +96,7 @@
         <div class="producto-info">
           <h3>N-50</h3>
           <div class="cca">CCA: Consultar</div>
-          <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-50" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-50" target="_blank" class="btn-consultar">Consultar</a>
         </div>
       </article>
       <article class="producto">
@@ -106,8 +104,7 @@
         <div class="producto-info">
           <h3>N-60</h3>
           <div class="cca">CCA: Consultar</div>
-          <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-60" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-60" target="_blank" class="btn-consultar">Consultar</a>
         </div>
       </article>
       <article class="producto">
@@ -115,8 +112,7 @@
         <div class="producto-info">
           <h3>N-70</h3>
           <div class="cca">CCA: Consultar</div>
-          <div class="precio">Consultar</div>
-          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr,%20necesito%20información%20sobre%20la%20batería%20N-70" target="_blank" rel="noopener" class="btn-consultar">Consultar</a>
+          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-70" target="_blank" class="btn-consultar">Consultar</a>
         </div>
       </article>
     </div>
@@ -124,515 +120,312 @@
 
   <section class="marcas" id="marcas">
     <h2>Marcas disponibles</h2>
-    <img src="marcas.jpeg" alt="Marcas de baterías disponibles">
+    <img src="marcas.jpeg" alt="Marcas disponibles">
   </section>
 
   <section class="servicios" id="contacto">
     <h2>¿Necesita una batería?</h2>
     <p>
       ✔️ Diferentes tamaños y capacidades<br>
-      ✔️ Baterías para diferentes tipos de vehículos<br>
       ✔️ Atención personalizada por WhatsApp<br>
-      ✔️ Servicio a domicilio<br>
-      ✔️ Consulte disponibilidad y precio
+      ✔️ Servicio a domicilio
     </p>
-    <a class="boton-whatsapp" href="https://wa.me/50663928294" target="_blank" rel="noopener">
+    <a class="boton-whatsapp" href="https://wa.me/50663928294" target="_blank">
       📲 Hablar por WhatsApp
     </a>
   </section>
 
-  <a class="whatsapp-btn-float" href="https://wa.me/50663928294" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">☎️</a>
+  <a class="whatsapp-btn-float" href="https://wa.me/50663928294" target="_blank">☎️</a>
 
-  <button id="wr-chat-btn" type="button" aria-label="Abrir asistente de chat">
-    <svg class="robot-icon" viewBox="0 0 100 100">
-      <rect x="20" y="28" width="60" height="50" rx="15" fill="#f5b800"/>
-      <rect x="27" y="38" width="46" height="30" rx="10" fill="#151b27"/>
-      <circle cx="40" cy="53" r="5" fill="#25D366"/>
-      <circle cx="60" cy="53" r="5" fill="#25D366"/>
-      <rect x="42" y="17" width="16" height="12" rx="5" fill="#f5b800"/>
-      <circle cx="50" cy="12" r="5" fill="#d71920"/>
-      <rect x="12" y="45" width="10" height="20" rx="5" fill="#f5b800"/>
-      <rect x="78" y="45" width="10" height="20" rx="5" fill="#f5b800"/>
-    </svg>
-  </button>
+  <!-- BOTÓN Y VENTANA CHATBOT -->
+  <button id="wr-chat-btn" type="button">🤖</button>
 
-  <div id="wr-chat" role="dialog" aria-hidden="true" aria-labelledby="chat-title">
+  <div id="wr-chat">
     <div id="wr-head">
-      <svg class="robot-mini" viewBox="0 0 100 100">
-        <rect x="20" y="28" width="60" height="50" rx="15" fill="#f5b800"/>
-        <rect x="27" y="38" width="46" height="30" rx="10" fill="#151b27"/>
-        <circle cx="40" cy="53" r="5" fill="#25D366"/>
-        <circle cx="60" cy="53" r="5" fill="#25D366"/>
-        <rect x="42" y="17" width="16" height="12" rx="5" fill="#f5b800"/>
-        <circle cx="50" cy="12" r="5" fill="#d71920"/>
-      </svg>
-      <span id="chat-title">Asistente WRbateriasCr</span>
-      <button id="wr-close" type="button" aria-label="Cerrar chat">×</button>
+      <span>Asistente WRbateriasCr</span>
+      <button id="wr-close" type="button">×</button>
     </div>
     <div id="wr-msg"></div>
     <form id="wr-input-form" class="chat-input-container">
-      <input id="wr-text" type="text" placeholder="Ej: Tucson 2010 diesel" autocomplete="off" aria-label="Mensaje">
-      <button id="wr-send" type="submit" aria-label="Enviar mensaje">➤</button>
+      <input id="wr-text" type="text" placeholder="Escribe tu consulta aquí..." autocomplete="off">
+      <button id="wr-send" type="submit">➤</button>
     </form>
   </div>
 
   <footer>
-    <p><strong>WRbateriasCr</strong></p>
-    <p>Calidad y respaldo para su vehículo</p>
-    <p>© 2026 WRbateriasCr</p>
+    <p><strong>WRbateriasCr</strong> · © 2026</p>
   </footer>
 
 </body>
 </html>
 styles.css
 CSS
-:root {
-  --primary-dark: #151b27;
-  --accent-gold: #f5b800;
-  --accent-red: #d71920;
-  --accent-red-hover: #b51218;
-  --whatsapp-green: #25D366;
-  --bg-gray: #f4f5f7;
-  --text-dark: #222;
-  --white: #fff;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg-gray);
-  color: var(--text-dark);
+  font-family: Arial, sans-serif;
+  background: #f4f5f7;
+  color: #222;
 }
 
 .topbar {
-  background: var(--primary-dark);
-  color: var(--accent-gold);
+  background: #151b27;
+  color: #f5b800;
   text-align: center;
   padding: 10px;
-  font-size: 14px;
   font-weight: bold;
 }
 
 nav {
-  background: var(--white);
-  min-height: 75px;
+  background: #fff;
+  padding: 10px 5%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 8px 6%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .logo img {
-  width: 150px;
-  max-height: 65px;
+  height: 50px;
+  width: auto;
   object-fit: contain;
-  display: block;
-}
-
-.menu {
-  display: flex;
-  align-items: center;
-  gap: 28px;
 }
 
 .menu a {
-  color: #333;
+  margin-left: 20px;
   text-decoration: none;
+  color: #333;
   font-weight: bold;
-  font-size: 16px;
-}
-
-.menu a:hover {
-  color: var(--accent-red);
 }
 
 .servicio-domicilio {
   background: #111;
-  color: var(--white);
-  padding: 11px 20px;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
   display: flex;
   justify-content: center;
+  gap: 20px;
   align-items: center;
-  gap: 25px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
 }
 
-.servicio-domicilio strong,
 .servicio-domicilio a {
-  color: var(--accent-gold);
+  color: #f5b800;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .hero {
   position: relative;
-  width: 100%;
-  height: 360px;
-  overflow: hidden;
-  background: #111;
+  height: 300px;
+  background: #222;
 }
 
 .hero img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  opacity: 0.5;
 }
 
 .hero-contenido {
   position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
   text-align: center;
-  color: var(--white);
-  padding: 20px;
-  background: linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .55));
-}
-
-.hero h1 {
-  font-size: 52px;
-  margin-bottom: 15px;
-}
-
-.hero p {
-  font-size: 22px;
 }
 
 .domicilio-seccion {
-  background: var(--white);
-  padding: 25px 15px;
+  padding: 30px 20px;
+  text-align: center;
+  background: #fff;
 }
 
-.domicilio-contenedor {
-  position: relative;
-  max-width: 1100px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 20px;
-}
-
-.domicilio-fondo {
-  position: absolute;
-  inset: 0;
-  background-image: url('logobate.jpeg');
-  background-size: 300px;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: .07;
-}
-
-.domicilio-contenedor img:not(.domicilio-fondo) {
-  width: 48%;
-  max-width: 500px;
-  position: relative;
-  z-index: 2;
-  border-radius: 10px;
+.domicilio-contenedor img {
+  max-width: 45%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px;
 }
 
 .productos-seccion {
-  max-width: 1250px;
+  max-width: 1100px;
   margin: auto;
-  padding: 55px 20px 70px;
+  padding: 40px 20px;
 }
 
 .buscador-box {
-  background: var(--primary-dark);
-  color: var(--white);
-  border-radius: 16px;
-  padding: 35px 30px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
-  margin-bottom: 45px;
+  background: #151b27;
+  color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 30px;
 }
 
 .buscador-titulo {
   text-align: center;
-  margin-bottom: 28px;
-}
-
-.buscador-titulo h2 {
-  font-size: 34px;
-  margin-bottom: 10px;
-}
-
-.buscador-titulo p {
-  color: #ddd;
-  font-size: 17px;
+  margin-bottom: 20px;
 }
 
 .formulario {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr) auto;
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.formulario select {
-  width: 100%;
-  padding: 15px;
-  border: 0;
-  border-radius: 7px;
-  background: var(--white);
-  color: #333;
-  font-size: 15px;
-  outline: none;
+.formulario select, .formulario button {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .boton-buscar {
-  background: var(--accent-red);
-  color: var(--white);
-  border: 0;
-  padding: 15px 25px;
-  border-radius: 7px;
+  background: #d71920;
+  color: #fff;
+  border: none !important;
   font-weight: bold;
-  font-size: 16px;
   cursor: pointer;
-}
-
-.boton-buscar:hover {
-  background: var(--accent-red-hover);
 }
 
 .resultado-busqueda {
   display: none;
-  background: var(--white);
-  border-left: 6px solid var(--accent-red);
-  border-radius: 10px;
-  padding: 25px;
-  margin: 0 auto 40px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, .12);
+  background: #fff;
+  border-left: 5px solid #d71920;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 5px;
 }
 
 .resultado-busqueda.mostrar {
   display: block;
 }
 
-.resultado-busqueda h3 {
-  font-size: 25px;
-  margin-bottom: 12px;
-}
-
-.resultado-busqueda p {
-  margin: 8px 0;
-  line-height: 1.5;
-}
-
 .bateria-recomendada {
-  display: inline-block;
-  background: var(--primary-dark);
-  color: var(--accent-gold);
-  padding: 14px 20px;
-  border-radius: 8px;
-  font-size: 27px;
+  font-size: 24px;
   font-weight: bold;
-  margin: 15px 0;
-}
-
-.nota {
-  color: #666;
-  font-size: 13px;
-}
-
-.whatsapp-resultado,
-.boton-whatsapp {
+  color: #f5b800;
+  background: #151b27;
   display: inline-block;
-  background: var(--whatsapp-green);
-  color: var(--white);
-  text-decoration: none;
-  padding: 13px 20px;
-  border-radius: 7px;
-  font-weight: bold;
-}
-
-.whatsapp-resultado {
-  margin-top: 15px;
-}
-
-.boton-whatsapp {
-  margin-top: 25px;
-  padding: 15px 28px;
-}
-
-.titulo {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.titulo h2 {
-  font-size: 34px;
-  margin-bottom: 10px;
-}
-
-.titulo p {
-  color: #666;
-  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 10px 0;
 }
 
 .productos {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .producto {
-  background: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
-  transition: .2s;
-}
-
-.producto:hover {
-  transform: translateY(-4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .producto img {
   width: 100%;
-  height: 220px;
+  height: 180px;
   object-fit: contain;
-  padding: 15px;
-  display: block;
 }
 
-.producto-info {
-  padding: 20px;
-}
-
-.producto h3 {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
-
-.cca {
-  color: #555;
-  font-weight: bold;
-}
-
-.precio {
-  color: var(--accent-red);
-  font-size: 23px;
-  font-weight: bold;
-  margin: 12px 0;
-}
-
-.producto .btn-consultar {
+.btn-consultar {
   display: inline-block;
-  background: var(--primary-dark);
-  color: var(--white);
+  margin-top: 10px;
+  background: #151b27;
+  color: #fff;
+  padding: 8px 15px;
   text-decoration: none;
-  padding: 11px 25px;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 4px;
 }
 
 .marcas {
-  background: var(--white);
-  padding: 55px 20px;
   text-align: center;
-}
-
-.marcas h2 {
-  font-size: 32px;
-  margin-bottom: 25px;
+  padding: 40px 20px;
+  background: #fff;
 }
 
 .marcas img {
-  width: 100%;
-  max-width: 900px;
-  border-radius: 12px;
-  display: block;
-  margin: auto;
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
 }
 
 .servicios {
-  background: var(--primary-dark);
-  color: var(--white);
+  background: #151b27;
+  color: #fff;
   text-align: center;
-  padding: 55px 20px;
+  padding: 40px 20px;
 }
 
-.servicios h2 {
-  font-size: 32px;
-  margin-bottom: 20px;
-}
-
-.servicios p {
-  line-height: 2;
-  font-size: 18px;
+.boton-whatsapp {
+  display: inline-block;
+  background: #25D366;
+  color: #fff;
+  padding: 12px 25px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 15px;
 }
 
 .whatsapp-btn-float {
   position: fixed;
-  right: 20px;
   bottom: 20px;
-  width: 60px;
-  height: 60px;
-  background: var(--whatsapp-green);
-  color: var(--white);
+  right: 20px;
+  background: #25D366;
+  color: #fff;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 28px;
+  justify-content: center;
   text-decoration: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
-  z-index: 9000;
+  font-size: 24px;
+  z-index: 1000;
 }
 
 #wr-chat-btn {
   position: fixed;
+  bottom: 80px;
   right: 20px;
-  bottom: 95px;
-  width: 62px;
-  height: 62px;
-  border: 0;
+  background: #151b27;
+  color: #fff;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: var(--primary-dark);
-  color: var(--accent-gold);
-  z-index: 9999;
+  border: none;
+  font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, .35);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.robot-icon {
-  width: 43px;
-  height: 43px;
+  z-index: 1000;
 }
 
 #wr-chat {
   display: none;
   position: fixed;
+  bottom: 140px;
   right: 20px;
-  bottom: 165px;
-  width: 370px;
-  max-width: calc(100vw - 40px);
-  height: 520px;
-  background: var(--white);
-  border-radius: 16px;
-  box-shadow: 0 8px 35px rgba(0, 0, 0, .30);
-  z-index: 9998;
-  overflow: hidden;
+  width: 320px;
+  height: 400px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
 }
 
 #wr-chat.open {
@@ -640,143 +433,95 @@ nav {
 }
 
 #wr-head {
-  background: var(--primary-dark);
-  color: var(--white);
-  padding: 12px 15px;
+  background: #151b27;
+  color: #fff;
+  padding: 10px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  font-weight: bold;
-}
-
-.robot-mini {
-  width: 38px;
-  height: 38px;
 }
 
 #wr-close {
-  margin-left: auto;
   background: none;
-  border: 0;
-  color: var(--white);
-  font-size: 25px;
+  border: none;
+  color: #fff;
+  font-size: 20px;
   cursor: pointer;
 }
 
 #wr-msg {
   flex: 1;
-  padding: 15px;
+  padding: 10px;
   overflow-y: auto;
-  background: #f3f4f6;
+  background: #f9f9f9;
+}
+
+.wr-b, .wr-u {
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  max-width: 85%;
+  font-size: 14px;
 }
 
 .wr-b {
-  background: var(--white);
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  line-height: 1.5;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+  background: #e9ecef;
+  align-self: flex-start;
 }
 
 .wr-u {
-  background: var(--primary-dark);
-  color: var(--white);
-  padding: 12px;
-  margin: 0 0 10px auto;
-  border-radius: 12px;
-  max-width: 85%;
-  line-height: 1.4;
+  background: #151b27;
+  color: #fff;
+  margin-left: auto;
 }
 
 .chat-input-container {
   display: flex;
-  padding: 10px;
-  gap: 7px;
+  padding: 8px;
   border-top: 1px solid #ddd;
-  background: var(--white);
 }
 
 #wr-text {
   flex: 1;
-  padding: 11px;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 22px;
-  outline: none;
+  border-radius: 4px;
 }
 
 #wr-send {
-  border: 0;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  background: var(--accent-red);
-  color: var(--white);
+  background: #d71920;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 5px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 footer {
-  background: #090b0f;
-  color: var(--white);
   text-align: center;
-  padding: 25px;
-}
-
-footer p {
-  margin: 6px;
-}
-
-@media(max-width:1000px) {
-  .productos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .formulario {
-    grid-template-columns: 1fr 1fr;
-  }
-  .boton-buscar {
-    grid-column: span 2;
-  }
-}
-
-@media(max-width:650px) {
-  nav {
-    flex-direction: column;
-    gap: 12px;
-  }
-  .menu {
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .productos {
-    grid-template-columns: 1fr;
-  }
-  .formulario {
-    grid-template-columns: 1fr;
-  }
-  .boton-buscar {
-    grid-column: auto;
-  }
+  padding: 20px;
+  background: #111;
+  color: #fff;
 }
 app.js
 JavaScript
 document.addEventListener("DOMContentLoaded", () => {
   const baseDatos = {
     Toyota: {
-      "Yaris": [1999, 2026, ["Gasolina", "Híbrido"], "N-50", "Puede variar según generación."],
-      "Corolla": [1980, 2026, ["Gasolina", "Híbrido"], "N-50 / 42R", "Puede variar según generación y motor."],
-      "Hilux": [1980, 2026, ["Gasolina", "Diésel"], "N-70", "Confirmar motor y polaridad."]
+      "Yaris": { bateria: "N-50", nota: "Aplica para modelos estándar." },
+      "Corolla": { bateria: "N-50 / 42R", nota: "Verificar tipo de borne." },
+      "Hilux": { bateria: "N-70", nota: "Requerida mayor capacidad de arranque." }
     },
     Hyundai: {
-      "Accent": [1994, 2026, ["Gasolina", "Diésel"], "N-50", "Confirmar generación."],
-      "Tucson": [2004, 2026, ["Gasolina", "Diésel"], "N-70", "Los diésel pueden requerir mayor capacidad."]
+      "Accent": { bateria: "N-50", nota: "Revisar polaridad." },
+      "Tucson": { bateria: "N-70", nota: "Recomendado para versiones gasolina y diésel." }
     }
   };
 
   const marcaSelect = document.getElementById("marca");
   const modeloSelect = document.getElementById("modelo");
   const anioSelect = document.getElementById("anio");
-  const combustibleSelect = document.getElementById("combustible");
   const resultado = document.getElementById("resultado");
   const formBuscador = document.getElementById("formBuscador");
 
@@ -787,168 +532,97 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatText = document.getElementById("wr-text");
   const chatInputForm = document.getElementById("wr-input-form");
 
-  const normalizar = (texto) => 
-    String(texto || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "").trim();
+  // Cargar Años
+  for (let a = 2026; a >= 1990; a--) {
+    const opt = document.createElement("option");
+    opt.value = a;
+    opt.textContent = a;
+    anioSelect.appendChild(opt);
+  }
 
-  const cargarAnios = () => {
-    const fragment = document.createDocumentFragment();
-    for (let anio = 2026; anio >= 1980; anio--) {
-      const option = document.createElement("option");
-      option.value = anio;
-      option.textContent = anio;
-      fragment.appendChild(option);
-    }
-    anioSelect.appendChild(fragment);
-  };
+  // Cargar Marcas
+  Object.keys(baseDatos).forEach(m => {
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = m;
+    marcaSelect.appendChild(opt);
+  });
 
-  const cargarMarcas = () => {
-    const fragment = document.createDocumentFragment();
-    Object.keys(baseDatos).sort().forEach(marca => {
-      const option = document.createElement("option");
-      option.value = marca;
-      option.textContent = marca;
-      fragment.appendChild(option);
-    });
-    marcaSelect.appendChild(fragment);
-  };
-
-  const cargarModelos = () => {
-    const marca = marcaSelect.value;
+  // Cambiar Modelos
+  marcaSelect.addEventListener("change", () => {
+    const m = marcaSelect.value;
     modeloSelect.innerHTML = '<option value="">Seleccione modelo</option>';
     
-    if (!marca || !baseDatos[marca]) {
+    if (m && baseDatos[m]) {
+      Object.keys(baseDatos[m]).forEach(mod => {
+        const opt = document.createElement("option");
+        opt.value = mod;
+        opt.textContent = mod;
+        modeloSelect.appendChild(opt);
+      });
+      modeloSelect.disabled = false;
+    } else {
       modeloSelect.disabled = true;
-      return;
     }
+  });
 
-    const fragment = document.createDocumentFragment();
-    Object.keys(baseDatos[marca]).sort().forEach(modelo => {
-      const option = document.createElement("option");
-      option.value = modelo;
-      option.textContent = modelo;
-      fragment.appendChild(option);
-    });
-    
-    modeloSelect.appendChild(fragment);
-    modeloSelect.disabled = false;
-  };
-
-  const obtenerRegistro = (marca, modelo, anio, combustible) => {
-    if (!baseDatos[marca] || !baseDatos[marca][modelo]) return null;
-    const [desde, hasta, combustibles, bateria, nota] = baseDatos[marca][modelo];
-
-    const anioValido = !anio || (anio >= desde && anio <= hasta);
-    const combustibleValido = !combustible || combustibles.includes(combustible);
-
-    if (!anioValido || !combustibleValido) return null;
-
-    return { bateria, nota };
-  };
-
-  const buscarBateria = (e) => {
+  // Procesar Búsqueda
+  formBuscador.addEventListener("submit", (e) => {
     e.preventDefault();
-    const marca = marcaSelect.value;
-    const modelo = modeloSelect.value;
-    const anio = anioSelect.value ? Number(anioSelect.value) : null;
-    const combustible = combustibleSelect.value;
+    const m = marcaSelect.value;
+    const mod = modeloSelect.value;
 
-    if (!marca || !modelo) {
+    if (!m || !mod) {
       resultado.className = "resultado-busqueda mostrar";
-      resultado.innerHTML = `<h3>⚠️ Información Incompleta</h3><p>Por favor seleccione al menos Marca y Modelo para realizar la búsqueda.</p>`;
+      resultado.innerHTML = "<h3>⚠️ Atención</h3><p>Por favor seleccione al menos Marca y Modelo.</p>";
       return;
     }
 
-    const registro = obtenerRegistro(marca, modelo, anio, combustible);
-
-    if (!registro) {
-      const mensaje = `Hola WRbateriasCr, necesito consultar disponibilidad para mi vehículo: ${marca} ${modelo} ${anio || ''} ${combustible || ''}`;
-      resultado.className = "resultado-busqueda mostrar";
-      resultado.innerHTML = `
-        <h3>🔎 Consulta de Compatibilidad</h3>
-        <p>No encontramos una coincidencia exacta en nuestro catálogo rápido para esa especificación.</p>
-        <p>Contacte a un asesor para verificar especificaciones completas.</p>
-        <a class="whatsapp-resultado" href="https://wa.me/50663928294?text=${encodeURIComponent(mensaje)}" target="_blank" rel="noopener">📲 Consultar Asesor por WhatsApp</a>
-      `;
-      resultado.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    const mensaje = `Hola WRbateriasCr, deseo consultar por la batería ${registro.bateria} recomendada para mi ${marca} ${modelo} ${anio || ''} ${combustible || ''}`;
-
+    const info = baseDatos[m]?.[mod];
     resultado.className = "resultado-busqueda mostrar";
-    resultado.innerHTML = `
-      <h3>🔋 Batería Recomendada</h3>
-      <p><strong>Vehículo:</strong> ${marca} ${modelo} ${anio || ''}</p>
-      <div class="bateria-recomendada">${registro.bateria}</div>
-      <p><strong>Detalle:</strong> ${registro.nota}</p>
-      <p class="nota">Nota: Los tamaños pueden variar según el año de fabricación, motorización o mercado de origen.</p>
-      <a class="whatsapp-resultado" href="https://wa.me/50663928294?text=${encodeURIComponent(mensaje)}" target="_blank" rel="noopener">📲 Confirmar por WhatsApp</a>
-    `;
 
-    resultado.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
-  const procesarTextoChat = (texto) => {
-    const t = normalizar(texto);
-
-    if (t.includes("domicilio") || t.includes("entrega") || t.includes("envio")) {
-      return '🚚 Realizamos <strong>envíos y servicio a domicilio</strong>.<br>📞 <strong>6392 8294</strong>';
+    if (info) {
+      resultado.innerHTML = `
+        <h3>🔋 Batería Recomendada</h3>
+        <p><strong>Vehículo:</strong> ${m} ${mod}</p>
+        <div class="bateria-recomendada">${info.bateria}</div>
+        <p>${info.nota}</p>
+        <br>
+        <a href="https://wa.me/50663928294?text=Consulta%20bateria%20${info.bateria}%20para%20${m}%20${mod}" target="_blank" class="boton-whatsapp">📲 Consultar por WhatsApp</a>
+      `;
+    } else {
+      resultado.innerHTML = `
+        <h3>🔎 Consulta manual</h3>
+        <p>No tenemos el registro directo. Contáctenos para verificarlo inmediatamente.</p>
+        <a href="https://wa.me/50663928294?text=Consulta%20bateria%20para%20${m}%20${mod}" target="_blank" class="boton-whatsapp">📲 Consultar Asesor</a>
+      `;
     }
+  });
 
-    for (const marca in baseDatos) {
-      for (const modelo in baseDatos[marca]) {
-        if (t.includes(normalizar(modelo))) {
-          const info = baseDatos[marca][modelo];
-          return `🔋 Para <strong>${marca} ${modelo}</strong> la batería sugerida es <strong>${info[3]}</strong>.<br><small>${info[4]}</small>`;
-        }
-      }
-    }
+  // Toggle Chatbot
+  chatBtn.addEventListener("click", () => chat.classList.toggle("open"));
+  chatClose.addEventListener("click", () => chat.classList.remove("open"));
 
-    return '👋 Gracias por comunicarte. ¿Nos indicas la marca y modelo exacto de tu vehículo para asistirte?';
-  };
-
-  const enviarChat = (e) => {
+  // Mensajes Chatbot
+  chatInputForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const texto = chatText.value.trim();
-    if (!texto) return;
+    const txt = chatText.value.trim();
+    if (!txt) return;
 
-    const divU = document.createElement("div");
-    divU.className = "wr-u";
-    divU.textContent = texto;
-    chatMsg.appendChild(divU);
-
+    const uDiv = document.createElement("div");
+    uDiv.className = "wr-u";
+    uDiv.textContent = txt;
+    chatMsg.appendChild(uDiv);
     chatText.value = "";
-    chatMsg.scrollTop = chatMsg.scrollHeight;
 
     setTimeout(() => {
-      const divB = document.createElement("div");
-      divB.className = "wr-b";
-      divB.innerHTML = procesarTextoChat(texto);
-      chatMsg.appendChild(divB);
+      const bDiv = document.createElement("div");
+      bDiv.className = "wr-b";
+      bDiv.innerHTML = "👋 Gracias por consultar. Para asesoría directa puede escribirnos a nuestro <a href='https://wa.me/50663928294' target='_blank'>WhatsApp 6392 8294</a>.";
+      chatMsg.appendChild(bDiv);
       chatMsg.scrollTop = chatMsg.scrollHeight;
-    }, 300);
-  };
+    }, 400);
 
-  marcaSelect.addEventListener("change", cargarModelos);
-  formBuscador.addEventListener("submit", buscarBateria);
-  
-  chatBtn.addEventListener("click", () => {
-    chat.classList.add("open");
-    chat.setAttribute("aria-hidden", "false");
+    chatMsg.scrollTop = chatMsg.scrollHeight;
   });
-
-  chatClose.addEventListener("click", () => {
-    chat.classList.remove("open");
-    chat.setAttribute("aria-hidden", "true");
-  });
-
-  chatInputForm.addEventListener("submit", enviarChat);
-
-  cargarAnios();
-  cargarMarcas();
-  
-  const msgInicial = document.createElement("div");
-  msgInicial.className = "wr-b";
-  msgInicial.innerHTML = '👋 ¡Hola! Soy el asistente virtual. Escribe la marca y modelo de tu auto para indicarte la batería correcta.';
-  chatMsg.appendChild(msgInicial);
 });
