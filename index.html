@@ -1,628 +1,2408 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WRbateriasCr | Baterías para su vehículo</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="app.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WRbateriasCr | Encuentra la batería de tu vehículo</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f5f7;
+  color:#222;
+}
+
+/* BARRA */
+
+.topbar{
+  background:#151b27;
+  color:#f5b800;
+  text-align:center;
+  padding:10px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+/* NAV */
+
+nav{
+  background:#fff;
+  min-height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 6%;
+  box-shadow:0 2px 10px rgba(0,0,0,.12);
+  position:relative;
+  z-index:100;
+}
+
+.logo img{
+  width:150px;
+  max-height:65px;
+  object-fit:contain;
+  display:block;
+}
+
+.menu{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+
+.menu a{
+  color:#333;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.menu a:hover{
+  color:#d71920;
+}
+
+/* DOMICILIO */
+
+.servicio-domicilio{
+  background:#111;
+  color:#fff;
+  padding:11px 20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:25px;
+  font-size:16px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.servicio-domicilio strong{
+  color:#f5b800;
+}
+
+.servicio-domicilio a{
+  color:#f5b800;
+  text-decoration:none;
+}
+
+/* HERO */
+
+.hero{
+  position:relative;
+  width:100%;
+  height:360px;
+  overflow:hidden;
+  background:#111;
+}
+
+.hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.hero-contenido{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:#fff;
+  padding:20px;
+  background:linear-gradient(
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.55)
+  );
+}
+
+.hero h1{
+  font-size:52px;
+  margin-bottom:15px;
+  text-shadow:2px 2px 8px #000;
+}
+
+.hero p{
+  font-size:22px;
+  text-shadow:2px 2px 6px #000;
+}
+
+/* DOMICILIO IMAGEN */
+
+.domicilio-seccion{
+  background:#fff;
+  padding:25px 15px;
+}
+
+.domicilio-contenedor{
+  position:relative;
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  padding:20px;
+  overflow:hidden;
+}
+
+.domicilio-fondo{
+  position:absolute;
+  inset:0;
+  background-image:url('logobate.jpeg');
+  background-size:300px;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:.07;
+}
+
+.domicilio-contenedor img:not(.fondo){
+  width:48%;
+  max-width:500px;
+  position:relative;
+  z-index:2;
+  border-radius:10px;
+}
+
+/* BUSCADOR */
+
+.productos-seccion{
+  max-width:1250px;
+  margin:auto;
+  padding:55px 20px 70px;
+}
+
+.buscador-box{
+  background:#151b27;
+  color:#fff;
+  border-radius:16px;
+  padding:35px 30px;
+  box-shadow:0 8px 25px rgba(0,0,0,.18);
+  margin-bottom:45px;
+}
+
+.buscador-titulo{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.buscador-titulo h2{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.buscador-titulo p{
+  color:#ddd;
+  font-size:17px;
+}
+
+.formulario{
+  display:grid;
+  grid-template-columns:repeat(4,1fr) auto;
+  gap:12px;
+}
+
+.formulario select{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:7px;
+  background:#fff;
+  color:#333;
+  font-size:15px;
+  outline:none;
+}
+
+.formulario select:focus{
+  box-shadow:0 0 0 3px rgba(245,184,0,.35);
+}
+
+.boton-buscar{
+  background:#d71920;
+  color:#fff;
+  border:0;
+  padding:15px 25px;
+  border-radius:7px;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.boton-buscar:hover{
+  background:#b51218;
+}
+
+/* RESULTADO */
+
+.resultado-busqueda{
+  display:none;
+  background:#fff;
+  border-left:6px solid #d71920;
+  border-radius:10px;
+  padding:25px;
+  margin:0 auto 40px;
+  box-shadow:0 4px 18px rgba(0,0,0,.12);
+}
+
+.resultado-busqueda.mostrar{
+  display:block;
+}
+
+.resultado-busqueda h3{
+  font-size:25px;
+  margin-bottom:12px;
+}
+
+.resultado-busqueda p{
+  margin:8px 0;
+  line-height:1.5;
+}
+
+.bateria-recomendada{
+  display:inline-block;
+  background:#151b27;
+  color:#f5b800;
+  padding:14px 20px;
+  border-radius:8px;
+  font-size:27px;
+  font-weight:bold;
+  margin:15px 0;
+}
+
+.nota{
+  color:#666;
+  font-size:13px;
+}
+
+.whatsapp-resultado{
+  display:inline-block;
+  margin-top:15px;
+  background:#25D366;
+  color:#fff;
+  text-decoration:none;
+  padding:13px 20px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+/* PRODUCTOS */
+
+.titulo{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.titulo h2{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.titulo p{
+  color:#666;
+  font-size:18px;
+}
+
+.productos{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+
+.producto{
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  text-align:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.12);
+  transition:.2s;
+  cursor:pointer;
+}
+
+.producto:hover{
+  transform:translateY(-6px);
+}
+
+.producto img{
+  width:100%;
+  height:220px;
+  object-fit:contain;
+  padding:15px;
+  display:block;
+}
+
+.producto-info{
+  padding:20px;
+}
+
+.producto h3{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.cca{
+  color:#555;
+  font-weight:bold;
+}
+
+.precio{
+  color:#d71920;
+  font-size:23px;
+  font-weight:bold;
+  margin:12px 0;
+}
+
+.producto a{
+  display:inline-block;
+  background:#151b27;
+  color:#fff;
+  text-decoration:none;
+  padding:11px 25px;
+  border-radius:6px;
+}
+
+/* MARCAS */
+
+.marcas{
+  background:#fff;
+  padding:55px 20px;
+  text-align:center;
+}
+
+.marcas h2{
+  font-size:32px;
+  margin-bottom:25px;
+}
+
+.marcas img{
+  width:100%;
+  max-width:900px;
+  border-radius:12px;
+  display:block;
+  margin:auto;
+}
+
+/* SERVICIOS */
+
+.servicios{
+  background:#151b27;
+  color:#fff;
+  text-align:center;
+  padding:55px 20px;
+}
+
+.servicios h2{
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+.servicios p{
+  line-height:2;
+  font-size:18px;
+}
+
+.boton-whatsapp{
+  display:inline-block;
+  margin-top:25px;
+  background:#25D366;
+  color:#fff;
+  text-decoration:none;
+  padding:15px 28px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:60px;
+  height:60px;
+  background:#25D366;
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28px;
+  text-decoration:none;
+  box-shadow:0 4px 15px rgba(0,0,0,.3);
+  z-index:9000;
+}
+
+/* CHATBOT */
+
+#wr-chat-btn{
+  position:fixed;
+  right:20px;
+  bottom:95px;
+  width:62px;
+  height:62px;
+  border:0;
+  border-radius:50%;
+  background:#151b27;
+  color:#f5b800;
+  z-index:9999;
+  cursor:pointer;
+  box-shadow:0 4px 15px rgba(0,0,0,.35);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.robot-icon{
+  width:43px;
+  height:43px;
+  transition:.25s;
+}
+
+#wr-chat-btn:hover .robot-icon{
+  transform:scale(1.12) rotate(-5deg);
+}
+
+#wr-chat{
+  display:none;
+  position:fixed;
+  right:20px;
+  bottom:165px;
+  width:370px;
+  max-width:calc(100vw - 25px);
+  height:520px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 8px 35px rgba(0,0,0,.30);
+  z-index:9998;
+  overflow:hidden;
+  flex-direction:column;
+}
+
+#wr-chat.open{
+  display:flex;
+}
+
+#wr-head{
+  background:#151b27;
+  color:#fff;
+  padding:12px 15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+}
+
+.robot-mini{
+  width:38px;
+  height:38px;
+}
+
+#wr-close{
+  margin-left:auto;
+  background:none;
+  border:0;
+  color:#fff;
+  font-size:25px;
+  cursor:pointer;
+}
+
+#wr-msg{
+  flex:1;
+  padding:15px;
+  overflow-y:auto;
+  background:#f3f4f6;
+}
+
+.wr-b{
+  background:#fff;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  line-height:1.5;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+
+.wr-u{
+  background:#151b27;
+  color:#fff;
+  padding:12px;
+  margin:0 0 10px auto;
+  border-radius:12px;
+  max-width:85%;
+  line-height:1.4;
+}
+
+.wr-opciones{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:10px;
+}
+
+.wr-opcion{
+  border:1px solid #ddd;
+  background:#fff;
+  padding:8px 10px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+#wr-input{
+  display:flex;
+  padding:10px;
+  gap:7px;
+  border-top:1px solid #ddd;
+  background:#fff;
+}
+
+#wr-text{
+  flex:1;
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:22px;
+  outline:none;
+}
+
+#wr-send{
+  border:0;
+  border-radius:50%;
+  width:42px;
+  height:42px;
+  background:#d71920;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* FOOTER */
+
+footer{
+  background:#090b0f;
+  color:#fff;
+  text-align:center;
+  padding:25px;
+}
+
+footer p{
+  margin:6px;
+}
+
+/* TABLET */
+
+@media(max-width:1000px){
+
+  .productos{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .formulario{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .boton-buscar{
+    grid-column:span 2;
+  }
+
+}
+
+/* CELULAR */
+
+@media(max-width:650px){
+
+  nav{
+    flex-direction:column;
+    gap:12px;
+    padding:12px 15px;
+  }
+
+  .menu{
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .menu a{
+    font-size:14px;
+  }
+
+  .servicio-domicilio{
+    flex-direction:column;
+    gap:7px;
+  }
+
+  .hero{
+    height:300px;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero p{
+    font-size:17px;
+  }
+
+  /* IMÁGENES MÁS PEQUEÑAS EN CELULAR */
+
+  .domicilio-seccion{
+    padding:12px 8px;
+  }
+
+  .domicilio-contenedor{
+    padding:8px;
+    gap:10px;
+  }
+
+  .domicilio-contenedor img:not(.fondo){
+    width:82%;
+    max-width:330px;
+  }
+
+  .productos{
+    grid-template-columns:1fr;
+  }
+
+  .formulario{
+    grid-template-columns:1fr;
+  }
+
+  .boton-buscar{
+    grid-column:auto;
+  }
+
+  .buscador-box{
+    padding:25px 15px;
+  }
+
+  .buscador-titulo h2{
+    font-size:27px;
+  }
+
+  #wr-chat{
+    right:10px;
+    bottom:150px;
+    width:calc(100vw - 20px);
+    height:500px;
+  }
+
+}
+
+/* CELULAR PEQUEÑO */
+
+@media(max-width:380px){
+
+  .menu{
+    gap:9px;
+  }
+
+  .menu a{
+    font-size:12px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .domicilio-contenedor img:not(.fondo){
+    width:78%;
+  }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-  <div class="topbar">
-    🔋 WRbateriasCr · Calidad y respaldo para su vehículo
-  </div>
+<div class="topbar">
+🔋 WRbateriasCr · Calidad y respaldo para su vehículo
+</div>
 
-  <nav>
-    <div class="logo">
-      <img src="logobate.jpeg" alt="WRbateriasCr Logo">
-    </div>
-    <div class="menu">
-      <a href="#">Inicio</a>
-      <a href="#baterias">Baterías</a>
-      <a href="#marcas">Marcas</a>
-      <a href="#contacto">Contáctanos</a>
-    </div>
-  </nav>
+<nav>
 
-  <div class="servicio-domicilio">
-    <div>
-      <strong>🚚 SERVICIO A DOMICILIO</strong>
-      <span>Se la llevamos hasta su casa</span>
-    </div>
-    <a href="tel:63928294">📞 6392 8294</a>
-  </div>
+<div class="logo">
+<img src="logobate.jpeg" alt="WRbateriasCr">
+</div>
 
-  <header class="hero">
-    <img src="varias.jpeg" alt="Catálogo de Baterías">
-    <div class="hero-contenido">
-      <h1>¡Tenemos baterías para todo!</h1>
-      <p>Baterías para automóvil, SUV, camioneta y más</p>
-    </div>
-  </header>
+<div class="menu">
+<a href="#">Inicio</a>
+<a href="#baterias">Baterías</a>
+<a href="#marcas">Marcas</a>
+<a href="#contacto">Contáctanos</a>
+</div>
 
-  <section class="domicilio-seccion">
-    <div class="domicilio-contenedor">
-      <img src="domicilio.jpeg" alt="Servicio a domicilio WRbateriasCr">
-      <img src="sello.jpeg" alt="Garantía WRbateriasCr">
-    </div>
-  </section>
+</nav>
 
-  <main class="productos-seccion" id="baterias">
-    <div class="buscador-box">
-      <div class="buscador-titulo">
-        <h2>🔎 Encuentra tu batería</h2>
-        <p>Selecciona marca, modelo, año y combustible</p>
-      </div>
+<div class="servicio-domicilio">
 
-      <form id="formBuscador" class="formulario">
-        <select id="marca">
-          <option value="">Seleccione marca</option>
-        </select>
-        <select id="modelo" disabled>
-          <option value="">Seleccione modelo</option>
-        </select>
-        <select id="anio">
-          <option value="">Seleccione año</option>
-        </select>
-        <select id="combustible">
-          <option value="">Combustible</option>
-          <option value="Gasolina">Gasolina</option>
-          <option value="Diésel">Diésel</option>
-          <option value="Híbrido">Híbrido</option>
-        </select>
-        <button class="boton-buscar" type="submit">Buscar 🔍</button>
-      </form>
-    </div>
+<div>
+<strong>🚚 SERVICIO A DOMICILIO</strong>
+<span>Se la llevamos hasta su casa</span>
+</div>
 
-    <div id="resultado" class="resultado-busqueda"></div>
+<a href="tel:63928294">
+📞 6392 8294
+</a>
 
-    <div class="titulo">
-      <h2>Nuestras baterías</h2>
-      <p>Seleccione el tamaño de batería que necesita</p>
-    </div>
+</div>
 
-    <div class="productos">
-      <article class="producto">
-        <img src="record2.jpeg" alt="Batería N-40">
-        <div class="producto-info">
-          <h3>N-40</h3>
-          <div class="cca">CCA: Consultar</div>
-          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-40" target="_blank" class="btn-consultar">Consultar</a>
-        </div>
-      </article>
-      <article class="producto">
-        <img src="LTH.jpeg" alt="Batería N-50">
-        <div class="producto-info">
-          <h3>N-50</h3>
-          <div class="cca">CCA: Consultar</div>
-          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-50" target="_blank" class="btn-consultar">Consultar</a>
-        </div>
-      </article>
-      <article class="producto">
-        <img src="autocraft.jpeg" alt="Batería N-60">
-        <div class="producto-info">
-          <h3>N-60</h3>
-          <div class="cca">CCA: Consultar</div>
-          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-60" target="_blank" class="btn-consultar">Consultar</a>
-        </div>
-      </article>
-      <article class="producto">
-        <img src="velox.jpeg" alt="Batería N-70">
-        <div class="producto-info">
-          <h3>N-70</h3>
-          <div class="cca">CCA: Consultar</div>
-          <a href="https://wa.me/50663928294?text=Consulta%20bateria%20N-70" target="_blank" class="btn-consultar">Consultar</a>
-        </div>
-      </article>
-    </div>
-  </main>
+<section class="hero">
 
-  <section class="marcas" id="marcas">
-    <h2>Marcas disponibles</h2>
-    <img src="marcas.jpeg" alt="Marcas disponibles">
-  </section>
+<img src="varias.jpeg" alt="WRbateriasCr">
 
-  <section class="servicios" id="contacto">
-    <h2>¿Necesita una batería?</h2>
-    <p>
-      ✔️ Diferentes tamaños y capacidades<br>
-      ✔️ Atención personalizada por WhatsApp<br>
-      ✔️ Servicio a domicilio
-    </p>
-    <a class="boton-whatsapp" href="https://wa.me/50663928294" target="_blank">
-      📲 Hablar por WhatsApp
-    </a>
-  </section>
+<div class="hero-contenido">
 
-  <a class="whatsapp-btn-float" href="https://wa.me/50663928294" target="_blank">☎️</a>
+<h1>
+¡Tenemos baterías para todo!
+</h1>
 
-  <!-- BOTÓN Y VENTANA CHATBOT -->
-  <button id="wr-chat-btn" type="button">🤖</button>
+<p>
+Baterías para automóvil, SUV, camioneta y más
+</p>
 
-  <div id="wr-chat">
-    <div id="wr-head">
-      <span>Asistente WRbateriasCr</span>
-      <button id="wr-close" type="button">×</button>
-    </div>
-    <div id="wr-msg"></div>
-    <form id="wr-input-form" class="chat-input-container">
-      <input id="wr-text" type="text" placeholder="Escribe tu consulta aquí..." autocomplete="off">
-      <button id="wr-send" type="submit">➤</button>
-    </form>
-  </div>
+</div>
 
-  <footer>
-    <p><strong>WRbateriasCr</strong> · © 2026</p>
-  </footer>
+</section>
+
+<section class="domicilio-seccion">
+
+<div class="domicilio-contenedor">
+
+<div class="domicilio-fondo"></div>
+
+<img
+src="domicilio.jpeg"
+alt="Servicio a domicilio WRbateriasCr"
+>
+
+<img
+src="sello.jpeg"
+alt="Garantía WRbateriasCr"
+>
+
+</div>
+
+</section>
+
+<section
+class="productos-seccion"
+id="baterias"
+>
+
+<div class="buscador-box">
+
+<div class="buscador-titulo">
+
+<h2>
+🔎 Encuentra tu batería
+</h2>
+
+<p>
+Selecciona marca, modelo, año y combustible
+</p>
+
+</div>
+
+<div class="formulario">
+
+<select id="marca">
+<option value="">Seleccione marca</option>
+</select>
+
+<select id="modelo" disabled>
+<option value="">Seleccione modelo</option>
+</select>
+
+<select id="anio">
+<option value="">Seleccione año</option>
+</select>
+
+<select id="combustible">
+
+<option value="">Combustible</option>
+
+<option value="Gasolina">Gasolina</option>
+
+<option value="Diésel">Diésel</option>
+
+<option value="Híbrido">Híbrido</option>
+
+</select>
+
+<button
+class="boton-buscar"
+type="button"
+id="btnBuscar"
+>
+Buscar 🔍
+</button>
+
+</div>
+
+</div>
+
+<div
+id="resultado"
+class="resultado-busqueda"
+aria-live="polite"
+></div>
+
+<div class="titulo">
+
+<h2>
+Nuestras baterías
+</h2>
+
+<p>
+Seleccione el tamaño de batería que necesita
+</p>
+
+</div>
+
+<div class="productos">
+
+<div class="producto" onclick="location.href='n40.html'">
+
+<img src="record2.jpeg" alt="Batería N-40">
+
+<div class="producto-info">
+
+<h3>N-40</h3>
+
+<div class="cca">
+CCA: Consultar
+</div>
+
+
+
+<a
+href="https://wa.me/50663928294"
+target="_blank"
+onclick="event.stopPropagation()"
+>
+Consultar
+</a>
+
+</div>
+</div>
+
+<div class="producto" onclick="location.href='n50.html'">
+
+<img src="LTH.jpeg" alt="Batería N-50">
+
+<div class="producto-info">
+
+<h3>N-50</h3>
+
+<div class="cca">
+CCA: Consultar
+</div>
+
+<div class="precio">
+Consultar
+</div>
+
+<a
+href="https://wa.me/50663928294"
+target="_blank"
+onclick="event.stopPropagation()"
+>
+Consultar
+</a>
+
+</div>
+</div>
+
+<div class="producto" onclick="location.href='n60.html'">
+
+<img src="autocraft.jpeg" alt="Batería N-60">
+
+<div class="producto-info">
+
+<h3>N-60</h3>
+
+<div class="cca">
+CCA: Consultar
+</div>
+
+<div class="precio">
+Consultar
+</div>
+
+<a
+href="https://wa.me/50663928294"
+target="_blank"
+onclick="event.stopPropagation()"
+>
+Consultar
+</a>
+
+</div>
+</div>
+
+<div class="producto" onclick="location.href='n70.html'">
+
+<img src="velox.jpeg" alt="Batería N-70">
+
+<div class="producto-info">
+
+<h3>N-70</h3>
+
+<div class="cca">
+CCA: Consultar
+</div>
+
+<div class="precio">
+Consultar
+</div>
+
+<a
+href="https://wa.me/50663928294"
+target="_blank"
+onclick="event.stopPropagation()"
+>
+Consultar
+</a>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="marcas" id="marcas">
+
+<h2>
+Marcas disponibles
+</h2>
+
+<img
+src="marcas.jpeg"
+alt="Marcas de baterías disponibles"
+>
+
+</section>
+
+<section class="servicios" id="contacto">
+
+<h2>
+¿Necesita una batería?
+</h2>
+
+<p>
+
+✔️ Diferentes tamaños y capacidades
+<br>
+
+✔️ Baterías para diferentes tipos de vehículos
+<br>
+
+✔️ Atención personalizada por WhatsApp
+<br>
+
+✔️ Servicio a domicilio
+<br>
+
+✔️ Consulte disponibilidad y precio
+
+</p>
+
+<a
+class="boton-whatsapp"
+href="https://wa.me/50663928294"
+target="_blank"
+>
+📲 Hablar por WhatsApp
+</a>
+
+</section>
+
+<a
+class="whatsapp"
+href="https://wa.me/50663928294"
+target="_blank"
+aria-label="WhatsApp"
+>
+☎️
+</a>
+
+
+<!-- CHATBOT -->
+
+<button
+id="wr-chat-btn"
+type="button"
+aria-label="Abrir asistente"
+>
+
+<svg class="robot-icon" viewBox="0 0 100 100">
+
+<rect x="20" y="28" width="60" height="50" rx="15"
+fill="#f5b800"/>
+
+<rect x="27" y="38" width="46" height="30" rx="10"
+fill="#151b27"/>
+
+<circle cx="40" cy="53" r="5" fill="#25D366"/>
+<circle cx="60" cy="53" r="5" fill="#25D366"/>
+
+<rect x="42" y="17" width="16" height="12" rx="5"
+fill="#f5b800"/>
+
+<circle cx="50" cy="12" r="5" fill="#d71920"/>
+
+<rect x="12" y="45" width="10" height="20" rx="5"
+fill="#f5b800"/>
+
+<rect x="78" y="45" width="10" height="20" rx="5"
+fill="#f5b800"/>
+
+</svg>
+
+</button>
+
+
+<div id="wr-chat">
+
+<div id="wr-head">
+
+<svg class="robot-mini" viewBox="0 0 100 100">
+
+<rect x="20" y="28" width="60" height="50" rx="15"
+fill="#f5b800"/>
+
+<rect x="27" y="38" width="46" height="30" rx="10"
+fill="#151b27"/>
+
+<circle cx="40" cy="53" r="5" fill="#25D366"/>
+<circle cx="60" cy="53" r="5" fill="#25D366"/>
+
+<rect x="42" y="17" width="16" height="12" rx="5"
+fill="#f5b800"/>
+
+<circle cx="50" cy="12" r="5" fill="#d71920"/>
+
+</svg>
+
+<span>
+Asistente WRbateriasCr
+</span>
+
+<button
+id="wr-close"
+type="button"
+>
+×
+</button>
+
+</div>
+
+<div id="wr-msg"></div>
+
+<div id="wr-input">
+
+<input
+id="wr-text"
+type="text"
+placeholder="Ej: Tucson ix35 2010 diesel"
+autocomplete="off"
+>
+
+<button
+id="wr-send"
+type="button"
+>
+➤
+</button>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>
+<strong>WRbateriasCr</strong>
+</p>
+
+<p>
+Calidad y respaldo para su vehículo
+</p>
+
+<p>
+© 2026 WRbateriasCr
+</p>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   BASE DE DATOS AMPLIADA
+   AÑOS: 1980 - 2026
+========================================================= */
+
+const baseDatos = {
+
+Toyota:{
+"Yaris":[1999,2026,["Gasolina","Híbrido"],"N-50","Puede variar según generación."],
+"Corolla":[1980,2026,["Gasolina","Híbrido"],"N-50 / 42R","Puede variar según generación y motor."],
+"Camry":[1980,2026,["Gasolina","Híbrido"],"N-70","Confirmar generación y motor."],
+"RAV4":[1994,2026,["Gasolina","Híbrido"],"N-50 / N-70","El tamaño cambia según generación."],
+"Hilux":[1980,2026,["Gasolina","Diésel"],"N-70","Confirmar motor y polaridad."],
+"Fortuner":[2005,2026,["Gasolina","Diésel"],"N-70","Confirmar motor y versión."],
+"Prado":[1990,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Land Cruiser":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Puede requerir mayor capacidad."],
+"Hiace":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"4Runner":[1984,2026,["Gasolina","Diésel"],"N-70","Confirmar generación."],
+"Tacoma":[1995,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Tundra":[1999,2026,["Gasolina","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"Avanza":[2003,2026,["Gasolina"],"N-50 / N-70","Confirmar versión."],
+"Rush":[2006,2026,["Gasolina"],"N-50 / N-70","Confirmar versión."],
+"Vitz":[1999,2019,["Gasolina","Híbrido"],"N-50","Confirmar generación."],
+"Prius":[1997,2026,["Híbrido"],"N-50","Confirmar sistema y generación."]
+},
+
+Hyundai:{
+"Accent":[1994,2026,["Gasolina","Diésel"],"N-50","Confirmar generación."],
+"Elantra":[1990,2026,["Gasolina","Híbrido"],"N-50","Puede variar según generación."],
+"Tucson":[2004,2026,["Gasolina","Diésel"],"N-70","Los diésel pueden requerir mayor capacidad."],
+"Santa Fe":[2000,2026,["Gasolina","Diésel","Híbrido"],"N-70","Confirmar motor."],
+"i10":[2007,2026,["Gasolina"],"N-40 / NS40M","Confirmar dimensiones y polaridad."],
+"i20":[2008,2026,["Gasolina","Diésel"],"N-50","Confirmar versión."],
+"H100":[1990,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Starex":[1997,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Porter":[1986,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Kona":[2017,2026,["Gasolina","Híbrido"],"N-50 / N-70","Confirmar versión."],
+"Creta":[2015,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Venue":[2019,2026,["Gasolina"],"N-50","Confirmar versión."],
+"Ioniq":[2016,2026,["Híbrido"],"N-50","Confirmar sistema."]
+},
+
+Kia:{
+"Rio":[2000,2026,["Gasolina"],"N-50","Confirmar generación."],
+"Sportage":[1994,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Sorento":[2002,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Picanto":[2004,2026,["Gasolina"],"N-40 / NS40M","Confirmar dimensiones."],
+"Carnival":[1998,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Cerato":[2003,2026,["Gasolina"],"N-50","Confirmar generación."],
+"Seltos":[2019,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar versión."],
+"Soul":[2008,2026,["Gasolina","Eléctrico"],"N-50 / N-70","Confirmar versión."]
+},
+
+Nissan:{
+"Sentra":[1983,2026,["Gasolina"],"N-50","Confirmar generación."],
+"Versa":[2007,2026,["Gasolina"],"N-50","Confirmar generación y polaridad."],
+"X-Trail":[2000,2026,["Gasolina","Diésel","Híbrido"],"N-70","Puede variar según motor."],
+"Frontier":[1997,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Navara":[1986,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"March":[1982,2026,["Gasolina"],"N-40 / N-50","Confirmar generación."],
+"Patrol":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Tiida":[2004,2018,["Gasolina","Diésel"],"N-50","Confirmar generación."],
+"Qashqai":[2006,2026,["Gasolina","Diésel","Híbrido"],"N-50 / N-70","Confirmar versión."],
+"Kicks":[2016,2026,["Gasolina"],"N-50","Confirmar versión."],
+"Pathfinder":[1986,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."]
+},
+
+Honda:{
+"Civic":[1980,2026,["Gasolina","Híbrido"],"N-50","Confirmar generación."],
+"CR-V":[1997,2026,["Gasolina","Híbrido"],"N-50 / N-70","Puede variar por generación."],
+"HR-V":[1999,2026,["Gasolina","Híbrido"],"N-50","Confirmar versión."],
+"Fit":[2001,2020,["Gasolina","Híbrido"],"N-50","Confirmar generación."],
+"Accord":[1980,2026,["Gasolina","Híbrido"],"N-70","Confirmar generación."],
+"Pilot":[2002,2026,["Gasolina"],"N-70","Confirmar motor."],
+"Odyssey":[1994,2026,["Gasolina"],"N-70","Confirmar motor."]
+},
+
+Suzuki:{
+"Swift":[1984,2026,["Gasolina"],"N-40 / N-50","Puede variar por generación."],
+"Vitara":[1988,2026,["Gasolina"],"N-50","Confirmar generación."],
+"Grand Vitara":[1998,2018,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Jimny":[1998,2026,["Gasolina"],"N-40 / N-50","Confirmar generación."],
+"S-Presso":[2019,2026,["Gasolina"],"N-40","Confirmar versión."],
+"Celerio":[2014,2026,["Gasolina"],"N-40 / N-50","Confirmar versión."],
+"Baleno":[2015,2026,["Gasolina"],"N-50","Confirmar versión."],
+"SX4":[2006,2014,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."]
+},
+
+Mitsubishi:{
+"Lancer":[1980,2017,["Gasolina"],"N-50","Confirmar generación."],
+"ASX":[2010,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Outlander":[2001,2026,["Gasolina","Híbrido"],"N-70","Confirmar generación."],
+"Montero":[1982,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"L200":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Mirage":[2012,2026,["Gasolina"],"N-40 / N-50","Confirmar versión."],
+"Eclipse Cross":[2017,2026,["Gasolina","Híbrido"],"N-70","Confirmar versión."]
+},
+
+Ford:{
+"Ranger":[1980,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Escape":[2000,2026,["Gasolina","Híbrido"],"N-70","Confirmar generación."],
+"Explorer":[1991,2026,["Gasolina","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"F-150":[1980,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Puede requerir mayor capacidad."],
+"EcoSport":[2003,2022,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Everest":[2003,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Transit":[1986,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Fiesta":[1976,2019,["Gasolina","Diésel"],"N-50","Confirmar generación."],
+"Focus":[1998,2018,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."]
+},
+
+Chevrolet:{
+"Spark":[2005,2022,["Gasolina"],"N-40 / NS40M","Confirmar generación."],
+"Aveo":[2002,2018,["Gasolina"],"N-50","Confirmar generación."],
+"Tracker":[1999,2026,["Gasolina"],"N-50 / N-70","Confirmar versión."],
+"Captiva":[2006,2022,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Trailblazer":[2012,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Colorado":[2004,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Tahoe":[1995,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Suburban":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Silverado":[1998,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Equinox":[2004,2026,["Gasolina","Híbrido"],"N-70","Confirmar motor."]
+},
+
+Mazda:{
+"323":[1980,2003,["Gasolina","Diésel"],"N-50","Confirmar generación."],
+"Mazda2":[2002,2026,["Gasolina"],"N-50","Confirmar generación."],
+"Mazda3":[2003,2026,["Gasolina","Híbrido"],"N-50","Confirmar generación."],
+"Mazda6":[2002,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"CX-3":[2014,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar versión."],
+"CX-5":[2013,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"CX-7":[2006,2012,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"CX-9":[2006,2026,["Gasolina"],"N-70 / N-80","Confirmar motor."],
+"BT-50":[2006,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"B2500":[1980,2006,["Gasolina","Diésel"],"N-70","Confirmar motor."]
+},
+
+Isuzu:{
+"D-Max":[2002,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"MU-X":[2013,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Trooper":[1980,2002,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"NPR":[1980,2026,["Diésel"],"N-70 / N-80","Confirmar motor."]
+},
+
+Subaru:{
+"Forester":[1997,2026,["Gasolina","Híbrido"],"N-50 / N-70","Confirmar generación."],
+"Impreza":[1992,2026,["Gasolina"],"N-50","Confirmar generación."],
+"XV":[2012,2023,["Gasolina","Híbrido"],"N-50","Confirmar generación."],
+"Legacy":[1989,2020,["Gasolina"],"N-70","Confirmar generación."],
+"Outback":[1994,2026,["Gasolina","Híbrido"],"N-70","Confirmar generación."]
+},
+
+Volkswagen:{
+"Jetta":[1980,2026,["Gasolina","Diésel"],"N-50 / N-70","Puede variar bastante según motor."],
+"Golf":[1980,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Tiguan":[2007,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Amarok":[2010,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Transporter":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Polo":[1980,2026,["Gasolina","Diésel"],"N-50","Confirmar generación."],
+"Passat":[1980,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."]
+},
+
+Renault:{
+"Duster":[2010,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Koleos":[2006,2026,["Gasolina","Diésel"],"N-70","Confirmar generación."],
+"Clio":[1990,2026,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"Megane":[1995,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Logan":[2004,2026,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"Sandero":[2007,2026,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"Captur":[2013,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar versión."]
+},
+
+Peugeot:{
+"206":[1998,2012,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"207":[2006,2014,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"208":[2012,2026,["Gasolina","Diésel"],"N-50","Confirmar versión."],
+"3008":[2009,2026,["Gasolina","Diésel","Híbrido"],"N-70","Confirmar versión."],
+"307":[2001,2008,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"308":[2007,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Partner":[1996,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."]
+},
+
+Mercedes:{
+"Clase C":[1993,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"Clase E":[1984,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"Sprinter":[1995,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Vito":[1996,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"GLC":[2015,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar sistema."],
+"GLE":[2015,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar sistema."]
+},
+
+BMW:{
+"Serie 1":[2004,2026,["Gasolina","Diésel","Híbrido"],"N-70","Confirmar sistema."],
+"Serie 3":[1980,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor y sistema eléctrico."],
+"Serie 5":[1980,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"X1":[2009,2026,["Gasolina","Diésel","Híbrido"],"N-70","Confirmar sistema."],
+"X3":[2003,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"X5":[1999,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor."]
+},
+
+Jeep:{
+"Wrangler":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Cherokee":[1980,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Grand Cherokee":[1993,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
+"Renegade":[2014,2026,["Gasolina","Diésel"],"N-70","Confirmar versión."],
+"Compass":[2006,2026,["Gasolina","Diésel"],"N-70","Confirmar versión."]
+},
+
+Volvo:{
+"XC40":[2017,2026,["Gasolina","Híbrido","Eléctrico"],"N-70","Confirmar sistema."],
+"XC60":[2008,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar sistema eléctrico."],
+"XC90":[2002,2026,["Gasolina","Diésel","Híbrido"],"N-70 / N-80","Confirmar motor."],
+"S60":[2000,2026,["Gasolina","Diésel","Híbrido"],"N-70","Confirmar sistema."],
+"S80":[1998,2016,["Gasolina","Diésel"],"N-70","Confirmar motor."]
+},
+
+Daihatsu:{
+"Terios":[1997,2026,["Gasolina"],"N-50 / N-70","Confirmar generación."],
+"Mira":[1980,2026,["Gasolina"],"N-40","Confirmar generación."],
+"Sirion":[1998,2015,["Gasolina"],"N-40 / N-50","Confirmar generación."],
+"Hijet":[1980,2026,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."]
+},
+
+Fiat:{
+"Palio":[1996,2018,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"Uno":[1983,2021,["Gasolina","Diésel"],"N-50","Confirmar generación."],
+"Strada":[1998,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."],
+"Siena":[1996,2016,["Gasolina","Diésel"],"N-50","Confirmar motor."],
+"Punto":[1993,2018,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
+"Toro":[2016,2026,["Gasolina","Diésel"],"N-70","Confirmar motor."]
+},
+
+Chery:{
+"Tiggo 2":[2016,2026,["Gasolina"],"N-50","Confirmar versión."],
+"Tiggo 3":[2005,2020,["Gasolina"],"N-70","Confirmar versión."],
+"Tiggo 4":[2017,2026,["Gasolina"],"N-70","Confirmar versión."],
+"Tiggo 7":[2016,2026,["Gasolina"],"N-70","Confirmar versión."]
+},
+
+Geely:{
+"GX3":[2017,2026,["Gasolina"],"N-50 / N-70","Confirmar versión."],
+"Coolray":[2018,2026,["Gasolina"],"N-70","Confirmar versión."],
+"Emgrand":[2009,2026,["Gasolina"],"N-50","Confirmar versión."],
+"Azkarra":[2019,2026,["Gasolina"],"N-70","Confirmar versión."]
+},
+
+"Great Wall":{
+"Wingle 5":[2006,2026,["Diésel","Gasolina"],"N-70 / N-80","Confirmar motor."],
+"Wingle 7":[2018,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Poer":[2020,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"Haval H6":[2011,2026,["Gasolina","Híbrido"],"N-70","Confirmar versión."]
+},
+
+JAC:{
+"T6":[2014,2026,["Diésel","Gasolina"],"N-70 / N-80","Confirmar motor."],
+"T8":[2018,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"JS2":[2019,2026,["Gasolina"],"N-50 / N-70","Confirmar versión."],
+"JS4":[2020,2026,["Gasolina"],"N-70","Confirmar versión."]
+},
+
+Foton:{
+"Tunland":[2011,2026,["Diésel"],"N-70 / N-80","Confirmar motor."],
+"M4":[2010,2026,["Diésel"],"N-70","Confirmar versión."],
+"View":[2008,2026,["Diésel"],"N-70 / N-80","Confirmar motor."]
+}
+
+};
+
+
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const marcaSelect=document.getElementById("marca");
+const modeloSelect=document.getElementById("modelo");
+const anioSelect=document.getElementById("anio");
+const combustibleSelect=document.getElementById("combustible");
+const resultado=document.getElementById("resultado");
+const btnBuscar=document.getElementById("btnBuscar");
+
+
+/* =========================================================
+   NORMALIZAR
+   Esto permite:
+   CR-V = CRV
+   CX-5 = CX5
+   F-150 = F150
+   BT-50 = BT50
+========================================================= */
+
+function normalizar(texto){
+
+  return String(texto || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]/g,"")
+    .trim();
+
+}
+
+
+/* =========================================================
+   CARGAR AÑOS
+========================================================= */
+
+function cargarAnios(){
+
+  anioSelect.innerHTML=
+    '<option value="">Seleccione año</option>';
+
+  for(let anio=2026;anio>=1980;anio--){
+
+    const option=document.createElement("option");
+
+    option.value=anio;
+    option.textContent=anio;
+
+    anioSelect.appendChild(option);
+
+  }
+
+}
+
+
+/* =========================================================
+   CARGAR MARCAS
+========================================================= */
+
+function cargarMarcas(){
+
+  marcaSelect.innerHTML=
+    '<option value="">Seleccione marca</option>';
+
+  Object.keys(baseDatos)
+    .sort((a,b)=>a.localeCompare(b))
+    .forEach(marca=>{
+
+      const option=document.createElement("option");
+
+      option.value=marca;
+      option.textContent=marca;
+
+      marcaSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+   CARGAR MODELOS
+========================================================= */
+
+function cargarModelos(){
+
+  const marca=marcaSelect.value;
+
+  modeloSelect.innerHTML=
+    '<option value="">Seleccione modelo</option>';
+
+  modeloSelect.disabled=true;
+
+  if(!marca || !baseDatos[marca]){
+    return;
+  }
+
+  Object.keys(baseDatos[marca])
+    .sort((a,b)=>a.localeCompare(b))
+    .forEach(modelo=>{
+
+      const option=document.createElement("option");
+
+      option.value=modelo;
+      option.textContent=modelo;
+
+      modeloSelect.appendChild(option);
+
+    });
+
+  modeloSelect.disabled=false;
+
+}
+
+
+/* =========================================================
+   OBTENER REGISTRO
+========================================================= */
+
+function obtenerRegistro(
+  marca,
+  modelo,
+  anio,
+  combustible
+){
+
+  if(!baseDatos[marca] || !baseDatos[marca][modelo]){
+    return null;
+  }
+
+  const datos=baseDatos[marca][modelo];
+
+  const desde=datos[0];
+  const hasta=datos[1];
+  const combustibles=datos[2];
+
+  const anioOK=
+    !anio ||
+    (
+      anio>=desde &&
+      anio<=hasta
+    );
+
+  const combustibleOK=
+    !combustible ||
+    combustibles.includes(combustible);
+
+  if(!anioOK || !combustibleOK){
+    return null;
+  }
+
+  return {
+    desde:desde,
+    hasta:hasta,
+    combustibles:combustibles,
+    bateria:datos[3],
+    nota:datos[4]
+  };
+
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+function mostrarResultado(
+  marca,
+  modelo,
+  anio,
+  combustible,
+  registro
+){
+
+  const mensaje=
+    "Hola WRbateriasCr, quiero confirmar la batería para mi vehículo. "+
+    "Marca: "+marca+
+    ". Modelo: "+modelo+
+    (anio?". Año: "+anio+".":"")+
+    (combustible?" Combustible: "+combustible+".":"")+
+    " Recomendación mostrada: "+registro.bateria+".";
+
+  resultado.className=
+    "resultado-busqueda mostrar";
+
+  resultado.innerHTML=
+
+    "<h3>🔋 Batería recomendada</h3>"+
+
+    "<p><strong>Vehículo:</strong> "+
+    marca+" "+modelo+
+    (anio?" "+anio:"")+
+    "</p>"+
+
+    (combustible
+      ?"<p><strong>Combustible:</strong> "+combustible+"</p>"
+      :""
+    )+
+
+    '<div class="bateria-recomendada">'+
+    registro.bateria+
+    "</div>"+
+
+    "<p><strong>Información:</strong> "+
+    registro.nota+
+    "</p>"+
+
+    '<p class="nota">'+
+    "Recomendación inicial. Antes de instalar se deben comprobar "+
+    "medidas, polaridad, posición de bornes, capacidad y CCA."+
+    "</p>"+
+
+    '<a class="whatsapp-resultado" '+
+    'href="https://wa.me/50663928294?text='+
+    encodeURIComponent(mensaje)+
+    '" target="_blank" rel="noopener">'+
+    "📲 Confirmar por WhatsApp"+
+    "</a>";
+
+  resultado.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+/* =========================================================
+   BUSCAR
+========================================================= */
+
+function buscarBateria(){
+
+  const marca=marcaSelect.value;
+  const modelo=modeloSelect.value;
+
+  const anio=anioSelect.value
+    ?Number(anioSelect.value)
+    :null;
+
+  const combustible=combustibleSelect.value;
+
+  if(!marca){
+
+    mostrarError(
+      "⚠️ Seleccione una marca",
+      "Primero seleccione la marca de su vehículo."
+    );
+
+    return;
+  }
+
+  if(!modelo){
+
+    mostrarError(
+      "⚠️ Seleccione un modelo",
+      "Seleccione el modelo de su vehículo."
+    );
+
+    return;
+  }
+
+  const registro=
+    obtenerRegistro(
+      marca,
+      modelo,
+      anio,
+      combustible
+    );
+
+  if(!registro){
+
+    const mensaje=
+      "Hola WRbateriasCr, necesito confirmar una batería. "+
+      "Marca: "+marca+
+      ". Modelo: "+modelo+
+      (anio?". Año: "+anio+".":"")+
+      (combustible?" Combustible: "+combustible+".":"");
+
+    resultado.className=
+      "resultado-busqueda mostrar";
+
+    resultado.innerHTML=
+
+      "<h3>🔎 Necesitamos confirmar</h3>"+
+
+      "<p>"+
+      "No encontramos una coincidencia exacta para esa combinación."
+      +"</p>"+
+
+      "<p>"+
+      "Envíenos los datos del vehículo y le confirmamos la batería."
+      +"</p>"+
+
+      '<a class="whatsapp-resultado" '+
+      'href="https://wa.me/50663928294?text='+
+      encodeURIComponent(mensaje)+
+      '" target="_blank" rel="noopener">'+
+      "📲 Confirmar por WhatsApp"+
+      "</a>";
+
+    return;
+  }
+
+  mostrarResultado(
+    marca,
+    modelo,
+    anio,
+    combustible,
+    registro
+  );
+
+}
+
+
+function mostrarError(titulo,texto){
+
+  resultado.className=
+    "resultado-busqueda mostrar";
+
+  resultado.innerHTML=
+    "<h3>"+titulo+"</h3>"+
+    "<p>"+texto+"</p>";
+
+}
+
+
+/* =========================================================
+   CHATBOT
+========================================================= */
+
+const chat=document.getElementById("wr-chat");
+const chatBtn=document.getElementById("wr-chat-btn");
+const chatClose=document.getElementById("wr-close");
+const chatMsg=document.getElementById("wr-msg");
+const chatText=document.getElementById("wr-text");
+const chatSend=document.getElementById("wr-send");
+
+
+function agregarBot(mensaje){
+
+  const div=document.createElement("div");
+
+  div.className="wr-b";
+
+  div.innerHTML=mensaje;
+
+  chatMsg.appendChild(div);
+
+  chatMsg.scrollTop=chatMsg.scrollHeight;
+
+}
+
+
+function agregarUsuario(mensaje){
+
+  const div=document.createElement("div");
+
+  div.className="wr-u";
+
+  div.textContent=mensaje;
+
+  chatMsg.appendChild(div);
+
+  chatMsg.scrollTop=chatMsg.scrollHeight;
+
+}
+
+
+/* =========================================================
+   BUSCAR VEHÍCULO EN EL TEXTO
+========================================================= */
+
+function buscarVehiculoEnTexto(texto){
+
+  const t=normalizar(texto);
+
+  let encontrados=[];
+
+  Object.keys(baseDatos).forEach(marca=>{
+
+    Object.keys(baseDatos[marca]).forEach(modelo=>{
+
+      const modeloNormal=normalizar(modelo);
+
+      if(
+        modeloNormal.length>=3 &&
+        t.includes(modeloNormal)
+      ){
+
+        encontrados.push({
+          marca:marca,
+          modelo:modelo,
+          largo:modeloNormal.length
+        });
+
+      }
+
+    });
+
+  });
+
+  if(!encontrados.length){
+    return null;
+  }
+
+  /* Elige la coincidencia más específica */
+
+  encontrados.sort(
+    (a,b)=>b.largo-a.largo
+  );
+
+  return encontrados[0];
+
+}
+
+
+/* =========================================================
+   DETECTAR AÑO
+   CORREGIDO
+   1980 - 2026
+========================================================= */
+
+function detectarAnio(texto){
+
+  const encontrados=
+    String(texto)
+      .match(/\b(198\d|199\d|20(?:0\d|1\d|2[0-6]))\b/g);
+
+  if(!encontrados){
+    return null;
+  }
+
+  for(const valor of encontrados){
+
+    const anio=Number(valor);
+
+    if(anio>=1980 && anio<=2026){
+      return anio;
+    }
+
+  }
+
+  return null;
+
+}
+
+
+/* =========================================================
+   COMBUSTIBLE
+========================================================= */
+
+function detectarCombustible(texto){
+
+  const t=normalizar(texto);
+
+  if(
+    t.includes("diesel") ||
+    t.includes("disel")
+  ){
+    return "Diésel";
+  }
+
+  if(
+    t.includes("gasolina")
+  ){
+    return "Gasolina";
+  }
+
+  if(
+    t==="gas" ||
+    t.includes("gasolina")
+  ){
+    return "Gasolina";
+  }
+
+  if(
+    t.includes("hibrido") ||
+    t.includes("hybrid")
+  ){
+    return "Híbrido";
+  }
+
+  return "";
+
+}
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+function procesarChat(texto){
+
+  const t=normalizar(texto);
+
+
+  /* DOMICILIO */
+
+  if(
+    t.includes("domicilio") ||
+    t.includes("casa") ||
+    t.includes("llevar") ||
+    t.includes("entrega")
+  ){
+
+    return(
+      "🚚 Sí, contamos con <strong>servicio a domicilio</strong>."+
+      "<br><br>"+
+      "📞 <strong>6392 8294</strong>"+
+      "<br><br>"+
+      '<a href="tel:63928294">📞 Llamar</a>'
+    );
+
+  }
+
+
+  /* ASESOR */
+
+  if(
+    t.includes("whatsapp") ||
+    t.includes("asesor") ||
+    t.includes("persona") ||
+    t.includes("vendedor") ||
+    t.includes("contactar")
+  ){
+
+    return(
+      "Claro 👍"+
+      "<br><br>"+
+      '<a href="https://wa.me/50663928294" target="_blank" rel="noopener">'+
+      "📲 Hablar con un asesor por WhatsApp"+
+      "</a>"
+    );
+
+  }
+
+
+  /* TAMAÑOS */
+
+  if(
+    t.includes("n40") ||
+    t.includes("ns40")
+  ){
+
+    return(
+      "🔋 Tenemos <strong>N-40</strong>."+
+      "<br><br>"+
+      "Precio mostrado en la página: <strong>₡38.500</strong>."
+    );
+
+  }
+
+  if(t.includes("n50")){
+
+    return(
+      "🔋 Tenemos <strong>N-50</strong>."+
+      "<br><br>"+
+      "Precio y disponibilidad: consultar por WhatsApp."
+    );
+
+  }
+
+  if(t.includes("n60")){
+
+    return(
+      "🔋 Tenemos <strong>N-60</strong>."+
+      "<br><br>"+
+      "Precio y disponibilidad: consultar por WhatsApp."
+    );
+
+  }
+
+  if(t.includes("n70")){
+
+    return(
+      "🔋 Tenemos <strong>N-70</strong>."+
+      "<br><br>"+
+      "Precio y disponibilidad: consultar por WhatsApp."
+    );
+
+  }
+
+
+  /* VEHÍCULO */
+
+  const vehiculo=
+    buscarVehiculoEnTexto(texto);
+
+  if(vehiculo){
+
+    const anio=
+      detectarAnio(texto);
+
+    const combustible=
+      detectarCombustible(texto);
+
+    const registro=
+      obtenerRegistro(
+        vehiculo.marca,
+        vehiculo.modelo,
+        anio,
+        combustible
+      );
+
+
+    /* Si año/combustible no coinciden,
+       NO inventamos */
+
+    if(!registro){
+
+      const base=
+        baseDatos[
+          vehiculo.marca
+        ][
+          vehiculo.modelo
+        ];
+
+      const mensaje=
+        "Hola WRbateriasCr, quiero confirmar la batería. "+
+        "Marca: "+vehiculo.marca+
+        ". Modelo: "+vehiculo.modelo+
+        (anio?". Año: "+anio+".":"")+
+        (combustible?" Combustible: "+combustible+".":"");
+
+      return(
+
+        "🔎 Encontré tu vehículo:"+
+        "<br><br>"+
+
+        "<strong>"+
+        vehiculo.marca+
+        " "+
+        vehiculo.modelo+
+        "</strong>"+
+        (anio?" · "+anio:"")+
+
+        "<br><br>"+
+
+        "Pero necesito confirmar esa combinación antes de recomendarte una batería."+
+
+        "<br><br>"+
+
+        "📌 Rango registrado para este modelo: "+
+        base[0]+"–"+base[1]+
+
+        "<br><br>"+
+
+        '<a href="https://wa.me/50663928294?text='+
+        encodeURIComponent(mensaje)+
+        '" target="_blank" rel="noopener">'+
+        "📲 Confirmar con WRbateriasCr"+
+        "</a>"
+
+      );
+
+    }
+
+
+    const mensaje=
+      "Hola WRbateriasCr, quiero confirmar la batería para mi vehículo. "+
+      "Marca: "+vehiculo.marca+
+      ". Modelo: "+vehiculo.modelo+
+      (anio?". Año: "+anio+".":"")+
+      (combustible?" Combustible: "+combustible+".":"")+
+      " Recomendación mostrada: "+registro.bateria+".";
+
+
+    return(
+
+      "🤖 Encontré tu vehículo:"+
+      "<br><br>"+
+
+      "🚗 <strong>"+
+      vehiculo.marca+
+      " "+
+      vehiculo.modelo+
+      "</strong>"+
+      (anio?" · "+anio:"")+
+
+      (combustible
+        ?" · "+combustible
+        :""
+      )+
+
+      "<br><br>"+
+
+      "🔋 Batería recomendada:"+
+      "<br>"+
+
+      '<strong style="font-size:23px;color:#d71920">'+
+      registro.bateria+
+      "</strong>"+
+
+      "<br><br>"+
+
+      "ℹ️ "+registro.nota+
+
+      "<br><br>"+
+
+      '<span style="font-size:13px;color:#666">'+
+      "Antes de instalar se deben comprobar "+
+      "medidas, polaridad, bornes, capacidad y CCA."+
+      "</span>"+
+
+      "<br><br>"+
+
+      '<a href="https://wa.me/50663928294?text='+
+      encodeURIComponent(mensaje)+
+      '" target="_blank" rel="noopener">'+
+      "📲 Confirmar con WRbateriasCr"+
+      "</a>"
+
+    );
+
+  }
+
+
+  /* PRECIO */
+
+  if(
+    t.includes("precio") ||
+    t.includes("cuantocuesta") ||
+    t.includes("cuantovale")
+  ){
+
+    return(
+      "💰 Precios actuales mostrados en la página:"+
+      "<br><br>"+
+      "N-40: <strong>₡38.500</strong>"+
+      "<br>"+
+      "N-50, N-60 y N-70: consultar"+
+      "<br><br>"+
+      '<a href="https://wa.me/50663928294" target="_blank" rel="noopener">'+
+      "📲 Consultar por WhatsApp"+
+      "</a>"
+    );
+
+  }
+
+
+  /* SALUDO */
+
+  if(
+    t.includes("hola") ||
+    t.includes("buenas") ||
+    t.includes("ayuda") ||
+    t.includes("puedeshacer")
+  ){
+
+    return(
+      "👋 ¡Hola! Soy el asistente de <strong>WRbateriasCr</strong>."+
+      "<br><br>"+
+      "Puedo ayudarte a buscar una batería por:"+
+      "<br><br>"+
+      "🚗 Marca y modelo"+
+      "<br>"+
+      "📅 Año 1980–2026"+
+      "<br>"+
+      "⛽ Gasolina, diésel o híbrido"+
+      "<br>"+
+      "🔋 Tamaño N-40, N-50, N-60 o N-70"+
+      "<br>"+
+      "🚚 Servicio a domicilio"+
+      "<br>"+
+      "📲 WhatsApp"
+    );
+
+  }
+
+
+  return(
+    "🔎 No logré identificar el vehículo."+
+    "<br><br>"+
+    "Prueba escribiendo, por ejemplo:"+
+    "<br><br>"+
+    "• Toyota Hilux 2020 diesel"+
+    "<br>"+
+    "• Hyundai Tucson ix35 2010 diesel"+
+    "<br>"+
+    "• Honda CR-V 2004"+
+    "<br>"+
+    "• Nissan Versa 2015 gasolina"+
+    "<br>"+
+    "• Mazda CX-5 2018"+
+    "<br>"+
+    "• Ford F-150 2020"+
+    "<br><br>"+
+    "También puedes preguntarme por N-40, N-50, N-60 o N-70."
+  );
+
+}
+
+
+/* =========================================================
+   ENVIAR CHAT
+========================================================= */
+
+function enviarChat(){
+
+  const texto=chatText.value.trim();
+
+  if(!texto){
+    return;
+  }
+
+  agregarUsuario(texto);
+
+  chatText.value="";
+
+  const escribiendo=document.createElement("div");
+
+  escribiendo.className="wr-b";
+
+  escribiendo.innerHTML="🤖 ⏳ Buscando en la base de datos...";
+
+  chatMsg.appendChild(escribiendo);
+
+  chatMsg.scrollTop=chatMsg.scrollHeight;
+
+
+  setTimeout(function(){
+
+    escribiendo.remove();
+
+    agregarBot(
+      procesarChat(texto)
+    );
+
+  },350);
+
+}
+
+
+/* =========================================================
+   ABRIR CHAT
+========================================================= */
+
+function abrirChat(){
+
+  chat.classList.add("open");
+
+  if(!chatMsg.innerHTML){
+
+    agregarBot(
+      "¡Hola! 👋<br><br>"+
+      "Soy el asistente de <strong>WRbateriasCr</strong>."+
+      "<br><br>"+
+      "Escribe el vehículo que quieres consultar."
+    );
+
+    agregarBot(
+
+      "Por ejemplo:"+
+
+      '<div class="wr-opciones">'+
+
+      '<button class="wr-opcion" onclick="chatConsulta(\'Hyundai Tucson ix35 2010 diesel\')">Tucson 2010</button>'+
+
+      '<button class="wr-opcion" onclick="chatConsulta(\'Toyota Hilux 2020 diesel\')">Hilux 2020</button>'+
+
+      '<button class="wr-opcion" onclick="chatConsulta(\'Honda CR-V 2004 gasolina\')">Honda CR-V</button>'+
+
+      '<button class="wr-opcion" onclick="chatConsulta(\'Nissan Versa 2015 gasolina\')">Versa 2015</button>'+
+
+      '</div>'
+
+    );
+
+  }
+
+}
+
+
+function cerrarChat(){
+
+  chat.classList.remove("open");
+
+}
+
+
+function chatConsulta(texto){
+
+  chatText.value=texto;
+
+  enviarChat();
+
+}
+
+
+/* =========================================================
+   EVENTOS
+========================================================= */
+
+marcaSelect.addEventListener(
+  "change",
+  function(){
+
+    cargarModelos();
+
+    resultado.className=
+      "resultado-busqueda";
+
+    resultado.innerHTML="";
+
+  }
+);
+
+
+modeloSelect.addEventListener(
+  "change",
+  function(){
+
+    resultado.className=
+      "resultado-busqueda";
+
+    resultado.innerHTML="";
+
+  }
+);
+
+
+btnBuscar.addEventListener(
+  "click",
+  buscarBateria
+);
+
+
+chatBtn.addEventListener(
+  "click",
+  abrirChat
+);
+
+chatClose.addEventListener(
+  "click",
+  cerrarChat
+);
+
+chatSend.addEventListener(
+  "click",
+  enviarChat
+);
+
+
+chatText.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key==="Enter"){
+
+      e.preventDefault();
+
+      enviarChat();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INICIALIZAR
+   IMPORTANTE:
+   Se ejecuta directamente para evitar que el buscador
+   quede vacío si DOMContentLoaded ya ocurrió.
+========================================================= */
+
+cargarAnios();
+
+cargarMarcas();
+
+modeloSelect.disabled=true;
+
+</script>
 
 </body>
 </html>
-styles.css
-CSS
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f5f7;
-  color: #222;
-}
-
-.topbar {
-  background: #151b27;
-  color: #f5b800;
-  text-align: center;
-  padding: 10px;
-  font-weight: bold;
-}
-
-nav {
-  background: #fff;
-  padding: 10px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.logo img {
-  height: 50px;
-  width: auto;
-  object-fit: contain;
-}
-
-.menu a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-}
-
-.servicio-domicilio {
-  background: #111;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  align-items: center;
-}
-
-.servicio-domicilio a {
-  color: #f5b800;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.hero {
-  position: relative;
-  height: 300px;
-  background: #222;
-}
-
-.hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-}
-
-.hero-contenido {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  text-align: center;
-}
-
-.domicilio-seccion {
-  padding: 30px 20px;
-  text-align: center;
-  background: #fff;
-}
-
-.domicilio-contenedor img {
-  max-width: 45%;
-  height: auto;
-  border-radius: 8px;
-  margin: 10px;
-}
-
-.productos-seccion {
-  max-width: 1100px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-.buscador-box {
-  background: #151b27;
-  color: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-}
-
-.buscador-titulo {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.formulario {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.formulario select, .formulario button {
-  flex: 1;
-  min-width: 150px;
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.boton-buscar {
-  background: #d71920;
-  color: #fff;
-  border: none !important;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.resultado-busqueda {
-  display: none;
-  background: #fff;
-  border-left: 5px solid #d71920;
-  padding: 20px;
-  margin-bottom: 30px;
-  border-radius: 5px;
-}
-
-.resultado-busqueda.mostrar {
-  display: block;
-}
-
-.bateria-recomendada {
-  font-size: 24px;
-  font-weight: bold;
-  color: #f5b800;
-  background: #151b27;
-  display: inline-block;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-.productos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.producto {
-  background: #fff;
-  border-radius: 8px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.producto img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain;
-}
-
-.btn-consultar {
-  display: inline-block;
-  margin-top: 10px;
-  background: #151b27;
-  color: #fff;
-  padding: 8px 15px;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-.marcas {
-  text-align: center;
-  padding: 40px 20px;
-  background: #fff;
-}
-
-.marcas img {
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px;
-}
-
-.servicios {
-  background: #151b27;
-  color: #fff;
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.boton-whatsapp {
-  display: inline-block;
-  background: #25D366;
-  color: #fff;
-  padding: 12px 25px;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 5px;
-  margin-top: 15px;
-}
-
-.whatsapp-btn-float {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #25D366;
-  color: #fff;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 24px;
-  z-index: 1000;
-}
-
-#wr-chat-btn {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  background: #151b27;
-  color: #fff;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-#wr-chat {
-  display: none;
-  position: fixed;
-  bottom: 140px;
-  right: 20px;
-  width: 320px;
-  height: 400px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  flex-direction: column;
-  z-index: 1000;
-  overflow: hidden;
-}
-
-#wr-chat.open {
-  display: flex;
-}
-
-#wr-head {
-  background: #151b27;
-  color: #fff;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#wr-close {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-#wr-msg {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  background: #f9f9f9;
-}
-
-.wr-b, .wr-u {
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  max-width: 85%;
-  font-size: 14px;
-}
-
-.wr-b {
-  background: #e9ecef;
-  align-self: flex-start;
-}
-
-.wr-u {
-  background: #151b27;
-  color: #fff;
-  margin-left: auto;
-}
-
-.chat-input-container {
-  display: flex;
-  padding: 8px;
-  border-top: 1px solid #ddd;
-}
-
-#wr-text {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-#wr-send {
-  background: #d71920;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  margin-left: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  background: #111;
-  color: #fff;
-}
-app.js
-JavaScript
-document.addEventListener("DOMContentLoaded", () => {
-  const baseDatos = {
-    Toyota: {
-      "Yaris": { bateria: "N-50", nota: "Aplica para modelos estándar." },
-      "Corolla": { bateria: "N-50 / 42R", nota: "Verificar tipo de borne." },
-      "Hilux": { bateria: "N-70", nota: "Requerida mayor capacidad de arranque." }
-    },
-    Hyundai: {
-      "Accent": { bateria: "N-50", nota: "Revisar polaridad." },
-      "Tucson": { bateria: "N-70", nota: "Recomendado para versiones gasolina y diésel." }
-    }
-  };
-
-  const marcaSelect = document.getElementById("marca");
-  const modeloSelect = document.getElementById("modelo");
-  const anioSelect = document.getElementById("anio");
-  const resultado = document.getElementById("resultado");
-  const formBuscador = document.getElementById("formBuscador");
-
-  const chat = document.getElementById("wr-chat");
-  const chatBtn = document.getElementById("wr-chat-btn");
-  const chatClose = document.getElementById("wr-close");
-  const chatMsg = document.getElementById("wr-msg");
-  const chatText = document.getElementById("wr-text");
-  const chatInputForm = document.getElementById("wr-input-form");
-
-  // Cargar Años
-  for (let a = 2026; a >= 1990; a--) {
-    const opt = document.createElement("option");
-    opt.value = a;
-    opt.textContent = a;
-    anioSelect.appendChild(opt);
-  }
-
-  // Cargar Marcas
-  Object.keys(baseDatos).forEach(m => {
-    const opt = document.createElement("option");
-    opt.value = m;
-    opt.textContent = m;
-    marcaSelect.appendChild(opt);
-  });
-
-  // Cambiar Modelos
-  marcaSelect.addEventListener("change", () => {
-    const m = marcaSelect.value;
-    modeloSelect.innerHTML = '<option value="">Seleccione modelo</option>';
-    
-    if (m && baseDatos[m]) {
-      Object.keys(baseDatos[m]).forEach(mod => {
-        const opt = document.createElement("option");
-        opt.value = mod;
-        opt.textContent = mod;
-        modeloSelect.appendChild(opt);
-      });
-      modeloSelect.disabled = false;
-    } else {
-      modeloSelect.disabled = true;
-    }
-  });
-
-  // Procesar Búsqueda
-  formBuscador.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const m = marcaSelect.value;
-    const mod = modeloSelect.value;
-
-    if (!m || !mod) {
-      resultado.className = "resultado-busqueda mostrar";
-      resultado.innerHTML = "<h3>⚠️ Atención</h3><p>Por favor seleccione al menos Marca y Modelo.</p>";
-      return;
-    }
-
-    const info = baseDatos[m]?.[mod];
-    resultado.className = "resultado-busqueda mostrar";
-
-    if (info) {
-      resultado.innerHTML = `
-        <h3>🔋 Batería Recomendada</h3>
-        <p><strong>Vehículo:</strong> ${m} ${mod}</p>
-        <div class="bateria-recomendada">${info.bateria}</div>
-        <p>${info.nota}</p>
-        <br>
-        <a href="https://wa.me/50663928294?text=Consulta%20bateria%20${info.bateria}%20para%20${m}%20${mod}" target="_blank" class="boton-whatsapp">📲 Consultar por WhatsApp</a>
-      `;
-    } else {
-      resultado.innerHTML = `
-        <h3>🔎 Consulta manual</h3>
-        <p>No tenemos el registro directo. Contáctenos para verificarlo inmediatamente.</p>
-        <a href="https://wa.me/50663928294?text=Consulta%20bateria%20para%20${m}%20${mod}" target="_blank" class="boton-whatsapp">📲 Consultar Asesor</a>
-      `;
-    }
-  });
-
-  // Toggle Chatbot
-  chatBtn.addEventListener("click", () => chat.classList.toggle("open"));
-  chatClose.addEventListener("click", () => chat.classList.remove("open"));
-
-  // Mensajes Chatbot
-  chatInputForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const txt = chatText.value.trim();
-    if (!txt) return;
-
-    const uDiv = document.createElement("div");
-    uDiv.className = "wr-u";
-    uDiv.textContent = txt;
-    chatMsg.appendChild(uDiv);
-    chatText.value = "";
-
-    setTimeout(() => {
-      const bDiv = document.createElement("div");
-      bDiv.className = "wr-b";
-      bDiv.innerHTML = "👋 Gracias por consultar. Para asesoría directa puede escribirnos a nuestro <a href='https://wa.me/50663928294' target='_blank'>WhatsApp 6392 8294</a>.";
-      chatMsg.appendChild(bDiv);
-      chatMsg.scrollTop = chatMsg.scrollHeight;
-    }, 400);
-
-    chatMsg.scrollTop = chatMsg.scrollHeight;
-  });
-});
