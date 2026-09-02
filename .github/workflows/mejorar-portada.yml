@@ -6,7 +6,7 @@ permissions:
   contents: write
 jobs:
   aplicar:
-    if: "!contains(github.event.head_commit.message, '[portada-aplicada]')"
+    if: "!contains(github.event.head_commit.message, '[portada-aplicada]') && !contains(github.event.head_commit.message, '[reparar-funciones]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
