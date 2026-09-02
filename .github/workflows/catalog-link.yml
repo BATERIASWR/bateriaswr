@@ -15,17 +15,18 @@ jobs:
           from pathlib import Path
           p=Path('index.html')
           s=p.read_text(encoding='utf-8')
+          s=s.replace(r'\n', '\n')
           link='<a href="#baterias">Catálogo</a>'
           if link not in s:
               old='<a href="#baterias">Baterías</a>'
               if old in s:
-                  s=s.replace(old, old+'\\n'+link, 1)
+                  s=s.replace(old, old+'\n'+link, 1)
           tag='<script src="catalogo-baterias.js"></script>'
           if tag not in s:
               pos=s.lower().rfind('</body>')
               if pos < 0:
                   raise SystemExit('No se encontró </body> en index.html')
-              s=s[:pos]+tag+'\\n'+s[pos:]
+              s=s[:pos]+tag+'\n'+s[pos:]
           p.write_text(s, encoding='utf-8')
           PY
       - name: Publicar
@@ -33,4 +34,4 @@ jobs:
           git config user.name 'BATERIASWR'
           git config user.email 'wilber1977@gmail.com'
           git add index.html
-          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Integrar catálogo de baterías'; git push; fi
+          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Corregir integración del catálogo'; git push; fi
