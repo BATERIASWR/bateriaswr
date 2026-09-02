@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Integrar catálogo y BCI
+      - name: Integrar catálogo, BCI y aplicaciones
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -18,7 +18,11 @@ jobs:
           marker='</body>'
           if marker not in s:
               raise SystemExit('No se encontró </body>')
-          tags=['<script src="catalogo-baterias.js"></script>','<script src="mercado-cr.js"></script>']
+          tags=[
+              '<script src="catalogo-baterias.js"></script>',
+              '<script src="mercado-cr.js"></script>',
+              '<script src="catalogo-cr-adicional.js"></script>'
+          ]
           for tag in tags:
               if tag not in s:
                   s=s.replace(marker,tag+'\n'+marker,1)
@@ -28,5 +32,5 @@ jobs:
         run: |
           git config user.name 'BATERIASWR'
           git config user.email 'wilber1977@gmail.com'
-          git add index.html mercado-cr.js
-          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Corregir carga de catalogo y BCI'; git push; fi
+          git add index.html mercado-cr.js catalogo-baterias.js catalogo-cr-adicional.js
+          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Actualizar catalogo CR y BCI'; git push; fi
