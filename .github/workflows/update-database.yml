@@ -22,8 +22,6 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
-          # Toyota Tercel: aplicaciones publicadas muestran multiples grupos segun ano/trim.
-          # Se conserva la seleccion como rango y se informa que debe verificarse la version.
           old = '"Wish":[2003,2017,["Gasolina"],"N-50","Confirmar generación."]'
           new = old + ',\n"Tercel":[1980,1999,["Gasolina"],"25 / 24 / 75/86 / 34 / 35","El grupo cambia según año, versión y mercado; confirmar antes de instalar."]'
           if '"Tercel":[1980,1999' not in s:
@@ -31,18 +29,15 @@ jobs:
                   raise SystemExit('No se encontró el punto de inserción Toyota')
               s = s.replace(old, new, 1)
 
-          # Tucson/ix35 2010 2.0 CRDi: referencia observada en la unidad del cliente.
           old = '"Tucson":[2004,2026,["Gasolina","Diésel"],"N-70","Los diésel pueden requerir mayor capacidad."]'
           new = '"Tucson":[2004,2026,["Gasolina","Diésel"],"N-70 / 95D31R / GB90R","En 2.0 CRDi puede utilizar configuración de ~90 Ah y ~710 CCA; verificar dimensiones, polaridad y versión."]'
-          if old not in s:
-              raise SystemExit('No se encontró Tucson')
-          s = s.replace(old, new, 1)
+          if old in s:
+              s = s.replace(old, new, 1)
 
           old = '"ix35":[2010,2015,["Gasolina","Diésel"],"N-70","Modelo equivalente a Tucson en varios mercados."]'
           new = '"ix35":[2010,2015,["Gasolina","Diésel"],"N-70 / 95D31R / GB90R","2.0 CRDi: referencia ~90 Ah y ~710 CCA; verificar dimensiones, polaridad y versión."]'
-          if old not in s:
-              raise SystemExit('No se encontró ix35')
-          s = s.replace(old, new, 1)
+          if old in s:
+              s = s.replace(old, new, 1)
 
           marker = '/* BASE-DATOS-REVISION-2026 */'
           if marker not in s:
@@ -56,7 +51,6 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
           s = Path('index.html').read_text(encoding='utf-8')
           assert '"Tercel"' in s
           assert '"Tucson"' in s
