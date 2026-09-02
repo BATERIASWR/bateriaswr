@@ -11,46 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Agregar CCA y grupos BCI
         run: |
-          if ! grep -q 'WR-CCA-GRUPOS-V1' catalogo-baterias.js; then
-            cat >> catalogo-baterias.js <<'EOF'
-
-/* WR-CCA-GRUPOS-V1 */
-const resumenCCAGruposWR = {
-  "N-40": {ccaRecomendado:340, opciones:{"MA-NS40":"BCI 51","MA-NS40L":"BCI 51R","NS40ZLA-MF":"BCI 151R (referencia NS40ZL)"}},
-  "N-50": {ccaRecomendado:580, opciones:{"RN50-O-MF":"BCI 24","MA-24L800":"BCI 24R"}},
-  "N-60": {ccaRecomendado:490, opciones:{"MA-NS60L":"BCI 51R","MA-NS60Z":"BCI 51","MA-NS60ZL":"BCI 51R"}},
-  "N-70": {ccaRecomendado:710, opciones:{"RN70L-O-MF":"BCI 27R","NS70-MF":"BCI 24","NS70L-MF":"BCI 24R","MA-27800":"BCI 27"}}
-};
-
-const familiaBateriaHTMLWRAnterior = familiaBateriaHTMLWR;
-familiaBateriaHTMLWR = function(familia){
-  const lista=catalogoBateriasWR[familia] || [];
-  const resumen=resumenCCAGruposWR[familia];
-  if(!resumen) return familiaBateriaHTMLWRAnterior(familia);
-  const encabezado=`⭐ <strong>CCA recomendado: ${resumen.ccaRecomendado} A</strong><br><span style="font-size:12px;color:#666">Mayor CCA disponible entre las opciones actuales.</span><br><br>`;
-  const detalle=lista.map(b=>{
-    const grupo=resumen.opciones[b.modelo] || 'Por confirmar';
-    const cca=b.cca ? `${b.cca} CCA` : 'CCA no indicado';
-    return `• <strong>${b.modelo}</strong> — ${b.marca} — ${cca} — <strong>${grupo}</strong>`;
-  }).join('<br>');
-  return encabezado+`🔋 <strong>${familia}</strong><br><br>${detalle}<br><br><span style="font-size:12px;color:#666">Grupo BCI de referencia. Confirmar siempre polaridad, bornes y medidas antes de instalar.</span>`;
-};
-EOF
-          fi
+          python3 -c "import base64; from pathlib import Path; p=Path('catalogo-baterias.js'); s=p.read_text(encoding='utf-8'); x=base64.b64decode('Ci8qIFdSLUNDQS1HUlVQT1MtVjEgKi8KY29uc3QgcmVzdW1lbkNDQUdydXBvc1dSID0gewogICJOLTQwIjoge2NjYVJlY29tZW5kYWRvOjM0MCwgb3BjaW9uZXM6eyJNQS1OUzQwIjoiQkNJIDUxIiwiTUEtTlM0MEwiOiJCQ0kgNTFSIiwiTlM0MFpMQS1NRiI6IkJDSSAxNTFSIChyZWZlcmVuY2lhIE5TNDBaTCkifX0sCiAgIk4tNTAiOiB7Y2NhUmVjb21lbmRhZG86NTgwLCBvcGNpb25lczp7IlJONTAtTy1NRiI6IkJDSSAyNCIsIk1BLTI0TDgwMCI6IkJDSSAyNFIifX0sCiAgIk4tNjAiOiB7Y2NhUmVjb21lbmRhZG86NDkwLCBvcGNpb25lczp7Ik1BLU5TNjBMIjoiQkNJIDUxUiIsIk1BLU5TNjBaIjoiQkNJIDUxIiwiTUEtTlM2MFpMIjoiQkNJIDUxUiJ9fSwKICAiTi03MCI6IHtjY2FSZWNvbWVuZGFkbzo3MTAsIG9wY2lvbmVzOnsiUk43MEwtTy1NRiI6IkJDSSAyN1IiLCJOUzcwLU1GIjoiQkNJIDI0IiwiTlM3MEwtTUYiOiJCQ0kgMjRSIiwiTUEtMjc4MDAiOiJCQ0kgMjcifX0KfTsKCmNvbnN0IGZhbWlsaWFCYXRlcmlhSFRNTFdSQW50ZXJpb3IgPSBmYW1pbGlhQmF0ZXJpYUhUTUxXUjsKZmFtaWxpYUJhdGVyaWFIVE1MV1IgPSBmdW5jdGlvbihmYW1pbGlhKXsKICBjb25zdCBsaXN0YT1jYXRhbG9nb0JhdGVyaWFzV1JbZmFtaWxpYV0gfHwgW107CiAgY29uc3QgcmVzdW1lbj1yZXN1bWVuQ0NBR3J1cG9zV1JbZmFtaWxpYV07CiAgaWYoIXJlc3VtZW4pIHJldHVybiBmYW1pbGlhQmF0ZXJpYUhUTUxXUkFudGVyaW9yKGZhbWlsaWEpOwogIGNvbnN0IGVuY2FiZXphZG89YOKtkCA8c3Ryb25nPkNDQSByZWNvbWVuZGFkbzogJHtyZXN1bWVuLmNjYVJlY29tZW5kYWRvfSBBPC9zdHJvbmc+PGJyPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTJweDtjb2xvcjojNjY2Ij5NYXlvciBDQ0EgZGlzcG9uaWJsZSBlbnRyZSBsYXMgb3BjaW9uZXMgYWN0dWFsZXMuPC9zcGFuPjxicj48YnI+YDsKICBjb25zdCBkZXRhbGxlPWxpc3RhLm1hcChiPT57CiAgICBjb25zdCBncnVwbz1yZXN1bWVuLm9wY2lvbmVzW2IubW9kZWxvXSB8fCAnUG9yIGNvbmZpcm1hcic7CiAgICBjb25zdCBjY2E9Yi5jY2EgPyBgJHtiLmNjYX0gQ0NBYCA6ICdDQ0Egbm8gaW5kaWNhZG8nOwogICAgcmV0dXJuIGDigKIgPHN0cm9uZz4ke2IubW9kZWxvfTwvc3Ryb25nPiDigJQgJHtiLm1hcmNhfSDigJQgJHtjY2F9IOKAlCA8c3Ryb25nPiR7Z3J1cG99PC9zdHJvbmc+YDsKICB9KS5qb2luKCc8YnI+Jyk7CiAgcmV0dXJuIGVuY2FiZXphZG8rYPCflIsgPHN0cm9uZz4ke2ZhbWlsaWF9PC9zdHJvbmc+PGJyPjxicj48YnI+JHtkZXRhbGxlfTxicj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEycHg7Y29sb3I6IzY2NiI+R3J1cG8gQkNJIGRlIHJlZmVyZW5jaWEuIENvbmZpcm1hciBzaWVtcHJlIHBvbGFyaWRhZCwgYm9ybmVzIHkgbWVkaWRhcy48L3NwYW4+YDsKfTsK'.replace(' ','+')).decode(); p.write_text(s if 'WR-CCA-GRUPOS-V1' in s else s+x,encoding='utf-8')"
       - name: Integrar en index sin modificar diseño
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('index.html')
-          s=p.read_text(encoding='utf-8')
-          s=s.replace(r'\n', '\n')
-          tag='<script src="catalogo-baterias.js"></script>'
-          if tag not in s:
-              pos=s.lower().rfind('</body>')
-              if pos < 0: raise SystemExit('No se encontró </body>')
-              s=s[:pos]+tag+'\n'+s[pos:]
-              p.write_text(s,encoding='utf-8')
-          PY
+          python3 -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(encoding='utf-8'); tag='<script src=\"catalogo-baterias.js\"></script>'; s=s.replace(r'\\n','\\n'); pos=s.lower().rfind('</body>'); s=s if tag in s else s[:pos]+tag+'\\n'+s[pos:]; p.write_text(s,encoding='utf-8')"
       - name: Publicar
         run: |
           git config user.name 'BATERIASWR'
