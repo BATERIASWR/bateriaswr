@@ -98,6 +98,47 @@ nav{
   text-decoration:none;
 }
 
+.cobertura-toggle{
+  appearance:none;
+  border:0;
+  background:none;
+  color:#f5b800;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+  padding:4px 0;
+}
+
+.cobertura-panel{
+  display:none;
+  width:min(680px,94vw);
+  margin:10px auto 0;
+  padding:14px 16px;
+  background:#151b27;
+  border:1px solid rgba(245,184,0,.45);
+  border-radius:10px;
+  text-align:center;
+  line-height:1.5;
+}
+
+.cobertura-panel.mostrar{display:block}
+
+.cobertura-panel strong{color:#f5b800}
+
+.cobertura-panel a{
+  display:inline-block;
+  margin-top:9px;
+  padding:9px 14px;
+  border-radius:7px;
+  background:#25D366;
+  color:#fff;
+  text-decoration:none;
+}
+
+@media(max-width:650px){
+  .cobertura-panel{font-size:13px}
+}
+
 /* HERO */
 
 .hero{
@@ -815,11 +856,19 @@ footer p{
 <div>
 <strong>🚚 SERVICIO A DOMICILIO</strong>
 <span>Se la llevamos hasta su casa</span>
+<button class="cobertura-toggle" type="button" onclick="document.getElementById('wr-cobertura').classList.toggle('mostrar')">📍 Verificar zona de cobertura</button>
 </div>
 
 <a href="tel:63928294">
 📞 6392 8294
 </a>
+
+<div id="wr-cobertura" class="cobertura-panel" aria-live="polite">
+<strong>📍 Verifique su zona de cobertura</strong><br>
+Indíquenos su ubicación y confirmamos si podemos llevarle la batería hasta su casa.
+<br>
+<a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr%2C%20quiero%20verificar%20si%20tienen%20cobertura%20a%20domicilio%20en%20mi%20zona." target="_blank">📲 Consultar cobertura por WhatsApp</a>
+</div>
 
 </div>
 
