@@ -1,0 +1,25 @@
+name: Aplicar CCA Costa Rica v2
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aplicar parche
+        run: python3 cca_patch_v2.py
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Integrar CCA Costa Rica en buscador [cca-integrado]"
+          git push
