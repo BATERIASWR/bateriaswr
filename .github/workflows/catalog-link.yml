@@ -9,9 +9,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Actualizar tarjetas N-40 N-50 N-60 N-70
+      - name: Actualizar tarjetas visibles N-40 N-50 N-60 N-70
         run: |
-          python3 -c "import base64;from pathlib import Path;p=Path('index.html');s=p.read_text(encoding='utf-8');exec(base64.b64decode('ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgnaW5kZXguaHRtbCcpCnM9cC5yZWFkX3RleHQoZW5jb2Rpbmc9J3V0Zi04JykKcmVwbHM9ewonJyc8aDM+Ti00MDwvaDM+Cgo8ZGl2IGNsYXNzPSJjY2EiPgpDQ0E6IENvbnN1bHRhcgo8L2Rpdj4nJyc6JycnPGgzPk4tNDA8L2gzPgoKPGRpdiBjbGFzcz0iY2NhIj4KQ0NBIHJlY29tZW5kYWRvOiAzNDAgQQo8L2Rpdj4KCjxkaXYgY2xhc3M9ImNjYSI+CkdydXBvIEJDSTogNTFSCjwvZGl2PicnJywKJycnPGgzPk4tNTA8L2gzPgoKPGRpdiBjbGFzcz0iY2NhIj4KQ0NBOiBDb25zdWx0YXIKPC9kaXY+JycnOicnJzxoMz5OLTUwPC9oMz4KCjxkaXYgY2xhc3M9ImNjYSI+CkNDQSByZWNvbWVuZGFkbzogNTgwIEEKPC9kaXY+Cgo8ZGl2IGNsYXNzPSJjY2EiPgpHcnVwbyBCQ0k6IDI0Ugo8L2Rpdj4nJycsCicnJzxoMz5OLTYwPC9oMz4KCjxkaXYgY2xhc3M9ImNjYSI+CkNDQTogQ29uc3VsdGFyCjwvZGl2PicnJzonJyc8aDM+Ti02MDwvaDM+Cgo8ZGl2IGNsYXNzPSJjY2EiPgpDQ0EgcmVjb21lbmRhZG86IDQ5MCBBCjwvZGl2PgoKPGRpdiBjbGFzcz0iY2NhIj4KR3J1cG8gQkNJOiA1MVIKPC9kaXY+JycnLAonJyc8aDM+Ti03MDwvaDM+Cgo8ZGl2IGNsYXNzPSJjY2EiPgpDQ0E6IENvbnN1bHRhcgo8L2Rpdj4nJyc6JycnPGgzPk4tNzA8L2gzPgoKPGRpdiBjbGFzcz0iY2NhIj4KQ0NBIHJlY29tZW5kYWRvOiA3MTAgQQo8L2Rpdj4KCjxkaXYgY2xhc3M9ImNjYSI+CkdydXBvIEJDSTogMjcKPC9kaXY+JycnCn0KZm9yIG9sZCxuZXcgaW4gcmVwbHMuaXRlbXMoKToKICAgIGlmIG9sZCBpbiBzOgogICAgICAgIHM9cy5yZXBsYWNlKG9sZCxuZXcsMSkKcC53cml0ZV90ZXh0KHMsZW5jb2Rpbmc9J3V0Zi04JykK').decode())"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          cambios={
+            'N-40':('CCA recomendado: 340 A','Grupo BCI: 51R'),
+            'N-50':('CCA recomendado: 580 A','Grupo BCI: 24R'),
+            'N-60':('CCA recomendado: 490 A','Grupo BCI: 51R'),
+            'N-70':('CCA recomendado: 710 A','Grupo BCI: 27')
+          }
+          for familia,(cca,bci) in cambios.items():
+              patron=rf'(<h3>\s*{re.escape(familia)}\s*</h3>.*?<div class="cca">\s*)CCA:\s*Consultar(\s*</div>)'
+              repl=rf'\1{cca}\2\n\n<div class="cca">{bci}</div>'
+              s,n=re.subn(patron,repl,s,count=1,flags=re.S)
+              print(f'{familia}: {n} tarjeta(s) actualizada(s)')
+          p.write_text(s,encoding='utf-8')
+          PY
       - name: Publicar
         run: |
           git config user.name 'BATERIASWR'
