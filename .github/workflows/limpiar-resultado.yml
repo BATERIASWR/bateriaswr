@@ -1,0 +1,36 @@
+name: Limpiar resultado WR
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  limpiar:
+    if: "!contains(github.event.head_commit.message, '[resultado-limpio]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Quitar duplicado y validar
+        shell: python
+        run: |
+          from pathlib import Path
+          import re, subprocess
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          block=re.compile(r'(\n    \'<div class="cca-panel">\'\+\s*\n.*?\n    \'<p class="cca-aviso">.*?</p>\'\+)',re.S)
+          matches=block.findall(s)
+          if len(matches)>1:
+              s=s.replace(matches[1],'',1)
+          p.write_text(s,encoding='utf-8')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S|re.I)
+          Path('/tmp/wr.js').write_text(scripts[-1],encoding='utf-8')
+          subprocess.run(['node','--check','/tmp/wr.js'],check=True)
+          print('JavaScript válido')
+      - name: Publicar
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Limpiar resultado de batería [resultado-limpio]"
+          git push
