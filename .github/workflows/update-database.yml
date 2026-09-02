@@ -15,18 +15,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Actualizar aplicaciones
+      - name: Actualizar aplicaciones y catalogo
         run: |
           python - <<'PY'
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
+          # 1) Asegurar aplicaciones ya revisadas
           old = '"Wish":[2003,2017,["Gasolina"],"N-50","Confirmar generación."]'
           new = old + ',\n"Tercel":[1980,1999,["Gasolina"],"25 / 24 / 75/86 / 34 / 35","El grupo cambia según año, versión y mercado; confirmar antes de instalar."]'
-          if '"Tercel":[1980,1999' not in s:
-              if old not in s:
-                  raise SystemExit('No se encontró el punto de inserción Toyota')
+          if '"Tercel":[1980,1999' not in s and old in s:
               s = s.replace(old, new, 1)
 
           old = '"Tucson":[2004,2026,["Gasolina","Diésel"],"N-70","Los diésel pueden requerir mayor capacidad."]'
@@ -39,15 +38,87 @@ jobs:
           if old in s:
               s = s.replace(old, new, 1)
 
+          # 2) Agregar referencias comerciales/JIS que faltaban
+          old = '  "42R":{min:500,rec:550,perfil:"Sedán / SUV ligero"},'
+          new = '  "42R":{min:null,rec:null,perfil:"R42L: verificar por dimensiones y polaridad"},\n  "36F":{min:null,rec:null,perfil:"36F-P: verificar por dimensiones y polaridad"},'
+          if '"36F":{min:null' not in s and old in s:
+              s = s.replace(old, new, 1)
+
+          old = '  if(/N70ZL|N70Z|N70/.test(t)) return "BCI 27";'
+          new = '  if(/N70ZL|N70Z|N70/.test(t)) return "BCI 27";\n  if(/42R|R42L|36F/.test(t)) return "Verificar equivalencia BCI";'
+          if 'Verificar equivalencia BCI' not in s and old in s:
+              s = s.replace(old, new, 1)
+
+          # 3) Catálogo visible de los grupos faltantes
+          marker = '<div class="producto" onclick="location.href=\'n40.html\'">'
+          cards = '''<div class="producto referencia-especial">
+          <div class="referencia-icono">🔋</div>
+          <div class="producto-info">
+          <h3>R42L / 42R</h3>
+          <div class="cca">JIS / referencia comercial</div>
+          <div class="referencia-datos">Record R42L-O-MF · 35 Ah · 460 A de arranque · CCA 330 A</div>
+          <div class="precio">Consultar</div>
+          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr%2C%20quiero%20consultar%20por%20R42L%2F42R" target="_blank" rel="noopener">Consultar</a>
+          </div>
+          </div>
+
+          <div class="producto referencia-especial">
+          <div class="referencia-icono">🔋</div>
+          <div class="producto-info">
+          <h3>36F / 36F-P</h3>
+          <div class="cca">Grupo / referencia comercial</div>
+          <div class="referencia-datos">Tasco Gold 36F-P · 60 Ah · 430 A de arranque · RC 50 min</div>
+          <div class="precio">Consultar</div>
+          <a href="https://wa.me/50663928294?text=Hola%20WRbateriasCr%2C%20quiero%20consultar%20por%2036F%2F36F-P" target="_blank" rel="noopener">Consultar</a>
+          </div>
+          </div>
+
+          '''
+          if 'R42L / 42R' not in s and marker in s:
+              s = s.replace(marker, cards + marker, 1)
+
+          # 4) Estilo de las referencias especiales
+          css_marker = '</style>'
+          css = '''
+          .referencia-especial{border:2px solid #f5b800;background:#fff}
+          .referencia-icono{height:120px;display:grid;place-items:center;font-size:58px;background:#151b27;color:#f5b800}
+          .referencia-datos{font-size:13px;color:#555;line-height:1.45;margin:9px 0}
+          '''
+          if '.referencia-especial' not in s and css_marker in s:
+              s = s.replace(css_marker, css + css_marker, 1)
+
+          # 5) Hacer que el chatbot reconozca las referencias
+          chat_marker = '  /* TAMAÑOS */\n\n'
+          chat_add = '''  /* REFERENCIAS ESPECIALES */
+
+  if(t.includes("42r") || t.includes("r42l")){
+    return("🔋 <strong>R42L / 42R</strong>"+
+      "<br><br>Record R42L-O-MF: 35 Ah, 460 A de arranque y CCA 330 A según la ficha visible."+
+      "<br><br>La equivalencia BCI debe confirmarse por dimensiones y polaridad."+
+      "<br><br><a href="https://wa.me/50663928294" target="_blank" rel="noopener">📲 Consultar disponibilidad</a>");
+  }
+
+  if(t.includes("36f")){
+    return("🔋 <strong>36F / 36F-P</strong>"+
+      "<br><br>Tasco Gold 36F-P: 60 Ah, 430 A de arranque y RC 50 min."+
+      "<br><br>La equivalencia BCI debe confirmarse por dimensiones y polaridad."+
+      "<br><br><a href="https://wa.me/50663928294" target="_blank" rel="noopener">📲 Consultar disponibilidad</a>");
+  }
+
+'''
+          if '/* REFERENCIAS ESPECIALES */' not in s and chat_marker in s:
+              s = s.replace(chat_marker, chat_marker + chat_add, 1)
+
+          # 6) Marcador de revisión
           marker = '/* BASE-DATOS-REVISION-2026 */'
           if marker not in s:
               s = s.replace('const baseDatos = {', marker + '\nconst baseDatos = {', 1)
 
           p.write_text(s, encoding='utf-8')
-          print('Base actualizada')
+          print('Actualizacion preparada')
           PY
 
-      - name: Validar JavaScript embebido
+      - name: Validar HTML/JavaScript
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -56,11 +127,15 @@ jobs:
           assert '"Tucson"' in s
           assert '"ix35"' in s
           assert '95D31R' in s and 'GB90R' in s
+          assert '"36F":{min:null' in s
+          assert 'R42L / 42R' in s
+          assert '36F / 36F-P' in s
+          assert 'Verificar equivalencia BCI' in s
           assert s.count('const baseDatos = {') == 1
-          print('Validacion de base de datos: OK')
+          print('Validacion OK: 42R/R42L y 36F/36F-P presentes')
           PY
 
-      - name: Commit changes
+      - name: Publicar cambios
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -69,5 +144,5 @@ jobs:
             echo 'Sin cambios que publicar'
             exit 0
           fi
-          git commit -m 'Actualizar aplicaciones de baterias: Tucson ix35 y Toyota Tercel'
+          git commit -m 'Agregar referencias R42L 42R y 36F al catalogo'
           git push
