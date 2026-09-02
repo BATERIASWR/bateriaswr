@@ -9,7 +9,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Integrar catálogo sin modificar el diseño
+      - name: Agregar CCA recomendado y grupo BCI sin alterar datos existentes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('catalogo-baterias.js')
+          s=p.read_text(encoding='utf-8')
+          marker='/* WR-CCA-GRUPOS-V1 */'
+          if marker not in s:
+              extra=r'''
+
+/* WR-CCA-GRUPOS-V1 */
+const resumenCCAGruposWR = {
+  "N-40": {ccaRecomendado:340, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
+    "MA-NS40":"BCI 51", "MA-NS40L":"BCI 51R", "NS40ZLA-MF":"BCI 151R (referencia de equivalencia NS40ZL)"
+  }},
+  "N-50": {ccaRecomendado:580, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
+    "RN50-O-MF":"BCI 24", "MA-24L800":"BCI 24R"
+  }},
+  "N-60": {ccaRecomendado:490, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
+    "MA-NS60L":"BCI 51R", "MA-NS60Z":"BCI 51", "MA-NS60ZL":"BCI 51R"
+  }},
+  "N-70": {ccaRecomendado:710, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
+    "RN70L-O-MF":"BCI 27R", "NS70-MF":"BCI 24", "NS70L-MF":"BCI 24R", "MA-27800":"BCI 27"
+  }}
+};
+
+const familiaBateriaHTMLWRBase = familiaBateriaHTMLWR;
+familiaBateriaHTMLWR = function(familia){
+  const lista=catalogoBateriasWR[familia] || [];
+  const resumen=resumenCCAGruposWR[familia];
+  const encabezado=resumen
+    ? `⭐ <strong>CCA recomendado: ${resumen.ccaRecomendado} A</strong><br><span style="font-size:12px;color:#666">Selección por mayor CCA disponible en las opciones actuales.</span><br><br>`
+    : '';
+  const detalle=lista.map(b=>{
+    const grupo=resumen && resumen.opciones[b.modelo] ? resumen.opciones[b.modelo] : 'Por confirmar';
+    return `• <strong>${b.modelo}</strong> — ${b.marca}${b.cca?` — ${b.cca} CCA`:" — CCA no indicado en la fuente actual"} — <strong>${grupo}</strong>`;
+  }).join('<br>');
+  return encabezado+`🔋 <strong>${familia}</strong><br><br>${detalle}<br><br><span style="font-size:12px;color:#666">El grupo mostrado es la equivalencia BCI de referencia; no sustituye la comprobación de polaridad, bornes y medidas.</span>`;
+};
+'''
+              s=s.replace('\nfunction todasLasBateriasWR()', extra+'\nfunction todasLasBateriasWR()', 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Integrar catálogo en la página sin modificar el diseño
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -33,5 +76,5 @@ jobs:
         run: |
           git config user.name 'BATERIASWR'
           git config user.email 'wilber1977@gmail.com'
-          git add index.html
-          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Corregir integración del catálogo'; git push; fi
+          git add index.html catalogo-baterias.js
+          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Agregar CCA recomendado y grupos BCI'; git push; fi
