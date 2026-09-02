@@ -1,22 +1,15 @@
-/* WR-MERCADO-CR-V4 */
+/* WR-MERCADO-CR-V5 - Corrección BCI por modelo JIS */
 const opcionesBCIWR={
  "N-40":[{bci:"BCI 51",modelos:["MA-NS40","N40Z"]},{bci:"BCI 51R",modelos:["MA-NS40L"]},{bci:"BCI 151R",modelos:["NS40ZLA-MF"]}],
  "N-50":[{bci:"BCI 24",modelos:["RN50-O-MF","N50"]},{bci:"BCI 24R",modelos:["MA-24L800"]}],
  "N-60":[{bci:"BCI 51",modelos:["MA-NS60Z"]},{bci:"BCI 51R",modelos:["MA-NS60L","MA-NS60ZL"]}],
- "N-70":[{bci:"BCI 27",modelos:["NS70-MF","MA-27800","NX120-MF","NX120"]},{bci:"BCI 27R",modelos:["NS70L-MF","NX120L-MF","NX120-7L","RN70L-O-MF"]}]
+ "N-70":[{bci:"BCI 24",modelos:["NS70-MF"]},{bci:"BCI 24R",modelos:["NS70L-MF"]},{bci:"BCI 27",modelos:["MA-27800","NX120-MF","NX120"]},{bci:"BCI 27R",modelos:["NX120L-MF","NX120-7L"]}]
 };
 function nBCI(v){return String(v||"").toUpperCase().replace(/[\s_-]/g,"");}
-function modeloCR(c){if(typeof catalogoMercadoCostaRicaWR==="undefined")return null;const n=nBCI(c);return catalogoMercadoCostaRicaWR.find(x=>nBCI(x.modelo)===n)||null;}
-function opcionesBCIHTMLWR(f){const gs=opcionesBCIWR[f]||[];if(!gs.length)return "";return `<div class="wr-opciones-bci" style="margin-top:14px;padding:12px;border:1px solid #ddd;border-radius:10px;background:#fafafa"><strong>🔋 Opciones BCI que pueden corresponder:</strong>`+gs.map(g=>`<div style="margin-top:10px"><strong>${g.bci}</strong><ul style="margin:5px 0 5px 20px">${g.modelos.map(c=>{const b=modeloCR(c);return b?`<li><strong>${b.modelo}</strong> — ${b.marca}${b.cca?` — ${b.cca} CCA`:""}</li>`:`<li><strong>${c}</strong></li>`}).join("")}</ul></div>`).join("")+`<span style="font-size:12px;color:#666">La variante R corresponde a una disposición/polaridad diferente. Verificar medidas, bornes y polaridad antes de instalar.</span></div>`;}
+function modeloCR(c){const n=nBCI(c);let a=[];if(typeof catalogoMercadoCostaRicaWR!=="undefined")a=catalogoMercadoCostaRicaWR;if(typeof todasLasBateriasWR==="function")a=todasLasBateriasWR();return a.find(x=>nBCI(x.modelo)===n)||null;}
+function opcionesBCIHTMLWR(f){const gs=opcionesBCIWR[f]||[];if(!gs.length)return "";return `<div class="wr-opciones-bci" style="margin-top:14px;padding:12px;border:1px solid #ddd;border-radius:10px;background:#fafafa"><strong>🔋 Opciones BCI que pueden corresponder:</strong>`+gs.map(g=>`<div style="margin-top:10px"><strong>${g.bci}</strong><ul style="margin:5px 0 5px 20px">${g.modelos.map(c=>{const b=modeloCR(c);return b?`<li><strong>${b.modelo}</strong> — ${b.marca}${b.cca?` — ${b.cca} CCA`:""}</li>`:`<li><strong>${c}</strong></li>`}).join("")}</ul></div>`).join("")+`<span style="font-size:12px;color:#666">BCI 51/51R, 24/24R y 27/27R se diferencian por tamaño y disposición de bornes. Verificar medidas y polaridad antes de instalar.</span></div>`;}
 function familiaTextoWR(t){const x=nBCI(t);return Object.keys(opcionesBCIWR).filter(f=>x.includes(nBCI(f))||(f==="N-40"&&x.includes("NS40"))||(f==="N-60"&&x.includes("NS60"))||(f==="N-50"&&x.includes("N50"))||(f==="N-70"&&x.includes("N70")));}
-if(typeof procesarChat==="function"){
- const pc=procesarChat;
- procesarChat=function(texto){let s=pc(texto),fs=familiaTextoWR(texto);if(!fs.length){const m=String(s).match(/(?:Bater[ií]a recomendada|Grupo):\s*(?:<br>)?\s*<strong[^>]*>(N-?(?:40|50|60|70)[^<]*)<\/strong>/i);if(m)fs=["N-"+m[1].replace(/[^0-9]/g,"")];}if(fs.length){s=String(s).replace(/(?:BCI|Grupo BCI)\s*:\s*<strong>por confirmar<\/strong>/ig,"");s+=fs.map(opcionesBCIHTMLWR).join("");}return s;};
-}
-if(typeof mostrarResultado==="function"){
- const mr=mostrarResultado;
- mostrarResultado=function(marca,modelo,anio,combustible,registro){mr(marca,modelo,anio,combustible,registro);if(registro&&opcionesBCIWR[registro.bateria]&&typeof resultado!=="undefined")resultado.insertAdjacentHTML("beforeend",opcionesBCIHTMLWR(registro.bateria));};
-}
-/* Modelos adicionales que faltaban */
+if(typeof procesarChat==="function"){const pc=procesarChat;procesarChat=function(texto){let s=pc(texto),fs=familiaTextoWR(texto);if(!fs.length){const m=String(s).match(/(?:Bater[ií]a recomendada|Grupo):\s*(?:<br>)?\s*<strong[^>]*>(N-?(?:40|50|60|70)[^<]*)<\/strong>/i);if(m)fs=["N-"+m[1].replace(/[^0-9]/g,"")];}if(fs.length){s=String(s).replace(/(?:BCI|Grupo BCI)\s*:\s*<strong>por confirmar<\/strong>/ig,"");s+=fs.map(opcionesBCIHTMLWR).join("");}return s;};}
+if(typeof mostrarResultado==="function"){const mr=mostrarResultado;mostrarResultado=function(marca,modelo,anio,combustible,registro){mr(marca,modelo,anio,combustible,registro);if(registro&&opcionesBCIWR[registro.bateria]&&typeof resultado!=="undefined")resultado.insertAdjacentHTML("beforeend",opcionesBCIHTMLWR(registro.bateria));};}
 const vehiculosExtraCostaRicaWR={Toyota:{"Tercel":[1983,1998,["Gasolina"],"N-40 / N-60","Aplicación variable por versión/mercado; confirmar medidas, bornes y polaridad."],"Paseo":[1991,1998,["Gasolina"],"N-40 / N-60","Confirmar versión, medidas y polaridad."],"Starlet":[1992,2000,["Gasolina"],"N-40 / N-60","Confirmar versión, medidas y polaridad."],"Celica":[1990,2006,["Gasolina"],"N-60 / 42R","Confirmar generación y motor."],"Previa":[1991,2000,["Gasolina"],"N-70 / N-80","Confirmar generación y motor."],"Cressida":[1980,1992,["Gasolina"],"N-40 / 42","Confirmar generación y motor."],"Stout":[1985,2006,["Gasolina"],"N-50 / N-70","Confirmar motor y versión."],"TownAce":[1985,2003,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor, versión y medidas."]}};
 if(typeof baseDatos!=="undefined"){Object.keys(vehiculosExtraCostaRicaWR).forEach(m=>{if(!baseDatos[m])baseDatos[m]={};Object.keys(vehiculosExtraCostaRicaWR[m]).forEach(x=>{if(!baseDatos[m][x])baseDatos[m][x]=vehiculosExtraCostaRicaWR[m][x];});});if(typeof cargarMarcas==="function")cargarMarcas();}
