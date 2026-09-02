@@ -120,3 +120,25 @@ if(typeof procesarChat === "function"){
 /* Búsqueda directa por código en la consola, útil para mantenimiento. */
 window.catalogoBateriasWR = catalogoBateriasWR;
 window.buscarFichaBateriaWR = buscarFichaBateriaWR;
+
+/* WR-CCA-GRUPOS-V1 */
+const resumenCCAGruposWR = {
+  "N-40": {ccaRecomendado:340, opciones:{"MA-NS40":"BCI 51","MA-NS40L":"BCI 51R","NS40ZLA-MF":"BCI 151R (referencia NS40ZL)"}},
+  "N-50": {ccaRecomendado:580, opciones:{"RN50-O-MF":"BCI 24","MA-24L800":"BCI 24R"}},
+  "N-60": {ccaRecomendado:490, opciones:{"MA-NS60L":"BCI 51R","MA-NS60Z":"BCI 51","MA-NS60ZL":"BCI 51R"}},
+  "N-70": {ccaRecomendado:710, opciones:{"RN70L-O-MF":"BCI 27R","NS70-MF":"BCI 24","NS70L-MF":"BCI 24R","MA-27800":"BCI 27"}}
+};
+
+const familiaBateriaHTMLWRAnterior = familiaBateriaHTMLWR;
+familiaBateriaHTMLWR = function(familia){
+  const lista=catalogoBateriasWR[familia] || [];
+  const resumen=resumenCCAGruposWR[familia];
+  if(!resumen) return familiaBateriaHTMLWRAnterior(familia);
+  const encabezado=`⭐ <strong>CCA recomendado: ${resumen.ccaRecomendado} A</strong><br><span style="font-size:12px;color:#666">Mayor CCA disponible entre las opciones actuales.</span><br><br>`;
+  const detalle=lista.map(b=>{
+    const grupo=resumen.opciones[b.modelo] || 'Por confirmar';
+    const cca=b.cca ? `${b.cca} CCA` : 'CCA no indicado';
+    return `• <strong>${b.modelo}</strong> — ${b.marca} — ${cca} — <strong>${grupo}</strong>`;
+  }).join('<br>');
+  return encabezado+`🔋 <strong>${familia}</strong><br><br><br>${detalle}<br><span style="font-size:12px;color:#666">Grupo BCI de referencia. Confirmar siempre polaridad, bornes y medidas.</span>`;
+};
