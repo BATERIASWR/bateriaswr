@@ -1,82 +1,128 @@
 from pathlib import Path
 
-p=Path('index.html')
-s=p.read_text(encoding='utf-8')
+p = Path('index.html')
+s = p.read_text(encoding='utf-8')
 
-# Cargar una sola capa de interfaz al final del documento, sin tocar la lógica existente.
-marker='<!-- WR-UI-FIX-2026 -->'
-if marker not in s:
-    block=r'''<!-- WR-UI-FIX-2026 -->
+start = s.find('<!-- WR-UI-FIX-2026 -->')
+if start >= 0:
+    end = s.find('</body>', start)
+    if end >= 0:
+        s = s[:start] + s[end:]
+
+block = r'''<!-- WR-UI-FIX-2026 -->
 <style>
-/* Buscador y categorias: una sola zona limpia y desplegable */
-.buscador-box{position:relative}
-.buscador-box .wr-categoria-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;border-radius:10px;background:#fff;color:#151b27;padding:15px 17px;font-size:16px;font-weight:800;cursor:pointer;margin-top:18px}
-.wr-categoria-toggle span:last-child{font-size:20px;transition:.2s}
-.wr-categoria-toggle.abierto span:last-child{transform:rotate(180deg)}
-.buscador-box .formulario{display:grid;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .2s ease;margin-top:0}
-.buscador-box .formulario.wr-visible{max-height:500px;opacity:1;margin-top:12px}
-.wr-catalogo-acordeon{max-width:1250px;margin:0 auto 35px;background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.08);overflow:hidden;border:1px solid #e4e6e9}
-.wr-catalogo-acordeon>button{width:100%;border:0;background:#151b27;color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;font-size:18px;font-weight:800;cursor:pointer;text-align:left}
-.wr-catalogo-acordeon>button b{color:#f5b800}
-.wr-catalogo-contenido{display:none;padding:18px 20px}
-.wr-catalogo-acordeon.abierto .wr-catalogo-contenido{display:block}
-.wr-categoria{border:1px solid #e3e5e8;border-radius:10px;margin-bottom:9px;overflow:hidden}
-.wr-categoria:last-child{margin-bottom:0}
-.wr-categoria>button{width:100%;border:0;background:#f7f8fa;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;color:#151b27;font-weight:800;cursor:pointer;text-align:left}
-.wr-categoria-opciones{display:none;padding:10px 12px;background:#fff}
-.wr-categoria.abierto .wr-categoria-opciones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.wr-categoria-opciones a{display:block;padding:10px;border:1px solid #e5e6e8;border-radius:8px;color:#333;text-decoration:none;font-size:13px;background:#fff}
-.wr-categoria-opciones a:hover{border-color:#f5b800;background:#fffdf2}
-@media(max-width:650px){.buscador-box .wr-categoria-toggle{font-size:14px}.wr-categoria.abierto .wr-categoria-opciones{grid-template-columns:1fr 1fr}.wr-catalogo-contenido{padding:12px}}
-@media(max-width:420px){.wr-categoria.abierto .wr-categoria-opciones{grid-template-columns:1fr}}
+/* WR: interfaz limpia, un solo lugar para grupos y sin duplicar tarjetas */
+.wr-grupos{max-width:1250px;margin:0 auto 35px;background:#fff;border:1px solid #e2e4e8;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.wr-grupos-head{width:100%;padding:18px 20px;background:#151b27;color:#fff;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:0;text-align:left}
+.wr-grupos-head b{color:#f5b800}
+.wr-grupos-body{display:none;padding:14px}
+.wr-grupos.open .wr-grupos-body{display:block}
+.wr-bateria-grupo{border:1px solid #e1e3e6;border-radius:11px;overflow:hidden;margin-bottom:10px;background:#fff}
+.wr-bateria-grupo:last-child{margin-bottom:0}
+.wr-bateria-grupo>button{width:100%;border:0;background:#f6f7f9;color:#151b27;padding:15px 16px;font-size:17px;font-weight:800;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:left}
+.wr-bateria-grupo>button span:last-child{font-size:21px;color:#d71920}
+.wr-bateria-items{display:none;padding:12px;grid-template-columns:repeat(4,1fr);gap:12px}
+.wr-bateria-grupo.open .wr-bateria-items{display:grid}
+.wr-bateria-item{border:1px solid #e3e5e8;border-radius:10px;padding:14px;background:#fff}
+.wr-bateria-item strong{display:block;font-size:18px;color:#151b27;margin-bottom:5px}
+.wr-bateria-item small{display:block;color:#666;line-height:1.4;margin-bottom:10px}
+.wr-bateria-item a{display:block;text-align:center;background:#151b27;color:#fff;text-decoration:none;padding:9px;border-radius:7px;font-weight:700;font-size:13px}
+#catalogo-cr-verificado{margin-top:10px;padding-top:35px}
+.wr-catalogo-toggle{display:flex;max-width:1100px;margin:0 auto 18px;width:100%;padding:15px 18px;background:#151b27;color:#fff;border:0;border-radius:10px;font-size:17px;font-weight:800;justify-content:space-between;align-items:center;cursor:pointer}
+.wr-catalogo-toggle b{color:#f5b800}
+.wr-catalogo-verificado-body{display:none;max-width:1100px;margin:auto}
+.wr-catalogo-verificado-body.open{display:block}
+@media(max-width:900px){.wr-bateria-items{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.wr-bateria-items{grid-template-columns:1fr}.wr-grupos-head{font-size:17px}}
+
+/* Buscador: se despliega, pero no rompe sus controles ni sus eventos */
+.buscador-box .wr-buscar-toggle{width:100%;border:0;border-radius:9px;background:#fff;color:#151b27;padding:14px 16px;margin-top:14px;font-size:16px;font-weight:800;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.buscador-box .formulario.wr-cerrado{display:none!important}
+.buscador-box .formulario.wr-abierto{display:grid!important}
+.wr-buscar-toggle span:last-child{font-size:20px;color:#d71920}
+@media(max-width:650px){.buscador-box .formulario.wr-abierto{grid-template-columns:1fr!important}.buscador-box .boton-buscar{grid-column:auto!important}}
 </style>
 <script>
 (function(){
-  function initWRUI(){
+  function initWR(){
+    /* BUSCADOR */
     const box=document.querySelector('.buscador-box');
-    const form=document.querySelector('.buscador-box .formulario');
-    if(box&&form&&!box.querySelector('.wr-categoria-toggle')){
-      const toggle=document.createElement('button');
-      toggle.type='button';
-      toggle.className='wr-categoria-toggle';
-      toggle.innerHTML='<span>Seleccionar vehículo</span><span>⌄</span>';
-      toggle.addEventListener('click',function(){
-        const open=form.classList.toggle('wr-visible');
-        toggle.classList.toggle('abierto',open);
-      });
-      form.parentNode.insertBefore(toggle,form);
+    const form=box && box.querySelector('.formulario');
+    if(box && form && !box.querySelector('.wr-buscar-toggle')){
+      const b=document.createElement('button');
+      b.type='button'; b.className='wr-buscar-toggle';
+      b.innerHTML='<span>Seleccionar vehículo</span><span>⌄</span>';
+      form.classList.add('wr-cerrado');
+      b.onclick=function(){
+        const open=form.classList.toggle('wr-abierto');
+        form.classList.toggle('wr-cerrado',!open);
+        b.querySelector('span:last-child').textContent=open?'⌃':'⌄';
+      };
+      form.parentNode.insertBefore(b,form);
     }
 
+    /* GRUPOS: las tarjetas reales se mueven, no se clonan. */
     const productos=document.querySelector('.productos');
-    if(productos&&!document.querySelector('.wr-catalogo-acordeon')){
-      const section=document.createElement('section');
-      section.className='wr-catalogo-acordeon';
-      section.innerHTML='<button type="button"><span>🔋 <b>Categorías de baterías</b></span><span>⌄</span></button><div class="wr-catalogo-contenido"></div>';
-      const content=section.querySelector('.wr-catalogo-contenido');
-      const cards=[...productos.querySelectorAll('.producto')];
-      const grupos={};
-      cards.forEach(card=>{
-        const title=(card.querySelector('h3')||{}).textContent?.trim()||'Batería';
-        const link=card.getAttribute('onclick')||'';
-        const href=(link.match(/location\.href=['\"]([^'\"]+)/)||[])[1]||'#';
-        const key=title.startsWith('N-')?'JIS':title.startsWith('NS')?'JIS':'Otros';
-        (grupos[key]??=[]).push({title,href});
+    if(productos && !document.querySelector('.wr-grupos')){
+      const cards=[...productos.querySelectorAll(':scope > .producto')];
+      const data={
+        'N-40':cards.filter(c=>(c.querySelector('h3')?.textContent||'').trim()==='N-40'),
+        'N-50':cards.filter(c=>(c.querySelector('h3')?.textContent||'').trim()==='N-50'),
+        'N-60':cards.filter(c=>(c.querySelector('h3')?.textContent||'').trim()==='N-60'),
+        'N-70':cards.filter(c=>(c.querySelector('h3')?.textContent||'').trim()==='N-70')
+      };
+      const wrap=document.createElement('section'); wrap.className='wr-grupos';
+      wrap.innerHTML='<button type="button" class="wr-grupos-head"><span>🔋 <b>Grupos de baterías</b></span><span>⌄</span></button><div class="wr-grupos-body"></div>';
+      const body=wrap.querySelector('.wr-grupos-body');
+      Object.entries(data).forEach(([name,items])=>{
+        const group=document.createElement('div'); group.className='wr-bateria-grupo';
+        group.innerHTML='<button type="button"><span>'+name+'</span><span>+</span></button><div class="wr-bateria-items"></div>';
+        const itemsBox=group.querySelector('.wr-bateria-items');
+        items.forEach(card=>{
+          const item=document.createElement('div'); item.className='wr-bateria-item';
+          const title=card.querySelector('h3')?.textContent.trim()||name;
+          const cca=card.querySelector('.cca')?.textContent.trim()||'CCA: consultar';
+          const onclick=card.getAttribute('onclick')||'';
+          const m=onclick.match(/location\.href=['\"]([^'\"]+)['\"]/);
+          const href=m?m[1]:'#';
+          item.innerHTML='<strong>🔋 '+title+'</strong><small>'+cca+'</small><a href="'+href+'">Ver batería</a>';
+          itemsBox.appendChild(item);
+        });
+        group.querySelector('button').onclick=function(){
+          group.classList.toggle('open');
+          group.querySelector('button span:last-child').textContent=group.classList.contains('open')?'−':'+';
+        };
+        body.appendChild(group);
       });
-      Object.entries(grupos).forEach(([name,items])=>{
-        const cat=document.createElement('div');cat.className='wr-categoria';
-        cat.innerHTML='<button type="button"><span>'+name+'</span><span>+</span></button><div class="wr-categoria-opciones"></div>';
-        const opts=cat.querySelector('.wr-categoria-opciones');
-        items.forEach(x=>{const a=document.createElement('a');a.href=x.href;a.textContent=x.title;opts.appendChild(a)});
-        cat.querySelector('button').addEventListener('click',()=>cat.classList.toggle('abierto'));
-        content.appendChild(cat);
-      });
-      section.querySelector('button').addEventListener('click',()=>section.classList.toggle('abierto'));
-      productos.parentNode.insertBefore(section,productos);
+      wrap.querySelector('.wr-grupos-head').onclick=function(){
+        wrap.classList.toggle('open');
+        this.querySelector('span:last-child').textContent=wrap.classList.contains('open')?'⌃':'⌄';
+      };
+      productos.style.display='none';
+      productos.parentNode.insertBefore(wrap,productos);
+    }
+
+    /* Catálogo comercial: un solo botón, marcas dentro al abrir. */
+    const catalogo=document.getElementById('catalogo-cr-verificado');
+    if(catalogo && !catalogo.querySelector('.wr-catalogo-toggle')){
+      const title=catalogo.querySelector('.titulo');
+      const aviso=catalogo.querySelector('.catalogo-cr-aviso');
+      const marcas=[...catalogo.querySelectorAll('.catalogo-cr-marca')];
+      const fuentes=catalogo.querySelector('.catalogo-cr-fuentes');
+      const body=document.createElement('div'); body.className='wr-catalogo-verificado-body';
+      [aviso,...marcas,fuentes].filter(Boolean).forEach(x=>body.appendChild(x));
+      const toggle=document.createElement('button'); toggle.type='button'; toggle.className='wr-catalogo-toggle';
+      toggle.innerHTML='<span>📦 <b>Catálogo comercial verificado</b></span><span>⌄</span>';
+      toggle.onclick=function(){body.classList.toggle('open');toggle.querySelector('span:last-child').textContent=body.classList.contains('open')?'⌃':'⌄'};
+      if(title) title.style.display='none';
+      catalogo.insertBefore(toggle,catalogo.firstChild);
+      catalogo.appendChild(body);
     }
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initWRUI); else initWRUI();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initWR); else initWR();
 })();
 </script>
 '''
-    s=s.replace('</body>',block+'\n</body>',1)
-    p.write_text(s,encoding='utf-8')
+
+s = s.replace('</body>', block + '\n</body>', 1)
+p.write_text(s, encoding='utf-8')
