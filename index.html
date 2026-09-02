@@ -1287,6 +1287,7 @@ function formatearCCA(v){
   return Number.isFinite(v)?v+' CCA':'Por confirmar';
 }
 
+/* BASE-DATOS-REVISION-2026 */
 const baseDatos = {Toyota:{
 "Yaris":[1999,2026,["Gasolina","Híbrido"],"N-50","Puede variar según generación."],
 "Vitz":[1999,2019,["Gasolina","Híbrido"],"N-50","Confirmar generación."],
@@ -1320,15 +1321,16 @@ const baseDatos = {Toyota:{
 "Sienna":[1997,2026,["Gasolina","Híbrido"],"N-70","Confirmar motor."],
 "Auris":[2006,2018,["Gasolina","Híbrido","Diésel"],"N-50","Confirmar generación."],
 "Verso":[2004,2018,["Gasolina","Diésel"],"N-50 / N-70","Confirmar motor."],
-"Wish":[2003,2017,["Gasolina"],"N-50","Confirmar generación."]
+"Wish":[2003,2017,["Gasolina"],"N-50","Confirmar generación."],
+"Tercel":[1980,1999,["Gasolina"],"25 / 24 / 75/86 / 34 / 35","El grupo cambia según año, versión y mercado; confirmar antes de instalar."]
 },
 
 Hyundai:{
 "Accent":[1994,2026,["Gasolina","Diésel"],"N-50","Confirmar generación."],
 "Elantra":[1990,2026,["Gasolina","Híbrido"],"N-50","Puede variar según generación."],
 "Sonata":[1985,2026,["Gasolina","Híbrido"],"N-70","Confirmar generación."],
-"Tucson":[2004,2026,["Gasolina","Diésel"],"N-70","Los diésel pueden requerir mayor capacidad."],
-"ix35":[2010,2015,["Gasolina","Diésel"],"N-70","Modelo equivalente a Tucson en varios mercados."],
+"Tucson":[2004,2026,["Gasolina","Diésel"],"N-70 / 95D31R / GB90R","En 2.0 CRDi puede utilizar configuración de ~90 Ah y ~710 CCA; verificar dimensiones, polaridad y versión."],
+"ix35":[2010,2015,["Gasolina","Diésel"],"N-70 / 95D31R / GB90R","2.0 CRDi: referencia ~90 Ah y ~710 CCA; verificar dimensiones, polaridad y versión."],
 "Santa Fe":[2000,2026,["Gasolina","Diésel","Híbrido"],"N-70","Confirmar motor."],
 "Palisade":[2018,2026,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor."],
 "Veracruz":[2006,2012,["Gasolina","Diésel"],"N-70","Confirmar motor."],
