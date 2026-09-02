@@ -747,6 +747,44 @@ footer p{
 
 }
 
+
+/* WR MOVIL PRO - mantiene composición PC y la adapta al ancho */
+@media(max-width:750px){
+  body{overflow-x:hidden}
+  .topbar{font-size:12px;padding:8px 10px}
+  nav{min-height:70px;padding:8px 12px;gap:8px;flex-wrap:wrap}
+  .logo{flex:0 0 auto}
+  .logo img{width:118px;max-height:52px}
+  .menu{order:3;width:100%;justify-content:flex-start;gap:20px;overflow-x:auto;white-space:nowrap;padding:4px 2px 7px;scrollbar-width:none}
+  .menu::-webkit-scrollbar{display:none}
+  .menu a{font-size:13px;flex:0 0 auto}
+  .servicio-domicilio{font-size:12px;padding:8px 10px;gap:10px;flex-wrap:wrap}
+  .hero{height:auto;min-height:0;padding:0}
+  .hero-contenido{position:relative;inset:auto;min-height:0;padding:18px 10px 22px;display:block}
+  .hero h1{font-size:31px;line-height:1.04;margin:0 auto 8px;max-width:95vw}
+  .hero p{font-size:15px;line-height:1.35;margin:0 auto 14px;max-width:90vw}
+  .wr-cambio{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:3px 2px 10px;width:100%;scrollbar-width:none}
+  .wr-cambio::-webkit-scrollbar{display:none}
+  .wr-paso{flex:0 0 82vw;min-height:190px;height:190px;scroll-snap-align:center;padding:10px 10px 12px;border-radius:13px}
+  .wr-car{height:112px}.wr-car svg{height:108px;width:94%}.wr-paso h3{font-size:16px}.wr-paso-num{width:30px;height:30px;font-size:14px;top:9px;left:9px}
+  .productos-seccion{padding:24px 10px 45px}
+  .buscador-box{padding:20px 12px;border-radius:14px;margin-bottom:22px}
+  .buscador-titulo{margin-bottom:17px}.buscador-titulo h2{font-size:24px;line-height:1.1}.buscador-titulo p{font-size:14px}
+  .formulario{grid-template-columns:1fr;gap:9px}.formulario select{padding:13px;font-size:15px}.boton-buscar{width:100%;padding:14px;font-size:15px}
+  .resultado-busqueda{padding:16px 12px;border-left-width:4px;margin-bottom:25px}.resultado-busqueda h3{font-size:21px}
+  .bateria-recomendada{font-size:22px;padding:11px 14px;margin:10px 0}
+  .cca-panel{grid-template-columns:1fr 1fr!important;gap:8px;margin:12px 0}.cca-card{padding:12px 7px;min-width:0}.cca-card span{font-size:10px;line-height:1.25}.cca-card strong{font-size:20px;line-height:1.05;word-break:break-word}.cca-card small{font-size:10px!important}
+  .whatsapp-resultado{width:100%;text-align:center;padding:13px 10px}
+  .productos{grid-template-columns:1fr 1fr;gap:10px}.producto img{height:150px;padding:10px}.producto-info{padding:12px 8px}.producto h3{font-size:20px}.precio{font-size:18px}
+  .titulo h2,.marcas h2,.servicios h2{font-size:26px}.titulo p{font-size:15px}
+  #wr-chat{right:8px;bottom:84px;width:calc(100vw - 16px);height:min(500px,72vh);border-radius:14px}
+  #wr-chat-btn{right:12px;bottom:74px;width:56px;height:56px}
+  .whatsapp{right:12px;bottom:12px;width:52px;height:52px;font-size:24px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:27px}.hero p{font-size:14px}.wr-paso{flex-basis:86vw;min-height:180px;height:180px}.wr-car{height:102px}.wr-car svg{height:98px}
+  .cca-panel{grid-template-columns:1fr 1fr!important}.cca-card strong{font-size:18px}.formulario select{font-size:14px}
+}
 </style>
 
 </head>
@@ -1184,6 +1222,16 @@ function obtenerReferenciaCCA(bateria){
     if(t.includes(k.toUpperCase())) return referenciaCCA[k];
   }
   return {min:null,rec:null,perfil:'Confirmar aplicación'};
+}
+
+function obtenerGrupoBCI(bateria){
+  const t=String(bateria||"").toUpperCase();
+  if(/N70ZL|N70Z|N70/.test(t)) return "BCI 27";
+  if(/N50ZL/.test(t)) return "BCI 24R";
+  if(/N50Z/.test(t)) return "BCI 24";
+  if(/N40L/.test(t)) return "BCI 51R";
+  if(/NS60/.test(t)) return "BCI 51";
+  return "Por confirmar";
 }
 
 function formatearCCA(v){
@@ -2009,7 +2057,7 @@ function mostrarResultado(
     "</div>"+
 
     '<div class="cca-panel">'+
-      '<div class="cca-card"><span>Grupo de batería recomendado</span><strong style="font-size:18px">'+registro.bateria+'</strong></div>'+
+      '<div class="cca-card"><span>Grupo BCI recomendado</span><strong style="font-size:22px">'+obtenerGrupoBCI(registro.bateria)+'</strong><small style="display:block;color:#777;margin-top:5px">JIS: '+registro.bateria+'</small></div>'+
       '<div class="cca-card"><span>CCA mínimo de referencia</span><strong>'+formatearCCA(registro.cca.min)+'</strong></div>'+
       '<div class="cca-card"><span>CCA recomendado</span><strong>'+formatearCCA(registro.cca.rec)+'</strong></div>'+
       '<div class="cca-card"><span>Perfil</span><strong style="font-size:17px">'+registro.cca.perfil+'</strong></div>'+
