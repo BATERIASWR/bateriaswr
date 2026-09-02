@@ -1,0 +1,136 @@
+name: Integrar CCA Costa Rica
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  integrar:
+    if: "!contains(github.event.head_commit.message, '[cca-integrado]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Integrar CCA en index.html
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '/* CCA-COSTA-RICA-INTEGRADO */'
+          if marker in s:
+              print('CCA ya integrado')
+              raise SystemExit(0)
+
+          css_anchor = '.nota{\n  color:#666;\n  font-size:13px;\n}'
+          css_insert = r'''
+
+/* CCA Y PERFIL DE REFERENCIA - COSTA RICA */
+.cca-panel{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:16px 0;
+}
+.cca-card{
+  background:#f5f6f8;
+  border:1px solid #e2e4e8;
+  border-radius:10px;
+  padding:14px 10px;
+  text-align:center;
+}
+.cca-card strong{
+  display:block;
+  font-size:22px;
+  color:#151b27;
+  margin-top:5px;
+}
+.cca-card span{
+  color:#666;
+  font-size:12px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+.cca-aviso{
+  color:#666;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:5px;
+}
+@media(max-width:650px){
+  .cca-panel{grid-template-columns:1fr;}
+}
+'''
+          if css_anchor not in s:
+              raise SystemExit('No se encontró el ancla CSS')
+          s = s.replace(css_anchor, css_anchor + css_insert, 1)
+
+          data_anchor = 'const baseDatos = {'
+          data_insert = r'''
+
+/* CCA-COSTA-RICA-INTEGRADO */
+/* Referencia basada en catálogos/comercialización local. No sustituye la verificación física. */
+const referenciaCCA = {
+  'N-40': {min:410, rec:500, perfil:'Compacto / estándar'},
+  'NS40M': {min:400, rec:500, perfil:'Compacto / estándar'},
+  'N-50': {min:450, rec:600, perfil:'Sedán / SUV ligero'},
+  '42R': {min:500, rec:550, perfil:'Sedán / SUV ligero'},
+  'N-60': {min:439, rec:500, perfil:'Sedán / SUV mediano'},
+  'N-70': {min:600, rec:700, perfil:'SUV / pickup / diésel'},
+  'N-80': {min:null, rec:null, perfil:'Confirmar aplicación'},
+  'N-100': {min:680, rec:760, perfil:'Trabajo pesado / alta demanda'}
+};
+
+function obtenerReferenciaCCA(bateria){
+  const texto=String(bateria||'').toUpperCase();
+  const claves=Object.keys(referenciaCCA)
+    .sort((a,b)=>b.length-a.length);
+  for(const clave of claves){
+    if(texto.includes(clave.toUpperCase())) return referenciaCCA[clave];
+  }
+  return {min:null,rec:null,perfil:'Confirmar aplicación'};
+}
+
+function formatearCCA(valor){
+  return Number.isFinite(valor) ? valor+' CCA' : 'Por confirmar';
+}
+'''
+          if data_anchor not in s:
+              raise SystemExit('No se encontró el ancla de baseDatos')
+          s = s.replace(data_anchor, data_anchor + data_insert, 1)
+
+          old_return = '''    bateria:datos[3],\n    nota:datos[4]\n  };'''
+          new_return = '''    bateria:datos[3],\n    nota:datos[4],\n    cca:obtenerReferenciaCCA(datos[3])\n  };'''
+          if old_return not in s:
+              raise SystemExit('No se encontró retorno de registro')
+          s = s.replace(old_return, new_return, 1)
+
+          old_result = '''    '<div class="bateria-recomendada">'+\n    registro.bateria+\n    "</div>"+\n\n    "<p><strong>Información:</strong> "+'''
+          new_result = '''    '<div class="bateria-recomendada">'+\n    registro.bateria+\n    "</div>"+\n\n    '<div class="cca-panel">'+\n      '<div class="cca-card"><span>CCA mínimo de referencia</span><strong>'+\n      formatearCCA(registro.cca.min)+\n      '</strong></div>'+\n      '<div class="cca-card"><span>CCA recomendado</span><strong>'+\n      formatearCCA(registro.cca.rec)+\n      '</strong></div>'+\n      '<div class="cca-card"><span>Perfil</span><strong style="font-size:17px">'+\n      registro.cca.perfil+\n      '</strong></div>'+\n    '</div>'+\n\n    '<p class="cca-aviso"><strong>Referencia Costa Rica:</strong> el CCA mostrado orienta la selección de una batería disponible en el mercado local. La aplicación exacta puede cambiar por motor, generación, versión, dimensiones y polaridad.</p>'+\n\n    "<p><strong>Información:</strong> "+'''
+          if old_result not in s:
+              raise SystemExit('No se encontró bloque de resultado')
+          s = s.replace(old_result, new_result, 1)
+
+          old_chat = '''       "🔋 Batería recomendada:"+\n       "<br>"+\n\n       '<strong style="font-size:23px;color:#d71920">'+\n       registro.bateria+\n       "</strong>"+\n\n       "<br><br>"+\n\n       "ℹ️ "+registro.nota+'''
+          new_chat = '''       "🔋 Batería recomendada:"+\n       "<br>"+\n\n       '<strong style="font-size:23px;color:#d71920">'+\n       registro.bateria+\n       "</strong>"+\n\n       "<br><br>"+\n\n       "❄️ CCA mínimo de referencia: <strong>"+formatearCCA(registro.cca.min)+"</strong>"+\n       "<br>⚡ CCA recomendado: <strong>"+formatearCCA(registro.cca.rec)+"</strong>"+\n       "<br>🎯 Perfil: <strong>"+registro.cca.perfil+"</strong>"+\n\n       "<br><br>"+\n\n       '<span style="font-size:12px;color:#666">Referencia Costa Rica; confirmar aplicación exacta antes de instalar.</span>'+\n\n       "<br><br>"+\n\n       "ℹ️ "+registro.nota+'''
+          if old_chat not in s:
+              raise SystemExit('No se encontró bloque del chatbot')
+          s = s.replace(old_chat, new_chat, 1)
+
+          p.write_text(s, encoding='utf-8')
+          print('Integración completada')
+
+      - name: Commit cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Integrar CCA recomendado en búsqueda [cca-integrado]"
+          git push
