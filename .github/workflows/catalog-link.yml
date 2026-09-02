@@ -9,68 +9,47 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Agregar CCA recomendado y grupo BCI sin alterar datos existentes
+      - name: Agregar CCA y grupos BCI
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('catalogo-baterias.js')
-          s=p.read_text(encoding='utf-8')
-          marker='/* WR-CCA-GRUPOS-V1 */'
-          if marker not in s:
-              extra=r'''
+          if ! grep -q 'WR-CCA-GRUPOS-V1' catalogo-baterias.js; then
+            cat >> catalogo-baterias.js <<'EOF'
 
 /* WR-CCA-GRUPOS-V1 */
 const resumenCCAGruposWR = {
-  "N-40": {ccaRecomendado:340, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
-    "MA-NS40":"BCI 51", "MA-NS40L":"BCI 51R", "NS40ZLA-MF":"BCI 151R (referencia de equivalencia NS40ZL)"
-  }},
-  "N-50": {ccaRecomendado:580, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
-    "RN50-O-MF":"BCI 24", "MA-24L800":"BCI 24R"
-  }},
-  "N-60": {ccaRecomendado:490, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
-    "MA-NS60L":"BCI 51R", "MA-NS60Z":"BCI 51", "MA-NS60ZL":"BCI 51R"
-  }},
-  "N-70": {ccaRecomendado:710, criterio:"Mayor CCA disponible entre las opciones actuales", opciones:{
-    "RN70L-O-MF":"BCI 27R", "NS70-MF":"BCI 24", "NS70L-MF":"BCI 24R", "MA-27800":"BCI 27"
-  }}
+  "N-40": {ccaRecomendado:340, opciones:{"MA-NS40":"BCI 51","MA-NS40L":"BCI 51R","NS40ZLA-MF":"BCI 151R (referencia NS40ZL)"}},
+  "N-50": {ccaRecomendado:580, opciones:{"RN50-O-MF":"BCI 24","MA-24L800":"BCI 24R"}},
+  "N-60": {ccaRecomendado:490, opciones:{"MA-NS60L":"BCI 51R","MA-NS60Z":"BCI 51","MA-NS60ZL":"BCI 51R"}},
+  "N-70": {ccaRecomendado:710, opciones:{"RN70L-O-MF":"BCI 27R","NS70-MF":"BCI 24","NS70L-MF":"BCI 24R","MA-27800":"BCI 27"}}
 };
 
-const familiaBateriaHTMLWRBase = familiaBateriaHTMLWR;
+const familiaBateriaHTMLWRAnterior = familiaBateriaHTMLWR;
 familiaBateriaHTMLWR = function(familia){
   const lista=catalogoBateriasWR[familia] || [];
   const resumen=resumenCCAGruposWR[familia];
-  const encabezado=resumen
-    ? `⭐ <strong>CCA recomendado: ${resumen.ccaRecomendado} A</strong><br><span style="font-size:12px;color:#666">Selección por mayor CCA disponible en las opciones actuales.</span><br><br>`
-    : '';
+  if(!resumen) return familiaBateriaHTMLWRAnterior(familia);
+  const encabezado=`⭐ <strong>CCA recomendado: ${resumen.ccaRecomendado} A</strong><br><span style="font-size:12px;color:#666">Mayor CCA disponible entre las opciones actuales.</span><br><br>`;
   const detalle=lista.map(b=>{
-    const grupo=resumen && resumen.opciones[b.modelo] ? resumen.opciones[b.modelo] : 'Por confirmar';
-    return `• <strong>${b.modelo}</strong> — ${b.marca}${b.cca?` — ${b.cca} CCA`:" — CCA no indicado en la fuente actual"} — <strong>${grupo}</strong>`;
+    const grupo=resumen.opciones[b.modelo] || 'Por confirmar';
+    const cca=b.cca ? `${b.cca} CCA` : 'CCA no indicado';
+    return `• <strong>${b.modelo}</strong> — ${b.marca} — ${cca} — <strong>${grupo}</strong>`;
   }).join('<br>');
-  return encabezado+`🔋 <strong>${familia}</strong><br><br>${detalle}<br><br><span style="font-size:12px;color:#666">El grupo mostrado es la equivalencia BCI de referencia; no sustituye la comprobación de polaridad, bornes y medidas.</span>`;
+  return encabezado+`🔋 <strong>${familia}</strong><br><br>${detalle}<br><br><span style="font-size:12px;color:#666">Grupo BCI de referencia. Confirmar siempre polaridad, bornes y medidas antes de instalar.</span>`;
 };
-'''
-              s=s.replace('\nfunction todasLasBateriasWR()', extra+'\nfunction todasLasBateriasWR()', 1)
-              p.write_text(s, encoding='utf-8')
-          PY
-      - name: Integrar catálogo en la página sin modificar el diseño
+EOF
+          fi
+      - name: Integrar en index sin modificar diseño
         run: |
           python3 - <<'PY'
           from pathlib import Path
           p=Path('index.html')
           s=p.read_text(encoding='utf-8')
           s=s.replace(r'\n', '\n')
-          link='<a href="#baterias">Catálogo</a>'
-          if link not in s:
-              old='<a href="#baterias">Baterías</a>'
-              if old in s:
-                  s=s.replace(old, old+'\n'+link, 1)
           tag='<script src="catalogo-baterias.js"></script>'
           if tag not in s:
               pos=s.lower().rfind('</body>')
-              if pos < 0:
-                  raise SystemExit('No se encontró </body> en index.html')
+              if pos < 0: raise SystemExit('No se encontró </body>')
               s=s[:pos]+tag+'\n'+s[pos:]
-          p.write_text(s, encoding='utf-8')
+              p.write_text(s,encoding='utf-8')
           PY
       - name: Publicar
         run: |
