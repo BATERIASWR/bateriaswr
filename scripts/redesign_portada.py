@@ -1,3 +1,4 @@
+# Trigger de reparación WR — no altera la lógica de la portada
 from pathlib import Path
 import re
 
