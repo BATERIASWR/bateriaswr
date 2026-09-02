@@ -1,6 +1,8 @@
 name: Aplicar interfaz WR
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -23,4 +25,6 @@ jobs:
           git add index.html .github/site_ui_fix.py
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Ordenar buscador y categorias'
-          git push
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
