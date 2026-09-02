@@ -1,0 +1,31 @@
+name: Agregar opción Catálogo
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  catalogo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Agregar Catálogo sin modificar lo demás
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          link='<a href="#baterias">Catálogo</a>'
+          if link not in s:
+              old='<a href="#baterias">Baterías</a>'
+              if old not in s:
+                  raise SystemExit('No se encontró el enlace Baterías')
+              s=s.replace(old, old+'\n'+link, 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Publicar
+        run: |
+          git config user.name 'BATERIASWR'
+          git config user.email 'wilber1977@gmail.com'
+          git add index.html
+          if git diff --cached --quiet; then echo 'Sin cambios'; else git commit -m 'Agregar opción Catálogo'; git push; fi
