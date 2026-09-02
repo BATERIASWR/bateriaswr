@@ -25,7 +25,7 @@ jobs:
           marker='function obtenerGrupoBCI(bateria){'
           if marker not in s:
               needle='function formatearCCA(v){'
-              fn='''function obtenerGrupoBCI(bateria){\n  const t=String(bateria||\"\").toUpperCase();\n  if(/N70ZL|N70Z|N70/.test(t)) return \"BCI 27\";\n  if(/N50ZL/.test(t)) return \"BCI 24R\";\n  if(/N50Z/.test(t)) return \"BCI 24\";\n  if(/N40L/.test(t)) return \"BCI 51R\";\n  if(/NS60/.test(t)) return \"BCI 51\";\n  return \"Por confirmar\";\n}\n\n'''
+              fn='''function obtenerGrupoBCI(bateria){\n  const t=String(bateria||" ").toUpperCase();\n  if(/N70ZL|N70Z|N70/.test(t)) return "BCI 27";\n  if(/N50ZL/.test(t)) return "BCI 24R";\n  if(/N50Z/.test(t)) return "BCI 24";\n  if(/N40L/.test(t)) return "BCI 51R";\n  if(/NS60/.test(t)) return "BCI 51";\n  return "Por confirmar";\n}\n\n'''
               if needle in s:
                   s=s.replace(needle,fn+needle,1)
 
@@ -40,6 +40,11 @@ jobs:
           if '/* WR MOVIL PRO - mantiene composición PC y la adapta al ancho */' not in s:
               s=s.replace('</style>',css+'</style>',1)
 
+          # Agregar solamente la opción Catálogo al menú, apuntando al catálogo existente (#baterias).
+          catalog_link='<a href="#baterias">Catálogo</a>'
+          if catalog_link not in s:
+              s=s.replace('<a href="#baterias">Baterías</a>', '<a href="#baterias">Baterías</a>\n<a href="#baterias">Catálogo</a>', 1)
+
           p.write_text(s,encoding='utf-8')
           PY
       - name: Validar HTML y JavaScript
@@ -50,7 +55,8 @@ jobs:
           assert s.count('<script') == s.count('</script>'), 'Etiquetas script desbalanceadas'
           assert 'function obtenerGrupoBCI' in s, 'Falta función de grupo BCI'
           assert 'WR MOVIL PRO' in s, 'Falta CSS móvil'
-          print('OK: estructura y ajustes encontrados')
+          assert '<a href="#baterias">Catálogo</a>' in s, 'Falta opción Catálogo'
+          print('OK: estructura, ajustes y catálogo encontrados')
           PY
       - name: Publicar cambios
         run: |
