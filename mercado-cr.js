@@ -1,7 +1,7 @@
-/* WR-MERCADO-CR-V1
+/* WR-MERCADO-CR-V2
    Catálogo de baterías verificadas en Costa Rica.
-   No se mezclan grupos de garantía con BCI/JIS.
-   La disponibilidad comercial puede cambiar; se conserva la fuente para revisión.
+   Las opciones BCI se muestran como referencia de caja/polaridad; la instalación
+   final siempre depende de medidas, bornes, polaridad y versión del vehículo.
 */
 
 const catalogoMercadoCostaRicaWR = [
@@ -49,13 +49,12 @@ const catalogoMercadoCostaRicaWR = [
   {modelo:"N50",marca:"ROCKET",voltaje:12,cca:null,dimensiones:null,fuente:"Gollo Costa Rica"},
   {modelo:"NX120",marca:"ROCKET",voltaje:12,cca:null,dimensiones:"304 × 172 × 233 mm",fuente:"SICOP / Costa Rica"},
   {modelo:"NX120-7L",marca:"ROCKET",voltaje:12,cca:700,dimensiones:null,fuente:"SICOP / Costa Rica"},
-  {modelo:"N40Z",marca:"ROCKET",voltaje:12,cca:410,dimensiones:"330 × 230 × 173 mm",fuente:"SICOP / Costa Rica"},
+  {modelo:"N40Z",marca:"ROCKET",voltaje:12,cca:410,dimensiones:null,fuente:"SICOP / Costa Rica"},
   {modelo:"1000RA-RS",marca:"ROCKET",voltaje:12,cca:null,dimensiones:"330 × 173 × 230 mm",fuente:"SICOP / Costa Rica"}
 ];
 
-/* Modelos detectados en catálogos de aplicación que faltaban en WR.
-   Se agregan como alias de búsqueda, sin afirmar una equivalencia única cuando
-   la aplicación depende de versión/motor. */
+/* Vehículos que faltaban en el buscador. Las aplicaciones con varias familias
+   quedan expresamente sujetas a confirmación de versión, motor y medidas. */
 const vehiculosExtraCostaRicaWR = {
   Toyota: {
     "Tercel":[1983,1998,["Gasolina"],"N-40 / N-60","Aplicaciones de catálogo: 1.5; confirmar versión, polaridad y medidas antes de instalar."],
@@ -68,6 +67,39 @@ const vehiculosExtraCostaRicaWR = {
     "TownAce":[1985,2003,["Gasolina","Diésel"],"N-70 / N-80","Confirmar motor, versión y medidas."]
   }
 };
+
+/* Referencia BCI/JIS para que el cliente vea las opciones que corresponden.
+   51/51R y 24/24R se diferencian principalmente por orientación/polaridad;
+   27/27R igualmente requiere verificar polaridad. */
+const opcionesBCIWR = {
+  "N-40": ["BCI 51", "BCI 51R"],
+  "N-50": ["BCI 24", "BCI 24R"],
+  "N-60": ["BCI 51", "BCI 51R"],
+  "N-70": ["BCI 27", "BCI 27R"]
+};
+
+const modelosBCIWR = {
+  "N-40": ["MA-NS40", "MA-NS40L", "NS40ZLA-MF", "N40Z"],
+  "N-50": ["RN50-O-MF", "MA-24L800", "N50"],
+  "N-60": ["MA-NS60L", "MA-NS60Z", "MA-NS60ZL"],
+  "N-70": ["RN70L-O-MF", "NS70-MF", "NS70L-MF", "MA-27800", "NX120-MF", "NX120L-MF", "NX120", "NX120-7L"]
+};
+
+function escWR(v){return String(v==null?"":v).replace(/[&<>\"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));}
+
+function mostrarOpcionesBCIWR(familia){
+  const codigos=opcionesBCIWR[familia]||[];
+  const modelos=modelosBCIWR[familia]||[];
+  const lista=[];
+  modelos.forEach(codigo=>{
+    const b=catalogoMercadoCostaRicaWR.find(x=>normalizarCodigoBateriaWR(x.modelo)===normalizarCodigoBateriaWR(codigo));
+    if(b) lista.push(`<li><strong>${escWR(b.modelo)}</strong> — ${escWR(b.marca)}${b.cca?` — ${b.cca} CCA`:""}${b.dimensiones?` — ${escWR(b.dimensiones)}`:""}</li>`);
+  });
+  return `<div style="margin-top:8px"><strong>Opciones BCI de referencia:</strong> ${codigos.join(" / ")}</div>`+
+    `<div style="margin-top:8px"><strong>Baterías encontradas en Costa Rica para esta familia:</strong></div>`+
+    (lista.length?`<ul style="margin:6px 0 8px 20px">${lista.join("")}</ul>`:"<div>No hay modelos comerciales verificados cargados todavía.</div>")+ 
+    `<span style="font-size:12px;color:#666">BCI indica el grupo/tamaño y la variante R cambia la orientación/polaridad. Antes de instalar hay que comprobar largo, ancho, alto, bornes y polaridad del vehículo.</span>`;
+}
 
 /* Fusionar catálogo comercial al catálogo WR existente. */
 if(typeof catalogoBateriasWR !== "undefined"){
@@ -93,5 +125,15 @@ if(typeof baseDatos !== "undefined"){
     });
   });
   if(typeof cargarMarcas === "function") cargarMarcas();
-  if(typeof modeloSelect !== "undefined") modeloSelect.disabled=true;
+}
+
+/* Si el buscador/chat ya tiene familiaBateriaHTMLWR, la envolvemos para que
+   nunca vuelva a mostrar solamente "por confirmar" cuando existe una familia
+   con opciones BCI conocidas. */
+if(typeof familiaBateriaHTMLWR === "function"){
+  const familiaBateriaHTMLWRBaseCR = familiaBateriaHTMLWR;
+  familiaBateriaHTMLWR = function(familia){
+    const base=familiaBateriaHTMLWRBaseCR(familia);
+    return base + (opcionesBCIWR[familia] ? `<br><br>${mostrarOpcionesBCIWR(familia)}` : "");
+  };
 }
