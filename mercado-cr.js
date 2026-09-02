@@ -1,7 +1,5 @@
-/* WR-MERCADO-CR-V2
-   Catálogo de baterías verificadas en Costa Rica.
-   Las opciones BCI se muestran como referencia de caja/polaridad; la instalación
-   final siempre depende de medidas, bornes, polaridad y versión del vehículo.
+/* WR-MERCADO-CR-V3
+   Catálogo verificado en Costa Rica + opciones BCI/JIS de referencia.
 */
 
 const catalogoMercadoCostaRicaWR = [
@@ -53,8 +51,6 @@ const catalogoMercadoCostaRicaWR = [
   {modelo:"1000RA-RS",marca:"ROCKET",voltaje:12,cca:null,dimensiones:"330 × 173 × 230 mm",fuente:"SICOP / Costa Rica"}
 ];
 
-/* Vehículos que faltaban en el buscador. Las aplicaciones con varias familias
-   quedan expresamente sujetas a confirmación de versión, motor y medidas. */
 const vehiculosExtraCostaRicaWR = {
   Toyota: {
     "Tercel":[1983,1998,["Gasolina"],"N-40 / N-60","Aplicaciones de catálogo: 1.5; confirmar versión, polaridad y medidas antes de instalar."],
@@ -68,9 +64,6 @@ const vehiculosExtraCostaRicaWR = {
   }
 };
 
-/* Referencia BCI/JIS para que el cliente vea las opciones que corresponden.
-   51/51R y 24/24R se diferencian principalmente por orientación/polaridad;
-   27/27R igualmente requiere verificar polaridad. */
 const opcionesBCIWR = {
   "N-40": ["BCI 51", "BCI 51R"],
   "N-50": ["BCI 24", "BCI 24R"],
@@ -87,6 +80,11 @@ const modelosBCIWR = {
 
 function escWR(v){return String(v==null?"":v).replace(/[&<>\"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m]));}
 
+function familiasDesdeRecomendacionWR(recomendacion){
+  const t=String(recomendacion||"").toUpperCase();
+  return Object.keys(opcionesBCIWR).filter(f=>t.includes(f.replace("-","")) || t.includes(f));
+}
+
 function mostrarOpcionesBCIWR(familia){
   const codigos=opcionesBCIWR[familia]||[];
   const modelos=modelosBCIWR[familia]||[];
@@ -96,12 +94,17 @@ function mostrarOpcionesBCIWR(familia){
     if(b) lista.push(`<li><strong>${escWR(b.modelo)}</strong> — ${escWR(b.marca)}${b.cca?` — ${b.cca} CCA`:""}${b.dimensiones?` — ${escWR(b.dimensiones)}`:""}</li>`);
   });
   return `<div style="margin-top:8px"><strong>Opciones BCI de referencia:</strong> ${codigos.join(" / ")}</div>`+
-    `<div style="margin-top:8px"><strong>Baterías encontradas en Costa Rica para esta familia:</strong></div>`+
+    `<div style="margin-top:8px"><strong>Baterías verificadas en Costa Rica:</strong></div>`+
     (lista.length?`<ul style="margin:6px 0 8px 20px">${lista.join("")}</ul>`:"<div>No hay modelos comerciales verificados cargados todavía.</div>")+ 
-    `<span style="font-size:12px;color:#666">BCI indica el grupo/tamaño y la variante R cambia la orientación/polaridad. Antes de instalar hay que comprobar largo, ancho, alto, bornes y polaridad del vehículo.</span>`;
+    `<span style="font-size:12px;color:#666">La variante R indica orientación/polaridad. Antes de instalar: comprobar largo, ancho, alto, bornes y polaridad.</span>`;
 }
 
-/* Fusionar catálogo comercial al catálogo WR existente. */
+function opcionesParaRecomendacionWR(recomendacion){
+  const familias=familiasDesdeRecomendacionWR(recomendacion);
+  if(!familias.length) return "";
+  return `<div style="margin-top:14px;padding:12px;border:1px solid #ddd;border-radius:10px;background:#fafafa"><strong>🔋 Opciones que pueden corresponder:</strong>${familias.map(f=>`<div style="margin-top:10px"><strong>${f}</strong><br>${mostrarOpcionesBCIWR(f)}</div>`).join("")}</div>`;
+}
+
 if(typeof catalogoBateriasWR !== "undefined"){
   const gruposExistentes = new Set(todasLasBateriasWR().map(x=>normalizarCodigoBateriaWR(x.modelo)));
   catalogoMercadoCostaRicaWR.forEach(b=>{
@@ -116,7 +119,6 @@ if(typeof catalogoBateriasWR !== "undefined"){
   });
 }
 
-/* Agregar modelos al buscador y refrescar sus opciones. */
 if(typeof baseDatos !== "undefined"){
   Object.keys(vehiculosExtraCostaRicaWR).forEach(marca=>{
     if(!baseDatos[marca]) baseDatos[marca]={};
@@ -127,13 +129,19 @@ if(typeof baseDatos !== "undefined"){
   if(typeof cargarMarcas === "function") cargarMarcas();
 }
 
-/* Si el buscador/chat ya tiene familiaBateriaHTMLWR, la envolvemos para que
-   nunca vuelva a mostrar solamente "por confirmar" cuando existe una familia
-   con opciones BCI conocidas. */
 if(typeof familiaBateriaHTMLWR === "function"){
   const familiaBateriaHTMLWRBaseCR = familiaBateriaHTMLWR;
   familiaBateriaHTMLWR = function(familia){
     const base=familiaBateriaHTMLWRBaseCR(familia);
     return base + (opcionesBCIWR[familia] ? `<br><br>${mostrarOpcionesBCIWR(familia)}` : "");
+  };
+}
+
+if(typeof mostrarResultado === "function"){
+  const mostrarResultadoBaseCR = mostrarResultado;
+  mostrarResultado = function(marca,modelo,anio,combustible,registro){
+    mostrarResultadoBaseCR(marca,modelo,anio,combustible,registro);
+    const extra=opcionesParaRecomendacionWR(registro && registro.bateria);
+    if(extra && typeof resultado !== "undefined") resultado.insertAdjacentHTML("beforeend",extra);
   };
 }
