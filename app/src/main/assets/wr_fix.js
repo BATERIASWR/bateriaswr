@@ -1,6 +1,6 @@
-/* WRBATERIASCR V5 OPERATIVO */
+/* WRBATERIASCR V6 OPERATIVO */
 (function(){
-const n=v=>Number.isFinite(Number(v))?Number(v):0, e=window.esc||((x)=>String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])), money=v=>typeof formatCRC==='function'?formatCRC(n(v)):'₡'+n(v).toLocaleString('es-CR'), today=()=>new Date().toISOString().slice(0,10);
+const n=v=>Number.isFinite(Number(v))?Number(v):0, e=window.esc || ((x)=>String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))), money=v=>typeof formatCRC==='function' ? formatCRC(n(v)) : ('₡'+n(v).toLocaleString('es-CR')), today=()=>new Date().toISOString().slice(0,10);
 const dmy=v=>{let m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})/);return m?m[3]+'/'+m[2]+'/'+m[1]:String(v||'')};
 const months=v=>{let m=String(v||'').match(/(\d+)\s*mes/i);return m?n(m[1]):0};
 const addM=(s,m)=>{if(!m)return '';let d=new Date(s+'T12:00:00'),day=d.getDate();d.setMonth(d.getMonth()+m);if(d.getDate()<day)d.setDate(0);return d.toISOString().slice(0,10)};
