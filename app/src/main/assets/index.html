@@ -1962,5 +1962,68 @@ function wrVehicleSearch(){
 </script>
 
 <script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
-<style>@media(max-width:800px){#menuBtn{display:none!important}.layout{display:block;min-height:calc(100vh - 64px)}.sidebar{position:sticky!important;left:auto!important;top:64px!important;bottom:auto!important;width:100%!important;height:auto!important;display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:6px;padding:8px!important;background:#171717;z-index:10;-webkit-overflow-scrolling:touch}.sidebar .nav{display:block!important;flex:0 0 auto!important;width:auto!important;min-width:max-content;margin:0!important;padding:10px 12px!important;white-space:nowrap}.content{max-width:none;padding:14px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.modal{align-items:flex-start;padding:10px;overflow:auto}.modal-card{margin-top:10px}}</style></body>
+<style>@media(max-width:800px){#menuBtn{display:none!important}.layout{display:block;min-height:calc(100vh - 64px)}.sidebar{position:sticky!important;left:auto!important;top:64px!important;bottom:auto!important;width:100%!important;height:auto!important;display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:6px;padding:8px!important;background:#171717;z-index:10;-webkit-overflow-scrolling:touch}.sidebar .nav{display:block!important;flex:0 0 auto!important;width:auto!important;min-width:max-content;margin:0!important;padding:10px 12px!important;white-space:nowrap}.content{max-width:none;padding:14px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.modal{align-items:flex-start;padding:10px;overflow:auto}.modal-card{margin-top:10px}}</style><script id="wr-v11-final-fixes">
+(function(){
+  function esc2(s){return String(s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+  function money2(n){return '₡'+Number(n||0).toLocaleString('es-CR')}
+  function today2(){return new Date().toISOString().slice(0,10)}
+  window.openInvoice=function(sale){
+    const v=sale.vehicle||{};
+    modal('Factura de venta',`<div class="report-actions"><button class="btn" onclick="window.print()">🖨️ Imprimir</button><button class="btn secondary" onclick="openWarrantyReportById(${sale.id})">🛠️ Certificado de garantía</button><button class="btn secondary" onclick="closeModal()">Cerrar</button></div>
+    <div class="report-preview"><div class="print-sheet"><div class="report-head"><div class="report-brand"><img src="${WR_LOGO_DATA}" alt="WR Baterías CR"><div><h1>WRbateriasCR</h1><p>Tel. 6392 8294</p><p>ENERGÍA QUE TE MUEVE</p></div></div><div class="report-title"><h2>FACTURA</h2><div>Venta #${esc2(sale.id)}</div><div>${esc2(sale.date)}</div></div></div>
+    <div class="report-grid"><div class="report-box"><h3>CLIENTE</h3><div class="report-row"><b>Nombre:</b><span>${esc2(sale.client||'Cliente contado')}</span></div><div class="report-row"><b>Teléfono:</b><span>${esc2(sale.phone||'—')}</span></div></div><div class="report-box"><h3>VEHÍCULO</h3><div class="report-row"><b>Marca:</b><span>${esc2(v.make||'—')}</span></div><div class="report-row"><b>Modelo:</b><span>${esc2(v.model||'—')}</span></div><div class="report-row"><b>Año:</b><span>${esc2(v.year||'—')}</span></div><div class="report-row"><b>Combustible:</b><span>${esc2(v.fuel||'—')}</span></div></div></div>
+    <div class="report-box"><h3>DETALLE</h3><div class="report-row"><b>Batería:</b><span>${esc2((sale.brand||'')+' '+(sale.model||''))}</span></div><div class="report-row"><b>Código:</b><span>${esc2(sale.product||'—')}</span></div><div class="report-row"><b>CCA:</b><span>${esc2(sale.amp||'—')}</span></div><div class="report-row"><b>BCI:</b><span>${esc2(sale.profile||'—')}</span></div><div class="report-row"><b>Cantidad:</b><span>${esc2(sale.qty||1)}</span></div><div class="report-row"><b>Precio unitario:</b><span>${money2(sale.unitPrice)}</span></div><div class="report-row"><b>IVA:</b><span>${Number(sale.ivaRate??13)}%</span></div><div class="report-row"><b>TOTAL:</b><span><b>${money2(sale.total)}</b></span></div><div class="report-row"><b>Pago:</b><span>${esc2(sale.payment||'—')}</span></div></div>
+    <div class="signatures"><div class="signature-line">Firma del cliente</div><div class="signature-line">WRbateriasCR</div></div></div></div>`);
+  };
+  window.openSale=function(){
+    const a=db.inventory.filter(x=>Number(x.qty||0)>0);
+    if(!a.length){alert('No hay baterías con existencia disponible. Agregue una batería al inventario primero.');return}
+    modal('Registrar venta',`<form class="form" id="saleFormWR11">
+      <label>Fecha de venta<input name="date" type="date" value="${today2()}" required></label>
+      <label class="full">Batería<select name="product" required>${a.map(x=>`<option value="${esc2(x.id)}">${esc2(x.code)} — ${esc2(x.brand)} ${esc2(x.model)} — CCA ${esc2(x.amp||'—')} — Stock ${x.qty} — ${money2(x.price)}</option>`).join('')}</select></label>
+      <label>Cliente<input name="client" value="Cliente contado"></label><label>Teléfono<input name="phone"></label>
+      <label>Cantidad<input name="qty" type="number" min="1" step="1" value="1" required></label>
+      <label>Precio unitario<input name="unitPrice" type="number" min="0" step="1" value="0" required></label>
+      <label>IVA %<input name="ivaRate" type="number" min="0" step="0.01" value="13"></label>
+      <label>Garantía<input name="warranty" placeholder="Ej.: 24 meses" value=""></label>
+      <label>Método de pago<select name="payment"><option>Contado</option><option>Sinpe</option><option>Tarjeta</option><option>Transferencia</option><option>Otro</option></select></label>
+      <label>Marca vehículo<input name="vehicleMake"></label><label>Modelo vehículo<input name="vehicleModel"></label>
+      <label>Año<input name="vehicleYear" type="number" min="1980" max="2026"></label>
+      <label>Combustible<select name="fuel"><option value="">No indicado</option><option>Gasolina</option><option>Diésel</option><option>Híbrido</option><option>Eléctrico</option></select></label>
+      <label class="full">Observación<input name="note"></label>
+      <div class="full actions"><button class="btn" type="submit">Guardar venta y generar documentos</button></div>
+    </form>`);
+    const f=document.getElementById('saleFormWR11'); const sel=f.elements.product, price=f.elements.unitPrice;
+    const sync=()=>{const p=db.inventory.find(x=>String(x.id)===String(sel.value));price.value=Number(p?.price||0)};
+    sel.onchange=sync;sync();
+    f.onsubmit=function(e){
+      e.preventDefault();
+      const d=new FormData(f), p=db.inventory.find(x=>String(x.id)===String(d.get('product'))), q=Number(d.get('qty')), up=Number(d.get('unitPrice'));
+      if(!p){alert('No se encontró la batería seleccionada.');return}
+      if(!Number.isInteger(q)||q<1||q>Number(p.qty||0)){alert('Cantidad inválida o insuficiente.');return}
+      if(!Number.isFinite(up)||up<0){alert('Precio unitario inválido.');return}
+      const id=Date.now();
+      const sale={id:id,date:String(d.get('date')||today2()),client:String(d.get('client')||'Cliente contado'),phone:String(d.get('phone')||''),product:p.code,productId:p.id,brand:p.brand,model:p.model,voltage:p.voltage||'12V',amp:p.amp||'',profile:p.profile||'',unitCost:Number(p.cost||0),unitPrice:up,total:q*up,qty:q,warranty:String(d.get('warranty')||p.warranty||'Por definir'),payment:String(d.get('payment')||''),ivaRate:Number(d.get('ivaRate')||13),note:String(d.get('note')||''),vehicle:{make:String(d.get('vehicleMake')||''),model:String(d.get('vehicleModel')||''),year:String(d.get('vehicleYear')||''),fuel:String(d.get('fuel')||'')}};
+      p.qty=Number(p.qty||0)-q; db.sales.push(sale); db.warranties=(db.warranties||[]); db.warranties.push({id:id+1,date:sale.date,client:sale.client,battery:sale.product,status:'Generada',saleId:id}); if(sale.vehicle.make&&sale.vehicle.model){db.vehicles=(db.vehicles||[]);db.vehicles.push({...sale.vehicle,id:id,battery:sale.product})}
+      save(); closeModal(); sales(); setTimeout(()=>openInvoice(sale),50);
+    };
+  };
+  const oldVehicleSearch=window.wrVehicleSearch;
+  window.wrVehicleSearch=function(){
+    if(typeof oldVehicleSearch==='function') oldVehicleSearch();
+    setTimeout(()=>{
+      const box=document.getElementById('wrVehicleResult'); if(!box)return;
+      const make=(document.getElementById('wrVMake')?.value||'').trim().toUpperCase(), model=(document.getElementById('wrVModel')?.value||'').trim().toUpperCase(), year=Number(document.getElementById('wrVYear')?.value||0), fuel=document.getElementById('wrVFuel')?.value||'';
+      if(make==='HYUNDAI'&&model==='TUCSON'&&year>=2010&&year<=2015&&fuel==='Diésel'){
+        const b=box.querySelector('.bateria-recomendada'); if(b)b.textContent='N-70 / BCI 124R';
+        const p=box.querySelector('.vehicle-hit'); if(p){
+          const rows=p.querySelectorAll('.report-row');
+          const cc=document.createElement('p'); cc.innerHTML='<b>CCA mínimo de referencia:</b> 710 CCA';
+          p.insertBefore(cc,p.querySelector('.nota'));
+        }
+      }
+    },20);
+  };
+})();
+</script></body>
 </html>
