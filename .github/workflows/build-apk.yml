@@ -12,33 +12,19 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '8.7' }
-      - name: Restore WR logo icon
+      - name: Use WR logo as launcher icon
         run: |
           mkdir -p app/src/main/res/drawable
           base64 -d app/src/main/wr_icon.b64 > app/src/main/res/drawable/ic_wr_logo.png
-      - name: Apply WR operational fixes inside HTML
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path("app/src/main/assets/index.html")
-          h=p.read_text()
-          fix=Path("app/src/main/assets/wr_fix.js").read_text()
-          tag="\n<script>\n"+fix+"\n</script>\n"
-          if "</body>" in h:
-              h=h.replace("</body>",tag+"</body>",1)
-          else:
-              h += tag
-          p.write_text(h)
-          PY
       - name: Build APK
         run: gradle :app:assembleDebug --no-daemon
-      - name: Re-sign APK with modern Android signature schemes
+      - name: Verify APK
         run: |
           SDK_BUILD_TOOLS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
-          cp app/build/outputs/apk/debug/app-debug.apk /tmp/app-unsigned.apk
-          "$SDK_BUILD_TOOLS/zipalign" -f -p 4 /tmp/app-unsigned.apk /tmp/app-aligned.apk
-          keytool -genkeypair -v -keystore /tmp/wr-debug.keystore -storepass android -keypass android -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=WRBATERIASCR,O=WRBATERIASCR,C=CR" -noprompt
-          "$SDK_BUILD_TOOLS/apksigner" sign --ks /tmp/wr-debug.keystore --ks-pass pass:android --key-pass pass:android --min-sdk-version 23 --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true --out app/build/outputs/apk/debug/app-debug.apk /tmp/app-aligned.apk
           "$SDK_BUILD_TOOLS/apksigner" verify --verbose app/build/outputs/apk/debug/app-debug.apk
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function newSale"
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function editProduct"
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function searchVehicle"
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "CERTIFICADO DE GARANTÍA"
       - uses: actions/upload-artifact@v4
         with: { name: WR-APK, path: app/build/outputs/apk/debug/app-debug.apk }
