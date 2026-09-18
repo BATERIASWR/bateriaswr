@@ -22,9 +22,9 @@ jobs:
         run: |
           SDK_BUILD_TOOLS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
           "$SDK_BUILD_TOOLS/apksigner" verify --verbose app/build/outputs/apk/debug/app-debug.apk
-          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function newSale"
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function openSale"
           unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function editProduct"
-          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "function searchVehicle"
-          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "CERTIFICADO DE GARANTÍA"
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "wrVehicleSearch"
+          unzip -p app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "REPORTE DE GARANTÍA"
       - uses: actions/upload-artifact@v4
         with: { name: WR-APK, path: app/build/outputs/apk/debug/app-debug.apk }
