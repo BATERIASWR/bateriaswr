@@ -2086,5 +2086,84 @@ function wrVehicleSearch(){
     };
   };
 })();
-</script></body>
+</script><script id="wr-v13-repair">
+(function(){
+const E=x=>String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const M=x=>'₡'+Number(x||0).toLocaleString('es-CR');
+const T=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const N=x=>String(x??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').trim();
+const MK=x=>({CHEVY:'CHEVROLET',VW:'VOLKSWAGEN'}[N(x)]||N(x));
+const SM=(a,b)=>{a=N(a);b=N(b);return !!a&&!!b&&(a===b||a.includes(b)||b.includes(a))};
+const rows=()=>{try{return typeof APLICACIONES_VEHICULOS!=='undefined'&&Array.isArray(APLICACIONES_VEHICULOS)?APLICACIONES_VEHICULOS:[]}catch(e){return[]}};
+const cat=()=>{try{return typeof WR_VEHICLE_CATALOG!=='undefined'?WR_VEHICLE_CATALOG:{}}catch(e){return{}}};
+
+function searchVehicle(make,model,year,fuel,engine){
+ const mk=MK(make),mo=N(model),y=Number(year||0),fu=N(fuel),en=N(engine),R=rows();
+ const extra=[
+  {make:'NISSAN',model:'SENTRA',y1:1995,y2:1995,bci:['35','24F'],cca:[550,600,650,750],engine:'1.6',note:'1995 Sentra 1.6: las referencias varían según mercado/batería; verificar polaridad, dimensiones y batería instalada.'},
+  {make:'HYUNDAI',model:'TUCSON',y1:2010,y2:2015,bci:['124R'],cca:[700],fuel:'GASOLINA',note:'Gasolina: 700 CCA como referencia.'},
+  {make:'HYUNDAI',model:'TUCSON',y1:2010,y2:2015,bci:['124R'],cca:[710,830],fuel:'DIESEL',engine:'2.0 CRDI',note:'Diésel: referencias publicadas incluyen 830 A para 2.0 CRDi; verificar batería instalada.'},
+  {make:'CHEVROLET',model:'CRUZE',y1:2011,y2:2015,bci:['47 / H5'],cca:[550,650,680]},
+  {make:'CHEVROLET',model:'CRUZE',y1:2016,y2:2019,bci:['48 / H6'],cca:[600,760]},
+  {make:'HYUNDAI',model:'ELANTRA',y1:2011,y2:2016,bci:['47 / H5','48 / H6'],cca:[550,760]},
+  {make:'TOYOTA',model:'TERCEL',y1:1991,y2:1999,bci:['25'],cca:[435]}
+ ];
+ const V=extra.filter(r=>MK(r.make)===mk&&SM(r.model,mo)&&(!y||(y>=r.y1&&y<=r.y2))&&(!fu||!r.fuel||N(r.fuel)===fu)&&(!en||!r.engine||N(r.engine).includes(en)||en.includes(N(r.engine))));
+ if(V.length)return {make,model,range:[Math.min(...V.map(r=>r.y1)),Math.max(...V.map(r=>r.y2))],bci:[...new Set(V.flatMap(r=>r.bci))],cca:[...new Set(V.flatMap(r=>r.cca))],note:V.map(r=>r.note).filter(Boolean).join(' ')};
+ const hits=R.filter(r=>MK(r.make)===mk&&SM(r.model,mo)&&(!y||(y>=Number(r.y1||0)&&y<=Number(r.y2||9999))));
+ if(hits.length)return {make,model,range:[Math.min(...hits.map(r=>Number(r.y1)||y)),Math.max(...hits.map(r=>Number(r.y2)||y))],bci:[...new Set(hits.flatMap(r=>[r.b1,r.b2,r.bci,r.groups]).flat().map(String).filter(x=>x&&x!=='-'))],cca:[...new Set(hits.flatMap(r=>r.cca||[]).map(Number).filter(Boolean))],note:'Aplicación encontrada en el catálogo. Confirme motor, polaridad, dimensiones y batería instalada.'};
+ const C=cat(),brand=Object.keys(C).find(k=>MK(k)===mk);
+ if(brand){const ks=Object.keys(C[brand]).filter(k=>SM(k,mo));const o=ks.map(k=>({k,d:C[brand][k]})).find(x=>!y||(y>=Number(x.d[0])&&y<=Number(x.d[1])));if(o)return {make,model:o.k,range:[o.d[0],o.d[1]],bci:o.d[2]?[String(o.d[2])]:[],cca:o.d[4]?[Number(o.d[4])]:[],note:o.d[5]||'Confirmar aplicación exacta.'};}
+ return null;
+}
+
+window.vehicles=function(){
+ const regs=db.vehicles||[];
+ app.innerHTML='<div class="page-title"><div><h1>Vehículos</h1><div class="muted">Búsqueda ampliada por marca, modelo, año, combustible y motor.</div></div></div>'+
+ '<div class="panel"><h3>🔎 Buscar batería por vehículo</h3><div class="form">'+
+ '<label>Marca<input id="wrVMake" placeholder="Ej.: Hyundai, Nissan, Toyota"></label>'+
+ '<label>Modelo<input id="wrVModel" placeholder="Ej.: Tucson, Sentra, Corolla"></label>'+
+ '<label>Año<input id="wrVYear" type="number" min="1980" max="2026"></label>'+
+ '<label>Combustible<select id="wrVFuel"><option value="">No indicado</option><option>Gasolina</option><option>Diésel</option><option>Híbrido</option><option>Eléctrico</option></select></label>'+
+ '<label class="full">Motor / versión (opcional)<input id="wrVEngine" placeholder="Ej.: 1.6, 2.0 CRDi, 2.4"></label>'+
+ '</div><div class="actions"><button class="btn" onclick="wrVehicleSearch()">🔎 Buscar</button></div><div id="wrVehicleResult"></div></div>'+
+ '<div class="panel"><h3>Vehículos registrados</h3><div class="muted">Estos registros provienen de ventas.</div>'+
+ (regs.length?'<div class="table-wrap"><table class="table"><tbody>'+regs.map(x=>'<tr><td>'+E(x.make)+'</td><td>'+E(x.model)+'</td><td>'+E(x.year)+'</td><td>'+E(x.fuel)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="empty">Todavía no hay vehículos registrados.</p>')+'</div>';
+};
+
+window.wrVehicleSearch=function(){
+ const make=document.getElementById('wrVMake')?.value||'',model=document.getElementById('wrVModel')?.value||'',year=document.getElementById('wrVYear')?.value||'',fuel=document.getElementById('wrVFuel')?.value||'',engine=document.getElementById('wrVEngine')?.value||'',box=document.getElementById('wrVehicleResult');
+ if(!box)return;if(!make||!model){box.innerHTML='<div class="notice">Ingrese marca y modelo.</div>';return}
+ const r=searchVehicle(make,model,year,fuel,engine);
+ if(!r){box.innerHTML='<div class="notice"><b>No encontramos la aplicación en el catálogo.</b><br>Pruebe el nombre comercial o deje el motor en blanco.</div>';return}
+ box.innerHTML='<div class="vehicle-hit"><h3>🔋 '+E(r.make)+' '+E(r.model)+'</h3><div class="bci-result bci-ok"><span>GRUPO / REFERENCIA</span><strong>'+E(r.bci?.join(' / ')||'No indicado')+'</strong></div><div class="bateria-recomendada">CCA: <b>'+E(r.cca?.join(' / ')||'No registrado')+'</b></div><p><b>Años registrados:</b> '+E((r.range||[]).join('–'))+'</p><p><b>Combustible buscado:</b> '+E(fuel||'No indicado')+'</p><p><b>Motor / versión:</b> '+E(engine||'No indicado')+'</p><p><b>Nota:</b> '+E(r.note||'Confirmar batería instalada.')+'</p><p class="nota"><b>Importante:</b> confirmar BCI, dimensiones, polaridad, Ah, CCA y batería instalada antes de vender.</p></div>';
+};
+
+function addMonths(date,months){const d=new Date(date+'T12:00:00'),day=d.getDate();d.setMonth(d.getMonth()+months);if(d.getDate()<day)d.setDate(0);return d.toISOString().slice(0,10)}
+function warrantyMonths(w){const m=String(w||'').match(/(\d+)\s*mes/i);return m?Number(m[1]):0}
+window.openSaleDocuments=function(s){
+ const p=(db.inventory||[]).find(x=>String(x.id)===String(s.productId))||(db.inventory||[]).find(x=>String(x.code)===String(s.product));
+ const bci=s.profile||p?.profile||'No indicado',wm=warrantyMonths(s.warranty),end=wm?addMonths(s.date,wm):'';
+ modal('Factura + garantía','<div class="report-actions"><button class="btn" onclick="window.print()">🖨️ Imprimir</button><button class="btn secondary" onclick="closeModal()">Cerrar</button></div><div class="report-preview"><div class="print-sheet"><div class="report-head"><div class="report-brand"><img src="'+WR_LOGO_DATA+'" alt="WR"><div><h1>WRBATERIASCR</h1><p>Tel. 6392 8294</p></div></div><div class="report-title"><h2>FACTURA</h2><div>Venta #'+E(s.id)+'</div></div></div><div class="report-grid"><div class="report-box"><h3>CLIENTE</h3><div class="report-row"><b>Nombre:</b><span>'+E(s.client||'Cliente contado')+'</span></div><div class="report-row"><b>Teléfono:</b><span>'+E(s.phone||'—')+'</span></div></div><div class="report-box"><h3>VEHÍCULO</h3><div class="report-row"><b>Vehículo:</b><span>'+E([s.vehicle?.make,s.vehicle?.model,s.vehicle?.year].filter(Boolean).join(' ')||'—')+'</span></div></div></div><table class="table"><thead><tr><th>Código</th><th>Batería</th><th>BCI</th><th>CCA</th><th>Cant.</th><th>Unitario</th><th>Total</th></tr></thead><tbody><tr><td>'+E(s.product)+'</td><td>'+E([s.brand,s.model].filter(Boolean).join(' '))+'</td><td>'+E(bci)+'</td><td>'+E(s.amp||'—')+'</td><td>'+E(s.qty)+'</td><td>'+M(s.unitPrice)+'</td><td><b>'+M(s.total)+'</b></td></tr></tbody></table><div class="report-box" style="margin-top:12px"><div class="report-row"><b>Fecha de venta:</b><span>'+E(s.date)+'</span></div><div class="report-row"><b>Pago:</b><span>'+E(s.payment||'—')+'</span></div><div class="report-row"><b>TOTAL:</b><span><b>'+M(s.total)+'</b></span></div></div><hr><div class="report-title"><h2>CERTIFICADO DE GARANTÍA</h2></div><div class="report-grid"><div class="report-box"><h3>BATERÍA</h3><div class="report-row"><b>Marca / Modelo:</b><span>'+E([s.brand,s.model].filter(Boolean).join(' '))+'</span></div><div class="report-row"><b>BCI:</b><span>'+E(bci)+'</span></div><div class="report-row"><b>CCA:</b><span>'+E(s.amp||'—')+'</span></div></div><div class="report-box"><h3>VIGENCIA</h3><div class="report-row"><b>Inicio:</b><span>'+E(s.date)+'</span></div><div class="report-row"><b>Garantía:</b><span>'+E(s.warranty||'Por definir')+'</span></div><div class="report-row"><b>Vencimiento:</b><span>'+E(end||'Por definir')+'</span></div></div></div><div class="observations"><b>CONDICIONES DE GARANTÍA</b><br>'+(typeof warrantyConditions==='function'?warrantyConditions():[]).map(E).join('<br>')+'</div><div class="signatures"><div class="signature-line">Firma del cliente</div><div class="signature-line">WRBATERIASCR</div></div></div></div>')
+};
+window.openSaleDocumentsById=id=>{const s=(db.sales||[]).find(x=>String(x.id)===String(id));if(s)openSaleDocuments(s)};
+
+window.sales=function(){
+ const r=(db.sales||[]).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))||Number(b.id)-Number(a.id));
+ app.innerHTML='<div class="page-title"><div><h1>Ventas</h1><div class="muted">Ventas, factura, garantía y salida de inventario.</div></div><button class="btn" onclick="openSale()">+ Nueva venta</button></div><div class="table-wrap"><table class="table"><thead><tr><th>Fecha</th><th>Cliente</th><th>Vehículo</th><th>Batería</th><th>CCA</th><th>Cant.</th><th>Total</th><th>Acciones</th></tr></thead><tbody>'+
+ (r.length?r.map(s=>'<tr><td>'+E(s.date)+'</td><td>'+E(s.client||'Cliente contado')+'</td><td>'+E([s.vehicle?.make,s.vehicle?.model,s.vehicle?.year].filter(Boolean).join(' ')||'—')+'</td><td>'+E(s.product)+'</td><td>'+E(s.amp||'—')+'</td><td>'+E(s.qty)+'</td><td><b>'+M(s.total)+'</b></td><td><button class="btn secondary" onclick="openSaleDocumentsById('+s.id+')">🧾 Factura + garantía</button> <button class="btn secondary" onclick="openWarrantyReportById('+s.id+')">Garantía</button></td></tr>').join(''):'<tr><td colspan="8" class="empty">Todavía no hay ventas.</td></tr>')+
+ '</tbody></table></div>';
+};
+
+window.openSale=function(){
+ const a=(db.inventory||[]).filter(x=>Number(x.qty||0)>0);
+ if(!a.length){alert('No hay baterías con stock. Agregue primero una batería con cantidad mayor que 0.');return}
+ modal('Registrar venta','<form class="form" id="wrV13Sale"><label>Fecha<input name="date" type="date" value="'+T()+'" required></label><label class="full">Batería<select name="product" required>'+a.map(x=>'<option value="'+E(x.id)+'">'+E(x.code)+' — '+E(x.brand)+' '+E(x.model)+' — CCA '+E(x.amp||'—')+' — Stock '+x.qty+' — '+M(x.price)+'</option>').join('')+'</select></label><label>Cliente<input name="client" value="Cliente contado"></label><label>Teléfono<input name="phone"></label><label>Cantidad<input name="qty" type="number" min="1" step="1" value="1" required></label><label>Precio unitario<input name="unitPrice" type="number" min="0" step="1" required></label><label>Garantía<input name="warranty" placeholder="Ej.: 24 meses"></label><label>Método de pago<select name="payment"><option>Contado</option><option>Sinpe</option><option>Tarjeta</option><option>Transferencia</option><option>Otro</option></select></label><label>Marca vehículo<input name="vehicleMake"></label><label>Modelo vehículo<input name="vehicleModel"></label><label>Año<input name="vehicleYear" type="number" min="1980" max="2026"></label><label>Combustible<select name="fuel"><option value="">No indicado</option><option>Gasolina</option><option>Diésel</option><option>Híbrido</option><option>Eléctrico</option></select></label><label class="full">Observación<input name="note"></label><div class="full actions"><button class="btn" type="submit">Guardar venta + factura + garantía</button></div></form>');
+ const f=document.getElementById('wrV13Sale'),sel=f.elements.product,pr=f.elements.unitPrice;
+ const sync=()=>{const p=(db.inventory||[]).find(x=>String(x.id)===String(sel.value));pr.value=Number(p?.price||0)};sel.onchange=sync;sync();
+ f.onsubmit=e=>{e.preventDefault();const d=new FormData(f),p=(db.inventory||[]).find(x=>String(x.id)===String(d.get('product'))),q=Number(d.get('qty')),up=Number(d.get('unitPrice'));if(!p)return alert('No se encontró la batería.');if(!Number.isInteger(q)||q<1||q>Number(p.qty||0))return alert('Cantidad inválida o stock insuficiente.');if(!Number.isFinite(up)||up<0)return alert('Precio inválido.');const id=Date.now(),date=String(d.get('date')||T()),sale={id,date,client:String(d.get('client')||'Cliente contado'),phone:String(d.get('phone')||''),product:p.code,productId:p.id,brand:p.brand,model:p.model,voltage:p.voltage||'12V',amp:p.amp||'',profile:p.profile||'',unitCost:Number(p.cost||0),unitPrice:up,total:q*up,qty:q,warranty:String(d.get('warranty')||p.warranty||'Por definir'),payment:String(d.get('payment')||'Contado'),note:String(d.get('note')||''),vehicle:{make:String(d.get('vehicleMake')||''),model:String(d.get('vehicleModel')||''),year:String(d.get('vehicleYear')||''),fuel:String(d.get('fuel')||'')}};p.qty-=q;db.sales=db.sales||[];db.warranties=db.warranties||[];db.sales.push(sale);db.warranties.push({id:id+1,date,client:sale.client,battery:sale.product,status:'Generada',saleId:id});if(sale.vehicle.make&&sale.vehicle.model){db.vehicles=db.vehicles||[];db.vehicles.push({...sale.vehicle,id,battery:sale.product})}save();closeModal();sales();setTimeout(()=>openSaleDocumentsById(id),50)};
+};
+})();
+</script>
+</body>
 </html>
